@@ -829,6 +829,7 @@
 
       document.getElementById('lead-modal').classList.remove('hidden');
       lucide.createIcons();
+      generateRemoteDraft(currentLead);
     }
 
     function closeDetailModal() {
@@ -859,12 +860,31 @@
 
     function updateModalDraft() {
       if (!currentLead) return;
-      let raw = currentLead.replies[currentTone] || currentLead.suggested_reply;
+      let raw = currentLead.api_draft || currentLead.replies[currentTone] || currentLead.suggested_reply;
       const linkText = profile.store_url
         ? `[${profile.brand_name || 'Brand'}](${profile.store_url})`
         : `[${profile.brand_name || 'Brand'}]`;
       const draft = raw.replace(/\[Your Brand \/ Link\]/g, linkText);
       document.getElementById('modal-draft-area').value = draft;
+    }
+
+    async function generateRemoteDraft(lead) {
+      const area = document.getElementById('modal-draft-area');
+      area.value = '正在使用 OpenAI 產生草稿…';
+      try {
+        const response = await fetch('/api/review-drafts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ stars: 1, reviewText: lead.content_raw })
+        });
+        if (!response.ok) throw new Error('draft-request-failed');
+        const payload = await response.json();
+        if (!payload.draft) throw new Error('draft-empty');
+        lead.api_draft = payload.draft;
+        if (currentLead?.id === lead.id) updateModalDraft();
+      } catch {
+        if (currentLead?.id === lead.id) updateModalDraft();
+      }
     }
 
     function copyDraftText() {

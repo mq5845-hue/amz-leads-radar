@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "AMZ Leads Radar - Reddit 拓客 Copilot",
+  "version": "1.0.0",
+  "description": "跨境電商站外拓客輔助工具：在 Reddit 貼文自動喚出 AI Copilot，支援痛點拆解、語氣微調與一鍵填入留言",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "AMZ Leads Radar"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.reddit.com/*",
+    "https://sellercentral.amazon.com/*",
+    "https://www.amazon.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.reddit.com/*"
+      ],
+      "js": [
+        "content/reddit-copilot.js"
+      ],
+      "css": [
+        "content/copilot.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sellercentral.amazon.com/*",
+        "https://www.amazon.com/*"
+      ],
+      "js": [
+        "content/amazon-review-adapter.js",
+        "content/amazon-copilot.js"
+      ],
+      "css": [
+        "content/amazon-copilot.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

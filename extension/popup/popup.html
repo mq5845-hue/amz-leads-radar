@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>AMZ Leads Radar</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="brand">
+        <span class="logo">🎯</span>
+        <div>
+          <div class="brand-title">AMZ Leads Radar</div>
+          <div class="brand-sub">跨境電商站外引流 Copilot</div>
+        </div>
+      </div>
+      <span class="status-badge">🟢 運行中</span>
+    </div>
+
+    <!-- User & Quota Card -->
+    <div class="quota-card">
+      <div class="user-info">
+        <span class="plan-tag" id="plan-tag">Free 體驗方案</span>
+        <span class="user-email" id="user-email">seller@amazonbrand.com</span>
+      </div>
+      <div class="quota-progress-box">
+        <div class="quota-label">
+          <span>今日輔助填入額度</span>
+          <span class="quota-count" id="quota-count">3 / 3 次</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="action-section">
+      <button class="btn-primary" id="btn-open-dashboard">
+        <span>🚀 開啟 Web 線索看板 (Dashboard)</span>
+      </button>
+
+      <button class="btn-secondary" id="btn-upgrade">
+        <span>👑 升級 Pro 專業版 (無限解鎖)</span>
+      </button>
+    </div>
+
+    <!-- Reddit Status Notice -->
+    <div class="info-tip">
+      💡 <strong>使用方式：</strong>在 Web 看板點擊任一商機跳轉至 Reddit，或直接瀏覽 Reddit 貼文時，AI 助手會在網頁右側自動喚出！
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <span>AMZ Leads Radar v1.0.0</span>
+      <a href="#" id="link-options">設定</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

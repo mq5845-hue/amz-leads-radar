@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMZ Leads Radar - 跨境電商站外引流商機看板</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Noto Sans TC', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .amz-radar-hero { isolation: isolate; min-height: 190px; display: flex; align-items: center; }
+    .amz-radar-visual { position: absolute; right: 3.5rem; top: 50%; width: 138px; height: 138px; transform: translateY(-50%); border: 1px solid rgba(56,189,248,.38); border-radius: 50%; opacity: .95; pointer-events: none; overflow: visible; background: repeating-conic-gradient(from 0deg, rgba(56,189,248,.2) 0deg 1deg, transparent 1deg 15deg), radial-gradient(circle, rgba(14,165,233,.14) 0 2%, transparent 2.6% 24%, rgba(14,165,233,.12) 24.5% 25%, transparent 25.5% 49%, rgba(14,165,233,.16) 49.5% 50.2%, transparent 50.8% 74%, rgba(14,165,233,.2) 74.5% 75.2%, transparent 75.8%), linear-gradient(rgba(56,189,248,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,.14) 1px, transparent 1px); background-size: auto, auto, 100% 25%, 25% 100%; box-shadow: 0 0 23px rgba(14,165,233,.28), inset 0 0 19px rgba(14,165,233,.18); }
+    .amz-radar-sweep-beam { position: absolute; z-index: 3; inset: 0; border-radius: 50%; transform: rotate(0deg); transform-origin: center center; opacity: .5; background: conic-gradient(from 0deg, transparent 0deg 300deg, rgba(14,165,233,.025) 315deg, rgba(34,211,238,.06) 333deg, rgba(34,211,238,.16) 350deg, rgba(103,232,249,.58) 357deg, rgba(224,242,254,.98) 359deg, transparent 360deg); filter: drop-shadow(0 0 3px rgba(34,211,238,.65)); will-change: transform; }
+    .amz-radar-sweep-beam::after { content: none; }
+    .amz-radar-center { position: absolute; z-index: 5; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; transform: translate(-50%, -50%); opacity: .5; background: #e0f2fe; box-shadow: 0 0 0 2px rgba(34,211,238,.12), 0 0 7px 2px rgba(34,211,238,.65); }
+    .amz-radar-visual::after { content: ""; position: absolute; width: 7px; height: 7px; left: 58%; top: 29%; border-radius: 50%; background: #67e8f9; box-shadow: 0 0 0 4px rgba(103,232,249,.1), 0 0 18px 5px rgba(34,211,238,.85), -70px 92px 0 -1px #22d3ee, -70px 92px 12px 2px rgba(34,211,238,.55), 38px 58px 0 -2px #38bdf8; animation: amz-radar-pulse 4.8s ease-in-out infinite; }
+    .amz-radar-points { position: absolute; inset: 0; border-radius: 50%; }
+    .amz-radar-point { position: absolute; border-radius: 50%; background: #a5f3fc; animation: amz-point-blink 3.2s ease-in-out infinite; }
+    @keyframes amz-point-blink { 0%, 100% { opacity: .25; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.45); } }
+    @keyframes amz-radar-sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes amz-radar-pulse { 0%, 18%, 100% { opacity: .25; } 28%, 42% { opacity: 1; } 55%, 100% { opacity: .35; } }
+    @media (max-width: 700px) { .amz-radar-hero { min-height: 210px; } .amz-radar-visual { right: -35px; opacity: .35; transform: translateY(-50%) scale(.8); } }
+    @media (prefers-reduced-motion: reduce) { .amz-radar-visual::after, .amz-radar-point { animation: none; } }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white flex flex-col font-sans">
+
+  <!-- ==================== TOP NAVIGATION ==================== -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Logo & Subtitle -->
+      <div class="flex items-center space-x-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <i data-lucide="radar" class="w-6 h-6 text-white animate-pulse"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-lg text-white tracking-tight">AMZ Leads Radar</h1>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+              SaaS 看板
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">
+            跨境電商站外引流 (Off-Amazon Traffic) 智能商機雷達
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Action Area -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <!-- Scan Button -->
+        <button onclick="refreshLeads()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="掃描最新線索">
+          <i data-lucide="refresh-cw" id="refresh-icon" class="w-4 h-4"></i>
+          <span class="hidden md:inline">掃描線索</span>
+        </button>
+
+        <!-- Daily Quota Counter -->
+        <div class="flex items-center space-x-2 bg-slate-800/90 border border-slate-700 px-3 py-1.5 rounded-lg text-xs">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+          <span class="text-slate-400 hidden sm:inline">今日回覆額度:</span>
+          <span class="font-bold text-amber-300" id="quota-display">3 / 3 次</span>
+        </div>
+
+        <!-- Upgrade Button -->
+        <button onclick="openUpgradeModal()" id="btn-upgrade-top" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 shadow-md shadow-amber-500/20 transition-all active:scale-95">
+          <i data-lucide="crown" class="w-4 h-4 text-slate-950"></i>
+          <span>升級 Pro 專業版</span>
+        </button>
+
+        <!-- Brand Config Button -->
+        <button onclick="openSettingsModal()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="店鋪與品牌設定">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span class="hidden md:inline" id="nav-brand-name">店鋪設定</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Hero Banner -->
+    <div class="amz-radar-hero bg-gradient-to-r from-indigo-950/60 via-slate-900 to-amber-950/40 border border-slate-800 rounded-2xl p-6 mb-6 relative overflow-hidden shadow-lg">
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-semibold mb-3">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          <span>今日即時數據已同步 • 5 篇高潛力站外商機</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
+          從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+          全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可<strong>一鍵跳轉至 Reddit</strong>，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！
+        </p>
+      </div>
+      <div class="amz-radar-visual" aria-label="Radar scanning animation" role="img"><div class="amz-radar-sweep-beam" id="amz-radar-sweep-beam"></div><div class="amz-radar-center"></div><div class="amz-radar-points" id="amz-radar-points"></div></div>
+      <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-6" id="stats-container">
+      <!-- Generated dynamically -->
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 mb-6 shadow-sm space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input
+            type="text"
+            id="search-input"
+            oninput="handleSearchChange(this.value)"
+            placeholder="搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)..."
+            class="w-full pl-9 pr-4 py-2 bg-slate-800/80 border border-slate-700/80 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500"
+          />
+        </div>
+
+        <!-- Dropdown Filters -->
+        <div class="flex items-center space-x-2">
+          <select id="select-subreddit" onchange="handleSubredditChange(this.value)" class="bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none cursor-pointer">
+            <option value="all">所有 Subreddits</option>
+          </select>
+
+          <select id="select-category" onchange="handleCategoryChange(this.value)" class="bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none cursor-pointer">
+            <option value="all">所有品類</option>
+          </select>
+
+          <div class="hidden sm:flex items-center space-x-1.5 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-400">
+            <span>匹配度:</span>
+            <select id="select-min-score" onchange="handleMinScoreChange(this.value)" class="bg-transparent text-emerald-400 font-semibold focus:outline-none cursor-pointer">
+              <option value="0" class="bg-slate-800 text-slate-200">不限</option>
+              <option value="85" class="bg-slate-800 text-slate-200">&ge; 85%</option>
+              <option value="90" class="bg-slate-800 text-slate-200">&ge; 90% (極高)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Tabs -->
+      <div class="flex items-center space-x-1 border-t border-slate-800/80 pt-3 overflow-x-auto" id="status-tabs-container">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Leads Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="leads-container">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center my-8">
+      <i data-lucide="inbox" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
+      <h3 class="text-base font-bold text-white mb-1">找不到符合條件的商機線索</h3>
+      <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">
+        請嘗試放寬關鍵字搜尋、調整 Subreddit 篩選或重設匹配度門檻。
+      </p>
+      <button onclick="resetFilters()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold">
+        重設所有篩選
+      </button>
+    </div>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <span>AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
+      <div class="flex items-center space-x-4">
+        <a href="#" class="hover:text-slate-400">Chrome Web Store 外掛</a>
+        <a href="#" class="hover:text-slate-400">API 文檔</a>
+        <a href="#" class="hover:text-slate-400">使用條款與隱私權</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. Lead Detail Modal -->
+  <div id="lead-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden my-8">
+      <div class="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90">
+        <div>
+          <div class="flex items-center space-x-2 mb-1.5" id="modal-meta"></div>
+          <h2 class="text-lg font-bold text-white leading-snug" id="modal-title"></h2>
+        </div>
+        <button onclick="closeDetailModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+        <div class="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4">
+          <div class="flex items-center space-x-2 text-xs font-semibold text-amber-400 mb-1.5">
+            <i data-lucide="alert-circle" class="w-4 h-4"></i>
+            <span>Google Gemini 2.5 Flash 核心痛點拆解：</span>
+          </div>
+          <p class="text-sm text-amber-200 leading-relaxed" id="modal-painpoint"></p>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Reddit 原文內容預覽</label>
+          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 leading-relaxed max-h-40 overflow-y-auto font-mono" id="modal-raw-content"></div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
+              <span>AI 預擬回覆話術（語氣切換）</span>
+            </label>
+            <span class="text-[11px] text-slate-500">已自動代入您的品牌：<strong class="text-slate-300" id="modal-brand-tag"></strong></span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-3" id="modal-tone-buttons">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <div class="relative">
+            <textarea id="modal-draft-area" rows="5" readonly class="w-full p-4 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"></textarea>
+            <button onclick="copyDraftText()" id="btn-copy-draft" class="absolute right-3 top-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span id="copy-btn-text">複製草稿</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center space-x-2 text-xs text-slate-400">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+          <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
+        </div>
+        <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
+          <button onclick="markCurrentReplied()" class="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
+            標記為已回覆
+          </button>
+          <button onclick="jumpFromModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30">
+            <span>前往 Reddit 並喚醒 Copilot</span>
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Upgrade Pro Modal -->
+  <div id="upgrade-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden my-8">
+      <div class="p-6 text-center border-b border-slate-800 relative bg-gradient-to-b from-indigo-950/40 to-slate-900">
+        <button onclick="closeUpgradeModal()" class="absolute right-4 top-4 p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 mb-3">
+          <i data-lucide="crown" class="w-6 h-6"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-white">升級 AMZ Leads Radar Pro 專業版</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-md mx-auto">
+          為跨境賣家解鎖全天候無上限社群商機監控、高轉化 AI 話術與 Chrome 一鍵填入輔助！
+        </p>
+      </div>
+
+      <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-slate-200 text-sm">Free 體驗方案</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-semibold">當前方案</span>
+            </div>
+            <div class="text-2xl font-bold text-white mb-4">$0 <span class="text-xs text-slate-500 font-normal">/ 永久免費</span></div>
+            <ul class="space-y-2.5 text-xs text-slate-400 mb-6">
+              <li class="flex items-center space-x-2"><span>✔ 每日最新 5 條商機線索</span></li>
+              <li class="flex items-center space-x-2"><span>✔ 每日 3 次外掛一鍵填入輔助</span></li>
+              <li class="flex items-center space-x-2"><span>✔ 預設社群品類監控</span></li>
+            </ul>
+          </div>
+          <button disabled class="w-full py-2 rounded-lg bg-slate-800 text-slate-500 text-xs font-semibold cursor-not-allowed">
+            已在使用中
+          </button>
+        </div>
+
+        <div class="bg-gradient-to-b from-indigo-900/30 to-slate-800/80 border-2 border-indigo-500 rounded-xl p-5 flex flex-col justify-between relative shadow-xl shadow-indigo-500/10">
+          <div class="absolute -top-3 right-4 px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider">
+            最受歡迎
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-indigo-300 text-sm">Pro 專業方案</h3>
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+            </div>
+            <div class="text-2xl font-extrabold text-white mb-4">
+              $29 <span class="text-xs text-slate-400 font-normal">/ 月 (隨時可取消)</span>
+            </div>
+            <ul class="space-y-2.5 text-xs text-slate-200 mb-6">
+              <li class="flex items-center space-x-2"><span>✔ <strong>無上限</strong> 線索全天候即時監控</span></li>
+              <li class="flex items-center space-x-2"><span>✔ <strong>無上限</strong> Chrome 外掛輔助填入</span></li>
+              <li class="flex items-center space-x-2"><span>✔ 3 種專業話術語氣 + 自訂 Prompt</span></li>
+              <li class="flex items-center space-x-2"><span>✔ 支援自訂 15 組品類與競品關鍵字庫</span></li>
+              <li class="flex items-center space-x-2"><span>✔ Telegram / Discord 實時商機通報</span></li>
+            </ul>
+          </div>
+          <button onclick="upgradeToProMock()" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all">
+            立即開通 Pro 專業版 (串接 Stripe)
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-950/60 border-t border-slate-800 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
+        <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i>
+        <span>7 天無條件全額退款保證 • SSL 256 位元加密安全付款</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Settings Modal -->
+  <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="store" class="w-5 h-5 text-indigo-400"></i>
+          <h2 class="text-base font-bold text-white">賣家品牌與店鋪設定</h2>
+        </div>
+        <button onclick="closeSettingsModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="saveSettings(event)" class="p-6 space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1.5">您的品牌名稱 (Brand Name)</label>
+          <input type="text" id="setting-brand" placeholder="例如: ApexGear, VoltMaster..." required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+          <p class="text-[11px] text-slate-500 mt-1">當 AI 產生回覆草稿時，會自動以此品牌名稱置換 [Your Brand]。</p>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-300 block mb-1.5">Amazon 商品超連結或店鋪首頁 URL</label>
+          <input type="url" id="setting-url" placeholder="https://www.amazon.com/dp/B0XXXXXXX" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+          <p class="text-[11px] text-slate-500 mt-1">（選填）建議使用 Amazon Attribution 連結追蹤站外引流紅利與轉化率！</p>
+        </div>
+
+        <div class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-3.5 flex items-start space-x-2.5">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-indigo-400 shrink-0 mt-0.5"></i>
+          <p class="text-xs text-indigo-200/90 leading-relaxed">
+            <strong>防封號提示：</strong>在 Reddit 回覆時，建議優先以「解決買家痛點」為主。若太過直白貼廣告連結容易被版主刪文，Copilot 會自動引導採取軟性自然植入策略。
+          </p>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end space-x-2">
+          <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">取消</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-lg flex items-center space-x-1.5 shadow-md shadow-indigo-600/30">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>儲存設定</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== APPLICATION SCRIPT ==================== -->
+  <script>
+    // Initial Seed Data
+    const INITIAL_LEADS = [
+      {
+        id: 'lead-1',
+        reddit_url: 'https://www.reddit.com/r/BuyItForLife/comments/1f8e123/need_a_portable_charger_powerbank_that_doesnt/',
+        reddit_id: 't3_1f8e123',
+        subreddit: 'r/BuyItForLife',
+        title: 'Need a portable charger / powerbank that doesn\'t swell after 6 months of heavy travel',
+        author: 'NomadCoder_99',
+        content_raw: 'I have gone through three Anker and generic power banks this year. Every single one either bulges around month 4 or the USB-C port gets super loose. I travel 3 weeks a month for photography and need 65W PD to charge my MacBook Air and iPhone. What is actually built to last?',
+        painpoint_summary: '買家頻繁出差，抱怨多款行動電源在數月內電池膨脹且 USB-C 孔鬆動，急尋高耐用度、65W PD 輸出、不易過熱膨脹的長效行動電源。',
+        keyword_matches: ['powerbank', 'swelling', 'loose USB-C', '65W PD', 'built to last'],
+        match_score: 96,
+        upvotes: 342,
+        comments_count: 87,
+        sentiment: 'negative',
+        suggested_reply: 'Totally feel your pain on battery swelling—usually happens when budget controllers overheat the cells during 65W sustained loads. If you want something actually reliable, look for powerbanks with GaN III controllers and grade-A 21700 cells (similar to Tesla packs). Check out [Your Brand / Link], they use reinforced aluminum housing and dual NTC temp sensors which prevent cell degradation during long flights.',
+        replies: {
+          helpful_enthusiast: 'Totally feel your pain on battery swelling—usually happens when budget controllers overheat the cells during 65W sustained loads. If you want something actually reliable, look for powerbanks with GaN III controllers and grade-A 21700 cells. Check out [Your Brand / Link], they use reinforced aluminum housing and dual NTC temp sensors.',
+          fellow_sufferer: 'Man, went through the exact same nightmare last year with loose ports ruining a shoot in Europe. Switched to [Your Brand / Link] about 8 months ago—the braided connector and CNC alloy casing feel indestructible so far.',
+          tech_pro_solution: 'The root cause of swelling is thermal runaway caused by poor heat dissipation in plastic enclosures. For 65W travel, you need aluminum heatsinking and 21700 Li-ion cells. Take a look at [Your Brand / Link] which specs 1000+ cycle life with UL94-V0 fireproof standards.'
+        },
+        status: 'new',
+        category: 'Electronics',
+        created_at: new Date(Date.now() - 2 * 3600 * 1000).toISOString()
+      },
+      {
+        id: 'lead-2',
+        reddit_url: 'https://www.reddit.com/r/amazon/comments/1f8c892/why_are_ergonomic_desk_chairs_either_300_junk_or/',
+        reddit_id: 't3_1f8c892',
+        subreddit: 'r/amazon',
+        title: 'Why are ergonomic desk chairs either $300 junk or $1600 Herman Miller? Is there a sweet spot?',
+        author: 'DeskBound_Dev',
+        content_raw: 'I work 10 hours a day as a remote backend dev. Bought a generic $280 ergonomic mesh chair on Amazon with 4.5 stars, lumbar support snapped within 3 months and the seat cushion flattened into cardboard. I don\'t want to drop $1,600 on an Aeron. Does anyone have an honest recommendation in the $400-$600 range with real 3D armrests and durable mesh?',
+        painpoint_summary: '遠端工程師抱怨 Amazon 平價工學椅腰靠斷裂、座墊塌陷，不願花費 $1600 買頂級名牌，尋求 $400-$600 區間真正耐用、具備 3D 扶手與透氣網布的「甜點區」工作椅。',
+        keyword_matches: ['ergonomic chair', 'lumbar snapped', 'cushion flattened', 'sweet spot', 'durable mesh'],
+        match_score: 92,
+        upvotes: 518,
+        comments_count: 143,
+        sentiment: 'inquiry',
+        suggested_reply: 'As someone who sits 9+ hours coding, the biggest trap with $250 Amazon chairs is cheap plastic lumbar frames and low-density molded foam. In that $400-$500 sweet spot, look for Korean Wintex mesh and steel-reinforced chassis. We\'ve been testing [Your Brand / Link] in our home office—the dynamic 3D lumbar actually tracks spine movement without digging in.',
+        replies: {
+          helpful_enthusiast: 'As someone who sits 9+ hours coding, the biggest trap with $250 Amazon chairs is cheap plastic lumbar frames. In that $400-$500 sweet spot, look for Korean Wintex mesh and steel-reinforced chassis. Check out [Your Brand / Link]—the dynamic 3D lumbar actually tracks spine movement.',
+          fellow_sufferer: 'I had that exact same experience with the foam flattening out into rock. My lower back was killing me until I tried [Your Brand / Link] on recommendation from a coworker. Been 14 months and mesh tension is still like day one.',
+          tech_pro_solution: 'From an ergonomic perspective, prioritize synchronized tilt mechanisms (2:1 recline ratio) and nylon-glass fiber framing. [Your Brand / Link] offers BIFMA-certified gas cylinders and true 3D armrest adjustments that rival $1k chairs without the markup.'
+        },
+        status: 'new',
+        category: 'Home & Office',
+        created_at: new Date(Date.now() - 5 * 3600 * 1000).toISOString()
+      },
+      {
+        id: 'lead-3',
+        reddit_url: 'https://www.reddit.com/r/Coffee/comments/1f8a441/burr_grinder_that_doesnt_clog_with_light_roast/',
+        reddit_id: 't3_1f8a441',
+        subreddit: 'r/Coffee',
+        title: 'Burr coffee grinder that doesn\'t jam or stall on dense light roast Ethiopian beans?',
+        author: 'CaffeineCraver',
+        content_raw: 'My third Amazon conical burr grinder just burnt out its small motor because of dense light roasts. Any burr grinder under $150 with high-torque DC motor that actually produces consistent espresso/aeropress grind without retention mess?',
+        painpoint_summary: '精品咖啡愛好者抱怨一般平價磨豆機遇到高密度淺焙豆經常卡豆並燒壞馬達，正尋找具備大扭力、低殘粉、適合手沖與濃縮的耐用磨豆機。',
+        keyword_matches: ['burr grinder', 'dense light roast', 'stalling motor', 'retention mess', 'consistent grind'],
+        match_score: 88,
+        upvotes: 189,
+        comments_count: 64,
+        sentiment: 'negative',
+        suggested_reply: 'Light roast Ethiopian beans are basically hard pebbles, so low-torque AC motors choke instantly. For sub-$150, you need a high-torque planetary gear DC motor and 40mm stainless CNC burrs rather than stamped steel. You might want to check [Your Brand / Link]—it has zero-retention bellows and handles dense natural beans without bogging down.',
+        replies: {
+          helpful_enthusiast: 'Light roast Ethiopian beans are basically hard pebbles, so low-torque AC motors choke instantly. For sub-$150, you need high-torque planetary gear DC motors and 40mm stainless CNC burrs. Take a look at [Your Brand / Link].',
+          fellow_sufferer: 'Burned out two grinders on Guji beans before I learned this lesson the hard way! Switched over to [Your Brand / Link] and the slow-RPM torque makes a night and day difference.',
+          tech_pro_solution: 'Look closely at the burr hardness (60+ HRC) and rotational speed (<450 RPM reduces heat and fines). [Your Brand / Link] incorporates high-torque reduction gearing specifically engineered for light roast bean density.'
+        },
+        status: 'in_progress',
+        category: 'Home & Kitchen',
+        created_at: new Date(Date.now() - 8 * 3600 * 1000).toISOString()
+      },
+      {
+        id: 'lead-4',
+        reddit_url: 'https://www.reddit.com/r/headphones/comments/1f87199/wireless_earbuds_where_the_mic_doesnt_sound_like/',
+        reddit_id: 't3_1f87199',
+        subreddit: 'r/headphones',
+        title: 'Wireless earbuds where the microphone DOES NOT sound like I\'m underwater inside a submarine?',
+        author: 'AudioAudiophile',
+        content_raw: 'I take 15 Zoom calls a day and workout during lunch. Every single wireless earbuds (even $180 models) has trash microphones when outside with slight wind. Why is it so hard to get clear voice isolation?',
+        painpoint_summary: '用戶每天有大量線上會議需求，強烈抱怨市售藍牙耳機在戶外或微風環境下通話音質如沉船水下，尋求麥克風抗風噪與人聲收音極佳的耳機。',
+        keyword_matches: ['wireless earbuds', 'mic quality', 'wind noise', 'underwater sound', 'clear calls'],
+        match_score: 94,
+        upvotes: 420,
+        comments_count: 112,
+        sentiment: 'negative',
+        suggested_reply: 'Microphone performance on TWS earbuds usually fails because beamforming algorithms aggressively cancel vocals along with wind. You need dual-bone conduction sensors paired with 4-mic ENC arrays. Take a peek at [Your Brand / Link]—they specifically use AI voice isolation trained on traffic/wind noise.',
+        replies: {
+          helpful_enthusiast: 'Microphone performance on TWS earbuds usually fails because beamforming algorithms aggressively cancel vocals along with wind. Look for dual-bone conduction sensors and 4-mic ENC arrays like on [Your Brand / Link].',
+          fellow_sufferer: 'Clients were constantly telling me I sounded muffled on Zoom until I switched. [Your Brand / Link] solved this completely for me even when walking my dog in windy weather.',
+          tech_pro_solution: 'Audio clarity under wind requires hardware wind-deflector grilles plus DSP neural processing. [Your Brand / Link] achieves 35dB wind suppression without distorting human vocal frequencies.'
+        },
+        status: 'replied',
+        category: 'Electronics',
+        created_at: new Date(Date.now() - 12 * 3600 * 1000).toISOString()
+      },
+      {
+        id: 'lead-5',
+        reddit_url: 'https://www.reddit.com/r/CampingGear/comments/1f7z331/ultralight_sleeping_pad_that_doesnt_sound_like_a/',
+        reddit_id: 't3_1f7z331',
+        subreddit: 'r/CampingGear',
+        title: 'Ultralight backpacking sleeping pad that DOES NOT sound like a crinkly chip bag every time I move?',
+        author: 'TrailHiker_Dan',
+        content_raw: 'I am a side sleeper and wake up my entire tent camp whenever I shift because my ultralight insulated pad crinkles deafeningly. Is there an R-value 4+ pad under 18oz that is actually quiet and doesn\'t leak air overnight?',
+        painpoint_summary: '戶外露營登山者抱怨超輕充氣睡墊翻身時如洋芋片包裝紙般吵鬧，且隔夜漏氣，急需 R 值 4 以上、重量 18oz 以下且極致靜音、不漏氣的高品質睡墊。',
+        keyword_matches: ['sleeping pad', 'chip bag crinkle', 'ultralight', 'R-value 4', 'air leak'],
+        match_score: 91,
+        upvotes: 276,
+        comments_count: 79,
+        sentiment: 'inquiry',
+        suggested_reply: 'The dreaded potato chip crinkle comes from cheap Mylar film insulation! Modern pads have moved to micro-fiber fill or suspended baffle architectures that insulate silently without the metallic crunch. Take a look at [Your Brand / Link]—it offers an ASTM R-value of 4.3 at 16.8oz and uses brushed stretch polyester that makes zero noise.',
+        replies: {
+          helpful_enthusiast: 'The dreaded potato chip crinkle comes from cheap Mylar film insulation! Modern pads have moved to micro-fiber fill or suspended baffle architectures. Take a look at [Your Brand / Link]—ASTM R-4.3 at 16.8oz and zero noise.',
+          fellow_sufferer: 'My hiking buddies literally threatened to kick me out of the shelter because of my old pad crinkling all night haha. Switched to [Your Brand / Link] this season and slept like a baby in 30°F weather.',
+          tech_pro_solution: 'Look for TPU laminated 20D/30D ripstop fabric rather than PVC coated films. [Your Brand / Link] uses silent thermal chamber baffles with zero-leak dual-way flat valves rated to -10°C.'
+        },
+        status: 'new',
+        category: 'Outdoor & Sports',
+        created_at: new Date(Date.now() - 16 * 3600 * 1000).toISOString()
+      }
+    ];
+
+    // App State
+    let leads = JSON.parse(localStorage.getItem('amz_radar_leads')) || INITIAL_LEADS;
+    let profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || {
+      brand_name: 'ApexGear Pro',
+      store_url: 'https://amazon.com/dp/B08EXAMPLE',
+      plan: 'free',
+      daily_usage_left: 3,
+      max_daily_usage: 3
+    };
+
+    let filters = {
+      search: '',
+      subreddit: 'all',
+      category: 'all',
+      status: 'all',
+      minScore: 0
+    };
+
+    let currentLead = null;
+    let currentTone = 'helpful_enthusiast';
+
+    function renderRadarPoints() {
+      const points = document.getElementById('amz-radar-points');
+      if (!points) return;
+      points.innerHTML = leads.slice(0, 12).map((lead, index) => {
+        const stars = Number(lead.review_stars ?? lead.stars ?? [1, 2, 1, 3, 2][index % 5]);
+        const severity = Math.max(1, Math.min(3, stars));
+        const size = severity === 1 ? 8 : severity === 2 ? 6 : 4;
+        const glow = severity === 1 ? '0 0 20px 7px rgba(34,211,238,.95)' : severity === 2 ? '0 0 14px 4px rgba(34,211,238,.75)' : '0 0 10px 2px rgba(34,211,238,.55)';
+        const angle = (index * 137.5 + (lead.match_score || 0)) * Math.PI / 180;
+        const radius = 12 + ((lead.match_score || 0) % 31);
+        const x = 50 + Math.cos(angle) * radius;
+        const y = 50 + Math.sin(angle) * radius;
+        return `<span class="amz-radar-point" title="${severity}-star negative signal: ${String(lead.title || '').replace(/"/g, '&quot;')}" style="width:${size}px;height:${size}px;left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;margin:-${size / 2}px 0 0 -${size / 2}px;box-shadow:${glow};animation-delay:${(index * .23).toFixed(2)}s"></span>`;
+      }).join('');
+    }
+
+    function startRadarSweep() {
+      const beam = document.getElementById('amz-radar-sweep-beam');
+      if (!beam || beam.dataset.running === 'true') return;
+      beam.dataset.running = 'true';
+      const startedAt = performance.now();
+      const duration = 4800;
+      const tick = (now) => {
+        const degrees = ((now - startedAt) % duration) / duration * 360;
+        beam.style.transform = `rotate(${degrees}deg)`;
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initOptions();
+      renderStats();
+      renderStatusTabs();
+      renderLeads();
+      renderRadarPoints();
+      startRadarSweep();
+      updateQuotaUI();
+      lucide.createIcons();
+    });
+
+    function initOptions() {
+      // Subreddits
+      const subreddits = Array.from(new Set(leads.map(l => l.subreddit)));
+      const subSelect = document.getElementById('select-subreddit');
+      subreddits.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub;
+        opt.textContent = sub;
+        subSelect.appendChild(opt);
+      });
+
+      // Categories
+      const categories = Array.from(new Set(leads.map(l => l.category)));
+      const catSelect = document.getElementById('select-category');
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        catSelect.appendChild(opt);
+      });
+
+      // Brand setting
+      document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
+      document.getElementById('setting-brand').value = profile.brand_name || '';
+      document.getElementById('setting-url').value = profile.store_url || '';
+    }
+
+    function renderStats() {
+      const total = leads.length;
+      const avgScore = Math.round(leads.reduce((a, b) => a + b.match_score, 0) / (total || 1));
+      const totalUpvotes = leads.reduce((a, b) => a + b.upvotes, 0);
+      const totalComments = leads.reduce((a, b) => a + b.comments_count, 0);
+
+      const container = document.getElementById('stats-container');
+      container.innerHTML = `
+        <div class="p-4 rounded-xl border bg-amber-500/10 border-amber-500/20 bg-slate-900/50 backdrop-blur">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-medium">今日偵測商機 Leads</span>
+            <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-bold text-white tracking-tight">${total}</span>
+            <span class="text-[11px] text-slate-500">篇潛在貼文</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl border bg-emerald-500/10 border-emerald-500/20 bg-slate-900/50 backdrop-blur">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-medium">平均關鍵字匹配度</span>
+            <i data-lucide="target" class="w-4 h-4 text-emerald-400"></i>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-bold text-white tracking-tight">${avgScore}%</span>
+            <span class="text-[11px] text-slate-500">AI 高相關性</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl border bg-blue-500/10 border-blue-500/20 bg-slate-900/50 backdrop-blur">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-medium">原帖社群熱度 (Upvotes)</span>
+            <i data-lucide="thumbs-up" class="w-4 h-4 text-blue-400"></i>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-bold text-white tracking-tight">${totalUpvotes.toLocaleString()}</span>
+            <span class="text-[11px] text-slate-500">潛在關注買家</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl border bg-purple-500/10 border-purple-500/20 bg-slate-900/50 backdrop-blur">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-400 font-medium">社群互動討論量 (Comments)</span>
+            <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i>
+          </div>
+          <div class="mt-2 flex items-baseline space-x-2">
+            <span class="text-2xl font-bold text-white tracking-tight">${totalComments.toLocaleString()}</span>
+            <span class="text-[11px] text-slate-500">則已觸及評論</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStatusTabs() {
+      const tabs = [
+        { id: 'all', label: '全部線索' },
+        { id: 'new', label: '🟢 最新未處理' },
+        { id: 'in_progress', label: '🟡 跟進中' },
+        { id: 'replied', label: '🔵 已回覆' },
+        { id: 'ignored', label: '⚪ 已忽略' }
+      ];
+
+      const container = document.getElementById('status-tabs-container');
+      container.innerHTML = tabs.map(t => `
+        <button onclick="handleStatusChange('${t.id}')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${filters.status === t.id ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+          ${t.label}
+        </button>
+      `).join('');
+    }
+
+    function getFilteredLeads() {
+      return leads.filter(l => {
+        if (filters.search) {
+          const q = filters.search.toLowerCase();
+          const matchTitle = l.title.toLowerCase().includes(q);
+          const matchPain = l.painpoint_summary.toLowerCase().includes(q);
+          const matchKw = l.keyword_matches.some(k => k.toLowerCase().includes(q));
+          if (!matchTitle && !matchPain && !matchKw) return false;
+        }
+        if (filters.subreddit !== 'all' && l.subreddit !== filters.subreddit) return false;
+        if (filters.category !== 'all' && l.category !== filters.category) return false;
+        if (filters.status !== 'all' && l.status !== filters.status) return false;
+        if (filters.minScore > 0 && l.match_score < filters.minScore) return false;
+        return true;
+      });
+    }
+
+    function renderLeads() {
+      const filtered = getFilteredLeads();
+      const container = document.getElementById('leads-container');
+      const emptyState = document.getElementById('empty-state');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = filtered.map(lead => {
+        const scoreBadge = lead.match_score >= 90
+          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${lead.match_score}% 匹配</span>`
+          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${lead.match_score}% 匹配</span>`;
+
+        let statusBadge = '';
+        if (lead.status === 'new') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">新商機</span>';
+        else if (lead.status === 'in_progress') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">處理中</span>';
+        else if (lead.status === 'replied') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">已回覆</span>';
+        else statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-500 border border-slate-700 font-medium">已忽略</span>';
+
+        return `
+          <div class="bg-slate-900 border border-slate-800 hover:border-slate-700/80 rounded-xl p-5 shadow-sm transition-all hover:shadow-lg hover:shadow-black/40 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-2.5 flex-wrap gap-2">
+                <div class="flex items-center space-x-2">
+                  <span class="px-2.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${lead.subreddit}</span>
+                  <span class="text-xs text-slate-500 flex items-center space-x-1">
+                    <i data-lucide="clock" class="w-3 h-3"></i>
+                    <span>2 小時前</span>
+                  </span>
+                  ${statusBadge}
+                </div>
+                ${scoreBadge}
+              </div>
+
+              <h3 class="text-base font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 mb-3">
+                ${lead.title}
+              </h3>
+
+              <div class="bg-amber-950/20 border border-amber-800/40 rounded-lg p-3 mb-3.5">
+                <div class="flex items-center space-x-1.5 text-xs font-semibold text-amber-400 mb-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                  <span>AI 提煉買家痛點 / 差評關鍵：</span>
+                </div>
+                <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${lead.painpoint_summary}</p>
+              </div>
+
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                ${lead.keyword_matches.map(kw => `<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60">#${kw}</span>`).join('')}
+              </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-3.5 mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center space-x-4 text-xs text-slate-400">
+                <span class="flex items-center space-x-1" title="Reddit 貼文讚數">
+                  <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-blue-400"></i>
+                  <span class="font-semibold text-slate-200">${lead.upvotes}</span>
+                </span>
+                <span class="flex items-center space-x-1" title="Reddit 討論留言數">
+                  <i data-lucide="message-square" class="w-3.5 h-3.5 text-purple-400"></i>
+                  <span class="font-semibold text-slate-200">${lead.comments_count}</span>
+                </span>
+                <span class="text-[11px] text-slate-500">${lead.category}</span>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <button onclick="openDetailModal('${lead.id}')" class="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
+                  <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
+                  <span>預擬回覆</span>
+                </button>
+                <button onclick="jumpToReddit('${lead.id}')" class="px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 rounded-lg shadow-sm shadow-indigo-600/30 transition-all flex items-center space-x-1.5 active:scale-95" title="跳轉至 Reddit 原文並啟動瀏覽器 Copilot">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
+                  <span>前往 Reddit 回覆</span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-white/70"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // Filter Handlers
+    function handleSearchChange(val) {
+      filters.search = val;
+      renderLeads();
+    }
+    function handleSubredditChange(val) {
+      filters.subreddit = val;
+      renderLeads();
+    }
+    function handleCategoryChange(val) {
+      filters.category = val;
+      renderLeads();
+    }
+    function handleMinScoreChange(val) {
+      filters.minScore = Number(val);
+      renderLeads();
+    }
+    function handleStatusChange(status) {
+      filters.status = status;
+      renderStatusTabs();
+      renderLeads();
+    }
+    function resetFilters() {
+      filters = { search: '', subreddit: 'all', category: 'all', status: 'all', minScore: 0 };
+      document.getElementById('search-input').value = '';
+      document.getElementById('select-subreddit').value = 'all';
+      document.getElementById('select-category').value = 'all';
+      document.getElementById('select-min-score').value = '0';
+      renderStatusTabs();
+      renderLeads();
+    }
+
+    // Modal Actions
+    function openDetailModal(leadId) {
+      currentLead = leads.find(l => l.id === leadId);
+      if (!currentLead) return;
+
+      currentTone = 'helpful_enthusiast';
+      document.getElementById('modal-meta').innerHTML = `
+        <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${currentLead.subreddit}</span>
+        <span class="text-xs text-slate-400">作者: u/${currentLead.author}</span>
+        <span class="text-xs text-emerald-400 font-bold">🎯 ${currentLead.match_score}% 匹配</span>
+      `;
+      document.getElementById('modal-title').textContent = currentLead.title;
+      document.getElementById('modal-painpoint').textContent = currentLead.painpoint_summary;
+      document.getElementById('modal-raw-content').textContent = currentLead.content_raw;
+      document.getElementById('modal-brand-tag').textContent = profile.brand_name || '預設品牌';
+
+      renderToneButtons();
+      updateModalDraft();
+
+      document.getElementById('lead-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeDetailModal() {
+      document.getElementById('lead-modal').classList.add('hidden');
+    }
+
+    function renderToneButtons() {
+      const tones = [
+        { key: 'helpful_enthusiast', title: '💡 客觀熱心網友', desc: '以第三方視角科普產品規格與避坑點，軟性植入推薦' },
+        { key: 'fellow_sufferer', title: '🤝 同病相憐買家', desc: '共鳴原帖差評痛點，真誠分享更換品牌後的親身體驗' },
+        { key: 'tech_pro_solution', title: '🛠 技術專家解方', desc: '從材料或電路工程角度剖析問題，建立專業信任度' }
+      ];
+
+      const container = document.getElementById('modal-tone-buttons');
+      container.innerHTML = tones.map(t => `
+        <button onclick="setTone('${t.key}')" class="text-left p-3 rounded-xl border text-xs transition-all ${currentTone === t.key ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-sm shadow-indigo-500/20' : 'bg-slate-800/50 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800'}">
+          <div class="font-semibold text-slate-200 mb-1">${t.title}</div>
+          <div class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${t.desc}</div>
+        </button>
+      `).join('');
+    }
+
+    function setTone(toneKey) {
+      currentTone = toneKey;
+      renderToneButtons();
+      updateModalDraft();
+    }
+
+    function updateModalDraft() {
+      if (!currentLead) return;
+      let raw = currentLead.replies[currentTone] || currentLead.suggested_reply;
+      const linkText = profile.store_url
+        ? `[${profile.brand_name || 'Brand'}](${profile.store_url})`
+        : `[${profile.brand_name || 'Brand'}]`;
+      const draft = raw.replace(/\[Your Brand \/ Link\]/g, linkText);
+      document.getElementById('modal-draft-area').value = draft;
+    }
+
+    function copyDraftText() {
+      const text = document.getElementById('modal-draft-area').value;
+      navigator.clipboard.writeText(text);
+      document.getElementById('copy-btn-text').textContent = '已複製！';
+      setTimeout(() => {
+        document.getElementById('copy-btn-text').textContent = '複製草稿';
+      }, 2000);
+    }
+
+    function jumpToReddit(leadId) {
+      const lead = leads.find(l => l.id === leadId);
+      if (!lead) return;
+
+      // Deduct quota
+      if (profile.plan === 'free' && profile.daily_usage_left > 0) {
+        profile.daily_usage_left -= 1;
+        saveProfile();
+        updateQuotaUI();
+      }
+
+      // Mark in progress
+      lead.status = 'in_progress';
+      saveLeads();
+      renderLeads();
+
+      const url = new URL(lead.reddit_url);
+      url.searchParams.set('amz_radar_lead_id', lead.id);
+      url.searchParams.set('brand', profile.brand_name || '');
+      url.searchParams.set('store_url', profile.store_url || '');
+      window.open(url.toString(), '_blank');
+    }
+
+    function jumpFromModal() {
+      if (currentLead) {
+        jumpToReddit(currentLead.id);
+        closeDetailModal();
+      }
+    }
+
+    function markCurrentReplied() {
+      if (currentLead) {
+        currentLead.status = 'replied';
+        saveLeads();
+        renderLeads();
+        closeDetailModal();
+      }
+    }
+
+    // Modals
+    function openUpgradeModal() {
+      document.getElementById('upgrade-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeUpgradeModal() {
+      document.getElementById('upgrade-modal').classList.add('hidden');
+    }
+    function upgradeToProMock() {
+      profile.plan = 'pro';
+      profile.daily_usage_left = 9999;
+      saveProfile();
+      updateQuotaUI();
+      closeUpgradeModal();
+      alert('🎉 恭喜！您已成功開通 AMZ Leads Radar Pro 專業版，解鎖無限線索監控與自動填入！');
+    }
+
+    function openSettingsModal() {
+      document.getElementById('settings-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+    function closeSettingsModal() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+    function saveSettings(e) {
+      e.preventDefault();
+      profile.brand_name = document.getElementById('setting-brand').value;
+      profile.store_url = document.getElementById('setting-url').value;
+      saveProfile();
+      document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
+      closeSettingsModal();
+      alert('✅ 品牌與店鋪設定已儲存！');
+    }
+
+    function updateQuotaUI() {
+      const quotaText = profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} 次` : '無限次數';
+      document.getElementById('quota-display').textContent = quotaText;
+      if (profile.plan === 'pro') {
+        document.getElementById('btn-upgrade-top').classList.add('hidden');
+      }
+    }
+
+    function refreshLeads() {
+      const icon = document.getElementById('refresh-icon');
+      icon.classList.add('animate-spin', 'text-indigo-400');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin', 'text-indigo-400');
+        renderStats();
+        renderLeads();
+      }, 700);
+    }
+
+    function saveLeads() {
+      localStorage.setItem('amz_radar_leads', JSON.stringify(leads));
+    }
+    function saveProfile() {
+      localStorage.setItem('amz_radar_profile', JSON.stringify(profile));
+    }
+  </script>
+</body>
+</html>

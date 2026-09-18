@@ -1,0 +1,12 @@
+#amz-review-copilot-root { position: fixed; z-index: 2147483647; top: 80px; right: 18px; width: 320px; background: #111827; color: #e5e7eb; border: 1px solid #374151; border-radius: 12px; box-shadow: 0 12px 35px #0008; font: 13px system-ui, sans-serif; }
+.amz-review-header { display: flex; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid #374151; }
+.amz-review-header button { color: #9ca3af; background: none; border: 0; font-size: 20px; cursor: pointer; }
+.amz-review-body { display: grid; gap: 10px; padding: 14px; }
+.amz-review-body label { display: grid; gap: 5px; color: #cbd5e1; }
+.amz-review-body select, .amz-review-body textarea { width: 100%; box-sizing: border-box; border: 1px solid #4b5563; border-radius: 6px; padding: 7px; background: #1f2937; color: #f9fafb; }
+.amz-review-body textarea { min-height: 64px; resize: vertical; }
+.amz-review-body button { border: 0; border-radius: 6px; padding: 8px 10px; cursor: pointer; background: #2563eb; color: white; }
+.amz-review-body button:disabled { opacity: .45; cursor: not-allowed; }
+.amz-review-actions { display: flex; gap: 8px; }
+.amz-review-actions button { flex: 1; background: #374151; }
+#amz-review-status { min-height: 16px; margin: 0; color: #93c5fd; }

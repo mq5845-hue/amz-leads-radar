@@ -1,6 +1,12 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { consumeReviewGeneration } from './supabase-quota.mjs';
+import { consumeReviewGeneration, getBearerToken } from './supabase-quota.mjs';
+
+test('extracts only a Bearer access token from authorization headers', () => {
+  assert.equal(getBearerToken({ authorization: 'Bearer user-token' }), 'user-token');
+  assert.equal(getBearerToken({ authorization: 'Basic user-token' }), null);
+  assert.equal(getBearerToken({}), null);
+});
 
 test('calls the authenticated review quota RPC with request metadata', async () => {
   let request;

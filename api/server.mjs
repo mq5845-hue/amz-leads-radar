@@ -1,8 +1,11 @@
 import http from 'node:http';
+import { consumeReviewGeneration, getBearerToken } from './supabase-quota.mjs';
 
 const port = Number(process.env.PORT || 8787);
 const openAiKey = process.env.OPENAI_API_KEY || '';
 const openAiModel = process.env.OPENAI_MODEL || 'gpt-5-mini';
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
 
 const unsafePromisePatterns = [
   /\b(full|partial|your money|a)\s+refund\b/i,
@@ -55,6 +58,24 @@ const server = http.createServer(async (req, res) => {
         }
         return { status: 200, body: { draft: `We’re sorry to hear about your experience with this product. We understand how frustrating it is when ${text.slice(0, 120)} Please contact our customer support team so we can review the details and help with the next steps.`, analysis: 'Local demo analysis: the review describes a product experience requiring acknowledgement and support follow-up.', warnings: ['local-demo-not-ai-generated'], usageEventId: `local-${Date.now()}`, modelVersion: 'local-demo' } };
       });
+      if (result.status === 200 && (supabaseUrl || supabaseAnonKey)) {
+        const accessToken = getBearerToken(req.headers);
+        if (!supabaseUrl || !supabaseAnonKey || !accessToken) return send(res, 401, { error: 'authenticated-supabase-session-required' });
+        try {
+          const quota = await consumeReviewGeneration({
+            url: supabaseUrl,
+            anonKey: supabaseAnonKey,
+            accessToken,
+            requestId: String(input.requestId),
+            metadata: { asin: input.asin || null, stars: Number(input.stars) }
+          });
+          if (!quota.success) return send(res, 429, { error: quota.error || 'review-generation-quota-rejected', usageLeft: quota.usage_left ?? null });
+          result.body.usageEventId = quota.usage_event_id || result.body.usageEventId;
+          result.body.remainingQuota = quota.usage_left ?? null;
+        } catch {
+          return send(res, 502, { error: 'supabase-quota-check-failed' });
+        }
+      }
       return send(res, result.status, result.body);
     } catch { return send(res, 400, { error: 'invalid-json' }); }
   });

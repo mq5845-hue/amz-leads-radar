@@ -1,3 +1,9 @@
+export function getBearerToken(headers = {}) {
+  const value = headers.authorization || headers.Authorization || '';
+  const match = /^Bearer\s+(.+)$/i.exec(value.trim());
+  return match ? match[1].trim() : null;
+}
+
 export async function consumeReviewGeneration({ url, anonKey, accessToken, requestId, metadata = {}, fetchImpl = fetch }) {
   if (!url || !anonKey || !accessToken) throw new Error('supabase-configuration-missing');
   if (!requestId?.trim()) throw new Error('request-id-required');

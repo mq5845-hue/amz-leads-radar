@@ -18,6 +18,8 @@ test('fast CI runs the complete local contract and build gate', () => {
   assert.match(workflow, /on:\s*[\s\S]*push:/);
   assert.match(workflow, /on:\s*[\s\S]*pull_request:/);
   assert.match(workflow, /permissions:\s*\n\s+contents:\s+read/);
+  assert.match(workflow, /actions\/checkout@v7/);
+  assert.match(workflow, /actions\/setup-node@v7/);
   assert.match(workflow, /working-directory:\s*web-dashboard/);
   assert.match(workflow, /npm ci --no-audit --no-fund/);
   assert.match(workflow, /node --test/);
@@ -32,6 +34,8 @@ test('live smoke is isolated, secret-backed, and opt-in to quota mutation', () =
   assert.match(workflow, /workflow_dispatch:/);
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /concurrency:/);
+  assert.match(workflow, /actions\/checkout@v7/);
+  assert.match(workflow, /actions\/setup-node@v7/);
   assert.match(workflow, /AMZ_SMOKE_SUPABASE_URL/);
   assert.match(workflow, /AMZ_SMOKE_SUPABASE_ANON_KEY/);
   assert.match(workflow, /AMZ_SMOKE_EMAIL/);

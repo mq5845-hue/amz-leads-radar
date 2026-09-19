@@ -5,6 +5,12 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true
+    open: true,
+    proxy: {
+      '/api': {
+        target: process.env.AMZ_API_PROXY_TARGET || 'http://127.0.0.1:8787',
+        changeOrigin: false,
+      },
+    },
   }
 })

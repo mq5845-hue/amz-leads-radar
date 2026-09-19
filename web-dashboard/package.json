@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "node ../api/server.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "test:auth": "node --test tests/auth-contract.test.mjs",

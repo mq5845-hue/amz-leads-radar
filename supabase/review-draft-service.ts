@@ -1,6 +1,7 @@
 export type ReviewDraftInput = {
   userId: string;
   asin: string | null;
+  reviewFingerprint: string;
   stars: number;
   reviewText: string;
   brandProfileId: string | null;
@@ -18,9 +19,6 @@ export type ReviewModelOutput = {
 export type ReviewDraftResult = ReviewModelOutput & { usageEventId: string };
 
 export interface ReviewDraftRepository {
-  findUsageEvent(userId: string, requestId: string): Promise<{ id: string } | null>;
-  countUsage(userId: string, feature: 'review_generate'): Promise<number>;
-  usageLimit(userId: string): Promise<number>;
   /** Persist the draft and successful usage event in one database transaction. */
   recordDraftAndUsage(input: ReviewDraftInput, output: ReviewModelOutput): Promise<{ draftId: string; usageEventId: string }>;
 }
@@ -37,6 +35,9 @@ const unsafePatterns = [
 export function validateReviewInput(input: ReviewDraftInput): void {
   if (typeof input.userId !== 'string' || !input.userId.trim() || typeof input.requestId !== 'string' || !input.requestId.trim()) {
     throw new Error('missing-identity');
+  }
+  if (typeof input.reviewFingerprint !== 'string' || !input.reviewFingerprint.trim() || input.reviewFingerprint.length > 256) {
+    throw new Error('invalid-review-fingerprint');
   }
   if (!Number.isInteger(input.stars) || input.stars < 1 || input.stars > 3) throw new Error('only-1-to-3-star-reviews-supported');
   if (typeof input.reviewText !== 'string' || !input.reviewText.trim() || input.reviewText.length > 10000) {
@@ -60,11 +61,6 @@ export async function generateReviewDraft(
   model: ReviewModel
 ): Promise<ReviewDraftResult> {
   validateReviewInput(input);
-  const previous = await repository.findUsageEvent(input.userId, input.requestId);
-  if (previous) throw new Error('duplicate-request-id');
-  const used = await repository.countUsage(input.userId, 'review_generate');
-  const limit = await repository.usageLimit(input.userId);
-  if (limit >= 0 && used >= limit) throw new Error('review-generation-quota-reached');
 
   const output = await model(input);
   const warnings = validateModelOutput(output);

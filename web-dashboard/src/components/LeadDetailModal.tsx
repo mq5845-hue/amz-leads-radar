@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, MessageSquare, ThumbsUp, ShieldCheck } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
 import { Lead, ToneKey, UserProfile } from '../types';
 
 interface LeadDetailModalProps {
   lead: Lead | null;
   profile: UserProfile;
   onClose: () => void;
-  onJumpToReddit: (lead: Lead) => void;
+  onJumpToReddit: (lead: Lead) => boolean;
   onStatusChange: (id: string, status: any) => void;
 }
 
@@ -17,10 +17,10 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
   onJumpToReddit,
   onStatusChange
 }) => {
-  if (!lead) return null;
-
   const [activeTone, setActiveTone] = useState<ToneKey>('helpful_enthusiast');
   const [copied, setCopied] = useState(false);
+
+  if (!lead) return null;
 
   // Substitute variables
   const getDraftWithVariables = (text: string) => {
@@ -61,7 +61,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="lead-detail-title">
       <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
         <div className="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90">
@@ -73,10 +73,11 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
               <span className="text-xs text-slate-400">作者: u/{lead.author}</span>
               <span className="text-xs text-emerald-400 font-bold">🎯 {lead.match_score}% 匹配</span>
             </div>
-            <h2 className="text-lg font-bold text-white leading-snug">{lead.title}</h2>
+            <h2 id="lead-detail-title" className="text-lg font-bold text-white leading-snug">{lead.title}</h2>
           </div>
           <button
             onClick={onClose}
+            aria-label="關閉線索詳情"
             className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -182,8 +183,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             </button>
             <button
               onClick={() => {
-                onJumpToReddit(lead);
-                onClose();
+                if (onJumpToReddit(lead)) onClose();
               }}
               className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30"
             >

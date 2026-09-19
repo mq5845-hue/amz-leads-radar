@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, Zap, Crown, Settings, Sparkles, RefreshCw } from 'lucide-react';
+import { Radar, Zap, Crown, Settings, RefreshCw } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface HeaderProps {

@@ -1,0 +1,82 @@
+name: Live smoke
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-supabase-smoke
+  cancel-in-progress: false
+
+jobs:
+  config:
+    name: Check live smoke configuration
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      configured: ${{ steps.check.outputs.configured }}
+    steps:
+      - id: check
+        name: Validate secret presence without printing values
+        env:
+          AMZ_SMOKE_SUPABASE_URL: ${{ secrets.AMZ_SMOKE_SUPABASE_URL }}
+          AMZ_SMOKE_SUPABASE_ANON_KEY: ${{ secrets.AMZ_SMOKE_SUPABASE_ANON_KEY }}
+          AMZ_SMOKE_EMAIL: ${{ secrets.AMZ_SMOKE_EMAIL }}
+          AMZ_SMOKE_PASSWORD: ${{ secrets.AMZ_SMOKE_PASSWORD }}
+          AMZ_SMOKE_ALLOW_QUOTA_DECREMENT: ${{ secrets.AMZ_SMOKE_ALLOW_QUOTA_DECREMENT }}
+        shell: bash
+        run: |
+          if [[ -n "$AMZ_SMOKE_SUPABASE_URL" \
+            && -n "$AMZ_SMOKE_SUPABASE_ANON_KEY" \
+            && -n "$AMZ_SMOKE_EMAIL" \
+            && -n "$AMZ_SMOKE_PASSWORD" \
+            && "$AMZ_SMOKE_ALLOW_QUOTA_DECREMENT" == "1" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "Live smoke secrets are configured."
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Live smoke skipped: configure all AMZ_SMOKE_* secrets, including AMZ_SMOKE_ALLOW_QUOTA_DECREMENT=1."
+            {
+              echo '### Live smoke skipped'
+              echo 'Configure the required `AMZ_SMOKE_*` GitHub Actions secrets before enabling connected smoke checks.'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  live-auth-and-api:
+    name: Auth, profiles, RLS, quota, production API
+    needs: config
+    if: ${{ needs.config.outputs.configured == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: live-smoke
+    defaults:
+      run:
+        working-directory: web-dashboard
+    env:
+      AMZ_SMOKE_SUPABASE_URL: ${{ secrets.AMZ_SMOKE_SUPABASE_URL }}
+      AMZ_SMOKE_SUPABASE_ANON_KEY: ${{ secrets.AMZ_SMOKE_SUPABASE_ANON_KEY }}
+      AMZ_SMOKE_EMAIL: ${{ secrets.AMZ_SMOKE_EMAIL }}
+      AMZ_SMOKE_PASSWORD: ${{ secrets.AMZ_SMOKE_PASSWORD }}
+      AMZ_PRODUCTION_API_URL: ${{ secrets.AMZ_PRODUCTION_API_URL }}
+      AMZ_SMOKE_ALLOW_QUOTA_DECREMENT: ${{ secrets.AMZ_SMOKE_ALLOW_QUOTA_DECREMENT }}
+      AMZ_SMOKE_RUN_PRODUCTION_API: '1'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web-dashboard/package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run connected live smoke
+        run: npm run test:live-auth

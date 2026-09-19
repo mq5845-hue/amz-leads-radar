@@ -1,18 +1,16 @@
 import React from 'react';
-import { ExternalLink, ThumbsUp, MessageSquare, AlertCircle, Bot, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import { ExternalLink, ThumbsUp, MessageSquare, AlertCircle, Bot, Clock, Sparkles } from 'lucide-react';
 import { Lead, LeadStatus } from '../types';
 
 interface LeadCardProps {
   lead: Lead;
   onOpenDetail: (lead: Lead) => void;
-  onStatusChange: (id: string, status: LeadStatus) => void;
   onJumpToReddit: (lead: Lead) => void;
 }
 
 export const LeadCard: React.FC<LeadCardProps> = ({
   lead,
   onOpenDetail,
-  onStatusChange,
   onJumpToReddit
 }) => {
   const getScoreBadge = (score: number) => {

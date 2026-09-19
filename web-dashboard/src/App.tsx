@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Header } from './components/Header';
 import { StatsBar } from './components/StatsBar';
 import { FilterBar } from './components/FilterBar';
@@ -8,7 +8,7 @@ import { UpgradeModal } from './components/UpgradeModal';
 import { SettingsModal } from './components/SettingsModal';
 import { MOCK_LEADS, INITIAL_PROFILE } from './data/mockLeads';
 import { Lead, LeadStatus, UserProfile } from './types';
-import { Radar, Sparkles, Inbox, RefreshCw } from 'lucide-react';
+import { Radar, Sparkles, Inbox } from 'lucide-react';
 
 export function App() {
   const [leads, setLeads] = useState<Lead[]>(MOCK_LEADS);
@@ -77,9 +77,26 @@ export function App() {
     );
   };
 
-  const handleJumpToReddit = (lead: Lead) => {
-    // Deduct quota if free plan
-    if (profile.plan === 'free' && profile.daily_usage_left > 0) {
+  const handleJumpToReddit = (lead: Lead): boolean => {
+    let targetUrl: URL;
+    try {
+      targetUrl = new URL(lead.reddit_url);
+    } catch {
+      alert('此線索的 Reddit 連結無效，無法跳轉。');
+      return false;
+    }
+    const hostname = targetUrl.hostname.toLowerCase();
+    if (targetUrl.protocol !== 'https:' || (hostname !== 'reddit.com' && !hostname.endsWith('.reddit.com'))) {
+      alert('此線索不是受支援的 Reddit 連結，已阻止跳轉。');
+      return false;
+    }
+
+    // Demo mode keeps quota local, but must still stop at zero.
+    if (profile.plan === 'free' && profile.daily_usage_left <= 0) {
+      alert('今日額度已用完，請明日再試或升級方案。');
+      return false;
+    }
+    if (profile.plan === 'free') {
       setProfile((prev) => ({
         ...prev,
         daily_usage_left: prev.daily_usage_left - 1
@@ -90,13 +107,13 @@ export function App() {
     handleStatusChange(lead.id, 'in_progress');
 
     // Build URL with lead context parameter
-    const targetUrl = new URL(lead.reddit_url);
     targetUrl.searchParams.set('amz_radar_lead_id', lead.id);
     targetUrl.searchParams.set('brand', profile.brand_name || '');
     targetUrl.searchParams.set('store_url', profile.store_url || '');
 
     // Open target in new tab
-    window.open(targetUrl.toString(), '_blank');
+    window.open(targetUrl.toString(), '_blank', 'noopener,noreferrer');
+    return true;
   };
 
   const handleUpgradeMock = () => {
@@ -178,7 +195,6 @@ export function App() {
                 key={lead.id}
                 lead={lead}
                 onOpenDetail={setSelectedLead}
-                onStatusChange={handleStatusChange}
                 onJumpToReddit={handleJumpToReddit}
               />
             ))}
@@ -211,9 +227,9 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
           <div className="flex items-center space-x-4">
-            <a href="#" className="hover:text-slate-400">Chrome Web Store 外掛</a>
-            <a href="#" className="hover:text-slate-400">API 文檔</a>
-            <a href="#" className="hover:text-slate-400">使用條款與隱私權</a>
+            <span className="text-slate-600 cursor-not-allowed" title="目前尚未公開">Chrome Web Store 外掛（即將推出）</span>
+            <span className="text-slate-600 cursor-not-allowed" title="文件頁面建置中">API 文檔（建置中）</span>
+            <span className="text-slate-600 cursor-not-allowed" title="法律文件建置中">使用條款與隱私權（建置中）</span>
           </div>
         </div>
       </footer>
@@ -230,7 +246,6 @@ export function App() {
       <UpgradeModal
         isOpen={isUpgradeOpen}
         onClose={() => setIsUpgradeOpen(false)}
-        profile={profile}
         onUpgradeMock={handleUpgradeMock}
       />
 

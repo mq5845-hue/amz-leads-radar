@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Save, Store, Link, ShieldAlert, Check } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -15,14 +15,30 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   profile,
   onSaveProfile
 }) => {
-  if (!isOpen) return null;
-
   const [brandName, setBrandName] = useState(profile.brand_name || '');
   const [storeUrl, setStoreUrl] = useState(profile.store_url || '');
   const [saved, setSaved] = useState(false);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    setBrandName(profile.brand_name || '');
+    setStoreUrl(profile.store_url || '');
+    setSaved(false);
+  }, [isOpen, profile.brand_name, profile.store_url]);
+
+  if (!isOpen) return null;
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+    if (storeUrl) {
+      try {
+        const parsed = new URL(storeUrl);
+        if (parsed.protocol !== 'https:') throw new Error('unsafe protocol');
+      } catch {
+        alert('店鋪 URL 必須是有效的 HTTPS 連結。');
+        return;
+      }
+    }
     onSaveProfile({
       brand_name: brandName,
       store_url: storeUrl
@@ -35,15 +51,16 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="settings-title">
       <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <div className="p-5 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Store className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-base font-bold text-white">賣家品牌與店鋪設定</h2>
+            <h2 id="settings-title" className="text-base font-bold text-white">賣家品牌與店鋪設定</h2>
           </div>
           <button
             onClick={onClose}
+            aria-label="關閉設定"
             className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800"
           >
             <X className="w-5 h-5" />

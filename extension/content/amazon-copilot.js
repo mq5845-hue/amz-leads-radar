@@ -18,10 +18,25 @@
   root.querySelector('#amz-review-close').onclick = () => root.remove();
   root.querySelector('#amz-review-generate').onclick = async () => {
     const review = current();
+    const requestId = crypto.randomUUID();
     setStatus('Generating…');
     try {
-      const response = await fetch('http://localhost:8787/api/review-drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ asin: review.asin, stars: review.stars, reviewText: review.text, extraInstruction: root.querySelector('#amz-review-instruction').value || null, requestId: crypto.randomUUID() }) });
-      if (!response.ok) throw new Error(`API ${response.status}`);
+      const response = await fetch('http://localhost:8787/api/review-drafts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          asin: review.asin,
+          stars: review.stars,
+          reviewText: review.text,
+          extraInstruction: root.querySelector('#amz-review-instruction').value || null,
+          requestId,
+          reviewFingerprint: review.reviewId || review.asin || requestId,
+        }),
+      });
+      if (!response.ok) {
+        if (response.status === 401 || response.status === 403) throw new Error('Please sign in to AMZ Leads Radar first.');
+        throw new Error(`API ${response.status}`);
+      }
       generated = await response.json();
       draft.value = generated.draft || '';
       root.querySelector('#amz-review-fill').disabled = !draft.value;

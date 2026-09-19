@@ -5,8 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "node ../api/server.mjs",
+    "preflight:live": "node ../scripts/live-preflight.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:auth": "node --test tests/auth-contract.test.mjs",
+    "test:api": "node --test tests/review-draft-api.test.mjs",
+    "test:live-auth": "node scripts/live-auth-smoke.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",

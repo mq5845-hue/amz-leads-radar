@@ -1,6 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { containsUnsafePromise, createRequestCache, getHealthStatus } from './server.mjs';
+import { containsUnsafePromise, createRequestCache, getHealthStatus, getRootStatus } from './server.mjs';
+
+test('exposes a useful root status for local browser checks', () => {
+  assert.deepEqual(getRootStatus(), {
+    service: 'AMZ Leads Radar review-draft API',
+    health: '/health',
+    reviewDrafts: '/api/review-drafts'
+  });
+});
 
 test('does not report production readiness without Supabase quota configuration', () => {
   assert.deepEqual(getHealthStatus({ openAiKey: 'configured', openAiModel: 'gpt-5-mini', supabaseUrl: '', supabaseAnonKey: '' }), {

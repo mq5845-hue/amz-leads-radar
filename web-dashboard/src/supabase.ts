@@ -6,5 +6,11 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 export const supabase = isSupabaseConfigured
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        autoRefreshToken: true,
+        detectSessionInUrl: false,
+        persistSession: false,
+      },
+    })
   : null;

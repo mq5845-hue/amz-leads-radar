@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AMZ Leads Radar - 跨境電商站外引流商機看板</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
@@ -45,6 +46,14 @@
     @keyframes amz-radar-sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes amz-radar-pulse { 0%, 18%, 100% { opacity: .25; } 28%, 42% { opacity: 1; } 55%, 100% { opacity: .35; } }
     @media (max-width: 700px) { .amz-radar-hero { min-height: 210px; } .amz-radar-visual { right: -35px; opacity: .35; transform: translateY(-50%) scale(.8); } }
+    @media (max-width: 700px) {
+      .amz-header-inner { height: auto !important; min-height: 64px; flex-wrap: wrap; align-items: flex-start; gap: .5rem; padding-top: .75rem; padding-bottom: .75rem; }
+      .amz-brand-lockup { flex: 1 1 100%; min-width: 0; }
+      .amz-header-actions { flex: 1 1 100%; width: 100%; flex-wrap: nowrap; justify-content: space-between; gap: .375rem; }
+      .amz-header-actions > :not(:last-child) { margin-left: 0 !important; }
+      #btn-upgrade-top span { display: none; }
+      #btn-upgrade-top { padding: .5rem; }
+    }
     @media (prefers-reduced-motion: reduce) { .amz-radar-visual::after, .amz-radar-point { animation: none; } }
     /* Custom subtle scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -57,9 +66,9 @@
 
   <!-- ==================== TOP NAVIGATION ==================== -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="amz-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <!-- Logo & Subtitle -->
-      <div class="flex items-center space-x-3">
+      <div class="amz-brand-lockup flex items-center space-x-3">
         <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
           <i data-lucide="radar" class="w-6 h-6 text-white animate-pulse"></i>
         </div>
@@ -77,7 +86,7 @@
       </div>
 
       <!-- Right Action Area -->
-      <div class="flex items-center space-x-3 sm:space-x-4">
+      <div class="amz-header-actions flex items-center space-x-3 sm:space-x-4">
         <!-- Scan Button -->
         <button onclick="refreshLeads()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="掃描最新線索">
           <i data-lucide="refresh-cw" id="refresh-icon" class="w-4 h-4"></i>
@@ -102,6 +111,12 @@
           <i data-lucide="settings" class="w-4 h-4"></i>
           <span class="hidden md:inline" id="nav-brand-name">店鋪設定</span>
         </button>
+
+        <!-- Supabase Auth / Demo Mode -->
+        <div class="flex items-center space-x-2">
+          <span id="auth-mode-badge" class="hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold whitespace-nowrap">Demo mode</span>
+          <button onclick="handleAuthAction()" id="auth-action" class="px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap">登入</button>
+        </div>
       </div>
     </div>
   </header>
@@ -125,6 +140,18 @@
       <div class="amz-radar-visual" aria-label="Radar scanning animation" role="img"><div class="amz-radar-sweep-beam" id="amz-radar-sweep-beam"></div><div class="amz-radar-center"></div><div class="amz-radar-points" id="amz-radar-points"></div></div>
       <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
     </div>
+
+    <!-- Auth status remains additive so the legacy Reddit demo stays available. -->
+    <section id="auth-status-panel" class="mb-6 rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3" aria-live="polite">
+      <div class="flex items-start space-x-2.5">
+        <i data-lucide="flask-conical" class="w-4 h-4 text-amber-300 mt-0.5 shrink-0"></i>
+        <div>
+          <p id="auth-status-title" class="text-xs font-bold text-amber-200">Demo mode • 尚未登入</p>
+          <p id="auth-status-message" class="text-[11px] text-amber-100/70 mt-0.5">目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。</p>
+        </div>
+      </div>
+      <button onclick="handleAuthAction()" id="auth-status-action" class="self-start sm:self-auto px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入以同步額度</button>
+    </section>
 
     <!-- Stats Bar -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-6" id="stats-container">
@@ -196,14 +223,48 @@
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
       <span>AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
       <div class="flex items-center space-x-4">
-        <a href="#" class="hover:text-slate-400">Chrome Web Store 外掛</a>
-        <a href="#" class="hover:text-slate-400">API 文檔</a>
-        <a href="#" class="hover:text-slate-400">使用條款與隱私權</a>
+            <span class="text-slate-600 cursor-not-allowed" title="目前尚未公開">Chrome Web Store 外掛（即將推出）</span>
+            <span class="text-slate-600 cursor-not-allowed" title="文件頁面建置中">API 文檔（建置中）</span>
+            <span class="text-slate-600 cursor-not-allowed" title="法律文件建置中">使用條款與隱私權（建置中）</span>
       </div>
     </div>
   </footer>
 
   <!-- ==================== MODALS ==================== -->
+
+  <!-- 0. Supabase Email/Password Auth Panel -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-describedby="auth-modal-description" tabindex="-1" onclick="handleAuthBackdrop(event)" onkeydown="handleAuthKeydown(event)">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-5 border-b border-slate-800 flex items-start justify-between">
+        <div>
+          <div class="flex items-center space-x-2">
+            <i data-lucide="shield-check" class="w-5 h-5 text-indigo-400"></i>
+            <h2 id="auth-modal-title" class="text-base font-bold text-white">Supabase 登入</h2>
+          </div>
+          <p id="auth-modal-description" class="text-[11px] text-slate-500 mt-1">Email / Password • session 僅保留在目前頁面記憶體</p>
+        </div>
+        <button onclick="closeAuthModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" aria-label="關閉登入面板">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="auth-form" onsubmit="submitAuth(event)" class="p-6 space-y-4">
+        <div>
+          <label for="auth-email" class="text-xs font-semibold text-slate-300 block mb-1.5">Email</label>
+          <input id="auth-email" name="email" type="email" autocomplete="email" required placeholder="seller@example.com" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
+        </div>
+        <div>
+          <label for="auth-password" class="text-xs font-semibold text-slate-300 block mb-1.5">Password</label>
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" required placeholder="Supabase Auth password" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
+        </div>
+        <p id="auth-feedback" class="hidden text-xs rounded-lg px-3 py-2" role="status"></p>
+        <div class="flex items-center justify-end space-x-2 pt-1">
+          <button type="button" id="auth-cancel" onclick="closeAuthModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">取消</button>
+          <button type="submit" id="auth-submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入並讀取額度</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- 1. Lead Detail Modal -->
   <div id="lead-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
@@ -520,6 +581,22 @@
       daily_usage_left: 3,
       max_daily_usage: 3
     };
+    let isDemoMode = true;
+    let authState = { configured: false, ready: false, email: '' };
+
+    window.addEventListener('amz-auth-change', (event) => {
+      const state = event.detail || {};
+      authState = state;
+      isDemoMode = state.mode !== 'authenticated' || !state.profile;
+      if (state.profile) {
+        profile = { ...profile, ...state.profile };
+      } else if (state.mode === 'demo') {
+        profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || profile;
+      }
+      updateAuthUI(state);
+      updateQuotaUI();
+      initOptions();
+    });
 
     let filters = {
       search: '',
@@ -578,27 +655,147 @@
       // Subreddits
       const subreddits = Array.from(new Set(leads.map(l => l.subreddit)));
       const subSelect = document.getElementById('select-subreddit');
+      const selectedSubreddit = filters.subreddit;
+      subSelect.innerHTML = '<option value="all">所有 Subreddits</option>';
       subreddits.forEach(sub => {
         const opt = document.createElement('option');
         opt.value = sub;
         opt.textContent = sub;
         subSelect.appendChild(opt);
       });
+      subSelect.value = subreddits.includes(selectedSubreddit) ? selectedSubreddit : 'all';
 
       // Categories
       const categories = Array.from(new Set(leads.map(l => l.category)));
       const catSelect = document.getElementById('select-category');
+      const selectedCategory = filters.category;
+      catSelect.innerHTML = '<option value="all">所有品類</option>';
       categories.forEach(cat => {
         const opt = document.createElement('option');
         opt.value = cat;
         opt.textContent = cat;
         catSelect.appendChild(opt);
       });
+      catSelect.value = categories.includes(selectedCategory) ? selectedCategory : 'all';
 
       // Brand setting
       document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
       document.getElementById('setting-brand').value = profile.brand_name || '';
       document.getElementById('setting-url').value = profile.store_url || '';
+      updateAuthUI(authState);
+    }
+
+    function updateAuthUI(state = authState) {
+      const badge = document.getElementById('auth-mode-badge');
+      const action = document.getElementById('auth-action');
+      const statusAction = document.getElementById('auth-status-action');
+      const title = document.getElementById('auth-status-title');
+      const message = document.getElementById('auth-status-message');
+      if (!badge || !action || !statusAction || !title || !message) return;
+
+      const authenticated = state.mode === 'authenticated' && Boolean(state.profile);
+      if (authenticated) {
+        badge.textContent = `已登入 • ${state.email || profile.email}`;
+        badge.className = 'hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] font-bold whitespace-nowrap';
+        action.textContent = '登出';
+        action.className = 'px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap';
+        title.textContent = `已登入 • ${state.email || profile.email} • server quota`;
+        title.className = 'text-xs font-bold text-emerald-200';
+        message.textContent = '線索仍保留為既有 Reddit mock；額度來自 public.profiles，跳轉操作會由 server RPC 扣除。';
+        statusAction.textContent = '登出';
+        statusAction.className = 'self-start sm:self-auto px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold';
+      } else {
+        badge.textContent = 'Demo mode';
+        badge.className = 'hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold whitespace-nowrap';
+        action.textContent = '登入';
+        action.className = 'px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap';
+        title.textContent = state.error ? 'Demo mode • Supabase 尚未完成同步' : 'Demo mode • 尚未登入';
+        title.className = 'text-xs font-bold text-amber-200';
+        message.textContent = state.error || (state.configured ? '目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。' : '尚未設定 Supabase 環境變數；目前使用本地 Reddit mock 與示範額度。');
+        statusAction.textContent = '登入以同步額度';
+        statusAction.className = 'self-start sm:self-auto px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold';
+      }
+      document.getElementById('auth-status-panel').className = authenticated
+        ? 'mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3'
+        : 'mb-6 rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+    }
+
+    function handleAuthAction() {
+      if (isDemoMode) openAuthModal();
+      else void signOutAuth();
+    }
+
+    let authReturnFocus = null;
+
+    function openAuthModal() {
+      authReturnFocus = document.activeElement;
+      document.getElementById('auth-modal').classList.remove('hidden');
+      document.getElementById('auth-feedback').classList.add('hidden');
+      lucide.createIcons();
+      window.setTimeout(() => document.getElementById('auth-email')?.focus(), 0);
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      if (authReturnFocus && typeof authReturnFocus.focus === 'function') authReturnFocus.focus();
+      authReturnFocus = null;
+    }
+
+    function handleAuthBackdrop(event) {
+      if (event.target.id === 'auth-modal') closeAuthModal();
+    }
+
+    function handleAuthKeydown(event) {
+      const modal = document.getElementById('auth-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeAuthModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled]), input:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    function setAuthFeedback(text, kind = 'error') {
+      const feedback = document.getElementById('auth-feedback');
+      feedback.textContent = text;
+      feedback.className = kind === 'success'
+        ? 'text-xs rounded-lg px-3 py-2 bg-emerald-500/10 text-emerald-200 border border-emerald-500/20'
+        : 'text-xs rounded-lg px-3 py-2 bg-rose-500/10 text-rose-200 border border-rose-500/20';
+    }
+
+    async function submitAuth(event) {
+      event.preventDefault();
+      const button = document.getElementById('auth-submit');
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      button.disabled = true;
+      button.textContent = '登入中…';
+      const result = await window.amzAuth?.signIn(email, password);
+      button.disabled = false;
+      button.textContent = '登入並讀取額度';
+      if (!result?.success) {
+        setAuthFeedback(result?.error || '登入失敗。');
+        return;
+      }
+      document.getElementById('auth-password').value = '';
+      setAuthFeedback('登入成功，正在載入 server-side quota…', 'success');
+      setTimeout(closeAuthModal, 500);
+    }
+
+    async function signOutAuth() {
+      const result = await window.amzAuth?.signOut();
+      if (!result?.success) alert(result?.error || '登出失敗。');
     }
 
     function renderStats() {
@@ -896,15 +1093,28 @@
       }, 2000);
     }
 
-    function jumpToReddit(leadId) {
+    async function jumpToReddit(leadId) {
       const lead = leads.find(l => l.id === leadId);
       if (!lead) return;
 
-      // Deduct quota
-      if (profile.plan === 'free' && profile.daily_usage_left > 0) {
-        profile.daily_usage_left -= 1;
-        saveProfile();
-        updateQuotaUI();
+      // Reserve a tab inside the click handler so an awaited quota RPC does not
+      // cause the browser to block the eventual Reddit navigation as a popup.
+      const pendingWindow = isDemoMode ? null : window.open('about:blank', '_blank');
+
+      // Demo keeps its existing local behavior. Authenticated users consume quota server-side.
+      if (isDemoMode) {
+        if (profile.plan === 'free' && profile.daily_usage_left > 0) {
+          profile.daily_usage_left -= 1;
+          saveProfile();
+          updateQuotaUI();
+        }
+      } else {
+        const result = await window.amzAuth?.consumeQuota();
+        if (!result?.success) {
+          pendingWindow?.close();
+          alert(result?.message || '今日額度已用完，無法前往 Reddit。');
+          return;
+        }
       }
 
       // Mark in progress
@@ -916,12 +1126,16 @@
       url.searchParams.set('amz_radar_lead_id', lead.id);
       url.searchParams.set('brand', profile.brand_name || '');
       url.searchParams.set('store_url', profile.store_url || '');
-      window.open(url.toString(), '_blank');
+      if (pendingWindow) {
+        pendingWindow.location.href = url.toString();
+      } else {
+        window.open(url.toString(), '_blank');
+      }
     }
 
-    function jumpFromModal() {
+    async function jumpFromModal() {
       if (currentLead) {
-        jumpToReddit(currentLead.id);
+        await jumpToReddit(currentLead.id);
         closeDetailModal();
       }
     }
@@ -944,6 +1158,11 @@
       document.getElementById('upgrade-modal').classList.add('hidden');
     }
     function upgradeToProMock() {
+      if (!isDemoMode) {
+        closeUpgradeModal();
+        alert('目前登入版尚未串接付款；未變更 server-side plan。');
+        return;
+      }
       profile.plan = 'pro';
       profile.daily_usage_left = 9999;
       saveProfile();
@@ -959,21 +1178,37 @@
     function closeSettingsModal() {
       document.getElementById('settings-modal').classList.add('hidden');
     }
-    function saveSettings(e) {
+    async function saveSettings(e) {
       e.preventDefault();
-      profile.brand_name = document.getElementById('setting-brand').value;
-      profile.store_url = document.getElementById('setting-url').value;
-      saveProfile();
+      const brandName = document.getElementById('setting-brand').value;
+      const storeUrl = document.getElementById('setting-url').value;
+      if (isDemoMode) {
+        profile.brand_name = brandName;
+        profile.store_url = storeUrl;
+        saveProfile();
+      } else {
+        const result = await window.amzAuth?.updateProfile({ brand_name: brandName, store_url: storeUrl });
+        if (!result?.success) {
+          alert(result?.error || '品牌設定儲存失敗。');
+          return;
+        }
+        profile.brand_name = brandName;
+        profile.store_url = storeUrl;
+      }
       document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
       closeSettingsModal();
       alert('✅ 品牌與店鋪設定已儲存！');
     }
 
     function updateQuotaUI() {
-      const quotaText = profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} 次` : '無限次數';
+      const quotaText = isDemoMode
+        ? `Demo ${profile.daily_usage_left} / ${profile.max_daily_usage} 次`
+        : (profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} 次` : '無限次數');
       document.getElementById('quota-display').textContent = quotaText;
-      if (profile.plan === 'pro') {
+      if (!isDemoMode && profile.plan !== 'free') {
         document.getElementById('btn-upgrade-top').classList.add('hidden');
+      } else {
+        document.getElementById('btn-upgrade-top').classList.remove('hidden');
       }
     }
 
@@ -994,5 +1229,6 @@
       localStorage.setItem('amz_radar_profile', JSON.stringify(profile));
     }
   </script>
+  <script type="module" src="/src/legacy-auth.ts"></script>
 </body>
 </html>

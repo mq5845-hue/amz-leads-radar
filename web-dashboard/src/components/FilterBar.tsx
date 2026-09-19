@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Filter, Layers } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { LeadStatus } from '../types';
 
 interface FilterBarProps {

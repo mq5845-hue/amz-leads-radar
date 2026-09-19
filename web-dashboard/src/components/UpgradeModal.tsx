@@ -1,18 +1,15 @@
 import React from 'react';
-import { X, Check, Crown, Zap, Shield, Sparkles } from 'lucide-react';
-import { UserProfile } from '../types';
+import { X, Check, Crown, Shield, Sparkles } from 'lucide-react';
 
 interface UpgradeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  profile: UserProfile;
   onUpgradeMock: () => void;
 }
 
 export const UpgradeModal: React.FC<UpgradeModalProps> = ({
   isOpen,
   onClose,
-  profile,
   onUpgradeMock
 }) => {
   if (!isOpen) return null;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, MessageSquare, ThumbsUp, ShieldCheck } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
 import { Lead, ToneKey, UserProfile } from '../types';
 
 interface LeadDetailModalProps {

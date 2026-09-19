@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Header } from './components/Header';
 import { StatsBar } from './components/StatsBar';
 import { FilterBar } from './components/FilterBar';
@@ -8,7 +8,7 @@ import { UpgradeModal } from './components/UpgradeModal';
 import { SettingsModal } from './components/SettingsModal';
 import { MOCK_LEADS, INITIAL_PROFILE } from './data/mockLeads';
 import { Lead, LeadStatus, UserProfile } from './types';
-import { Radar, Sparkles, Inbox, RefreshCw } from 'lucide-react';
+import { Radar, Sparkles, Inbox } from 'lucide-react';
 
 export function App() {
   const [leads, setLeads] = useState<Lead[]>(MOCK_LEADS);
@@ -178,7 +178,6 @@ export function App() {
                 key={lead.id}
                 lead={lead}
                 onOpenDetail={setSelectedLead}
-                onStatusChange={handleStatusChange}
                 onJumpToReddit={handleJumpToReddit}
               />
             ))}
@@ -211,9 +210,9 @@ export function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
           <div className="flex items-center space-x-4">
-            <a href="#" className="hover:text-slate-400">Chrome Web Store 外掛</a>
-            <a href="#" className="hover:text-slate-400">API 文檔</a>
-            <a href="#" className="hover:text-slate-400">使用條款與隱私權</a>
+            <span className="text-slate-600 cursor-not-allowed" title="目前尚未公開">Chrome Web Store 外掛（即將推出）</span>
+            <span className="text-slate-600 cursor-not-allowed" title="文件頁面建置中">API 文檔（建置中）</span>
+            <span className="text-slate-600 cursor-not-allowed" title="法律文件建置中">使用條款與隱私權（建置中）</span>
           </div>
         </div>
       </footer>
@@ -230,7 +229,6 @@ export function App() {
       <UpgradeModal
         isOpen={isUpgradeOpen}
         onClose={() => setIsUpgradeOpen(false)}
-        profile={profile}
         onUpgradeMock={handleUpgradeMock}
       />
 

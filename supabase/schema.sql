@@ -72,10 +72,15 @@ create or replace function public.consume_daily_quota(p_user_id uuid)
 returns jsonb
 language plpgsql
 security definer
+set search_path = public, pg_temp
 as $$
 declare
   v_profile record;
 begin
+  if auth.uid() is distinct from p_user_id then
+    raise exception 'not-authorized' using errcode = '42501';
+  end if;
+
   -- Check user profile
   select * into v_profile from public.profiles where id = p_user_id for update;
   if not found then
@@ -129,14 +134,19 @@ create policy "Allow read leads" on public.leads
 
 -- Leads: Update lead status
 create policy "Allow update lead status" on public.leads
-  for update using (true);
+  for update to authenticated using (auth.uid() is not null) with check (auth.uid() is not null);
 
 -- Profiles: Users can view their own profile
 create policy "Allow individual view profile" on public.profiles
   for select using (auth.uid() = id);
 
 create policy "Allow individual update profile" on public.profiles
-  for update using (auth.uid() = id);
+  for update to authenticated using (auth.uid() = id) with check (auth.uid() = id);
+
+-- SECURITY DEFINER RPC must never be callable by anonymous/public roles.
+revoke execute on function public.consume_daily_quota(uuid) from public;
+revoke execute on function public.consume_daily_quota(uuid) from anon;
+grant execute on function public.consume_daily_quota(uuid) to authenticated;
 
 -- 7. Seed Data for Instant Realistic Demo
 insert into public.leads (

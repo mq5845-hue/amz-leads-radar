@@ -40,6 +40,18 @@ test('browser auth does not persist Supabase sessions in web storage', () => {
   assert.doesNotMatch(authModule, /localStorage|sessionStorage/);
 });
 
+test('review draft calls can retrieve the current access token without browser storage', () => {
+  assert.match(authModule, /getAccessToken\(\): Promise<string \| null>/);
+  assert.match(authModule, /async getAccessToken\(\)[\s\S]*?supabase\.auth\.getSession\(\)/);
+  assert.match(dashboardHtml, /window\.amzAuth\?\.getAccessToken\(\)/);
+  assert.match(dashboardHtml, /Authorization:\s*`Bearer \$\{accessToken\}`/);
+});
+
+test('opening the same lead does not regenerate and charge a cached review draft', () => {
+  const generateDraft = dashboardHtml.match(/async function generateRemoteDraft\(lead\) \{[\s\S]*?\n    \}/)?.[0] || '';
+  assert.match(generateDraft, /if \(lead\.api_draft\) return;/);
+});
+
 test('quota RPC rejects a user id that is not the current session user', () => {
   assert.match(authMigration, /auth\.uid\(\)\s+is distinct from\s+p_user_id/);
   assert.match(authMigration, /grant execute on function public\.consume_daily_quota\(uuid\) to authenticated/i);

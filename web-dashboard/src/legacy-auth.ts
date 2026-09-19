@@ -27,6 +27,7 @@ declare global {
     amzAuth: {
       signIn(email: string, password: string): Promise<AuthResult>;
       signOut(): Promise<AuthResult>;
+      getAccessToken(): Promise<string | null>;
       updateProfile(patch: { brand_name: string; store_url: string }): Promise<AuthResult>;
       consumeQuota(): Promise<{ success: boolean; message?: string; usage_left?: number }>;
     };
@@ -138,6 +139,12 @@ window.amzAuth = {
     if (!supabase) return { success: true };
     const { error } = await supabase.auth.signOut();
     return error ? { success: false, error: '登出失敗，請稍後再試。' } : { success: true };
+  },
+
+  async getAccessToken() {
+    if (!supabase || !isSupabaseConfigured) return null;
+    const { data, error } = await supabase.auth.getSession();
+    return error ? null : data.session?.access_token || null;
   },
 
   async updateProfile(patch) {

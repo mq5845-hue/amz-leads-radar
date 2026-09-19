@@ -1066,13 +1066,26 @@
     }
 
     async function generateRemoteDraft(lead) {
+      if (lead.api_draft) return;
       const area = document.getElementById('modal-draft-area');
       area.value = '正在使用 OpenAI 產生草稿…';
       try {
+        const accessToken = await window.amzAuth?.getAccessToken();
+        const requestId = window.crypto?.randomUUID?.() || `review-${Date.now()}-${Math.random().toString(36).slice(2)}`;
         const response = await fetch('/api/review-drafts', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ stars: 1, reviewText: lead.content_raw })
+          headers: {
+            'Content-Type': 'application/json',
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+          },
+          body: JSON.stringify({
+            stars: Number(lead.review_stars ?? lead.stars ?? 1),
+            reviewText: lead.content_raw,
+            asin: lead.asin || null,
+            brandProfileId: null,
+            requestId,
+            reviewFingerprint: lead.reddit_id || lead.id
+          })
         });
         if (!response.ok) throw new Error('draft-request-failed');
         const payload = await response.json();

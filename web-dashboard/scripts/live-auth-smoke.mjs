@@ -86,7 +86,9 @@ export async function runLiveAuthSmoke({ env = process.env, createSupabaseClient
     if (foreignError || (foreignRows || []).length !== 0) throw new Error('profile RLS isolation failed');
 
     const { error: foreignQuotaError } = await supabase.rpc('consume_daily_quota', { p_user_id: foreignId });
-    if (!foreignQuotaError) throw new Error('quota RPC accepted a foreign user id');
+    if (!foreignQuotaError || String(foreignQuotaError.code || '') !== '42501') {
+      throw new Error('quota RLS check failed');
+    }
 
     if (flags.allowQuotaDecrement) {
       const { data: quota, error: quotaError } = await supabase.rpc('consume_daily_quota', { p_user_id: userId });

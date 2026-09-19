@@ -89,3 +89,36 @@ test('live smoke does not spend quota or call production API by default', async 
   assert.equal(rpcCalls[0].name, 'consume_daily_quota');
   assert.notEqual(rpcCalls[0].args.p_user_id, 'user-1');
 });
+
+test('live smoke does not treat an unrelated RPC error as RLS proof', async () => {
+  const fakeClient = {
+    auth: {
+      signInWithPassword: async () => ({
+        data: { user: { id: 'user-1' }, session: { access_token: 'in-memory-token' } },
+        error: null,
+      }),
+      signOut: async () => ({ error: null }),
+    },
+    from: () => ({
+      select: () => ({
+        eq: (_column, value) => value === 'user-1'
+          ? { single: async () => ({ data: { id: 'user-1' }, error: null }) }
+          : Promise.resolve({ data: [], error: null }),
+      }),
+    }),
+    rpc: async () => ({ data: null, error: { code: '57014' } }),
+  };
+
+  await assert.rejects(
+    runLiveAuthSmoke({
+      env: {
+        AMZ_SMOKE_SUPABASE_URL: 'https://example.supabase.co',
+        AMZ_SMOKE_SUPABASE_ANON_KEY: 'publishable-key',
+        AMZ_SMOKE_EMAIL: 'smoke@example.com',
+        AMZ_SMOKE_PASSWORD: 'local-only-password',
+      },
+      createSupabaseClient: () => fakeClient,
+    }),
+    /quota RLS check failed/,
+  );
+});

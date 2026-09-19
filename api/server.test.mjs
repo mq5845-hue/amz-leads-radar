@@ -1,6 +1,17 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { containsUnsafePromise, createRequestCache } from './server.mjs';
+import { containsUnsafePromise, createRequestCache, getHealthStatus } from './server.mjs';
+
+test('does not report production readiness without Supabase quota configuration', () => {
+  assert.deepEqual(getHealthStatus({ openAiKey: 'configured', openAiModel: 'gpt-5-mini', supabaseUrl: '', supabaseAnonKey: '' }), {
+    ok: true,
+    service: 'review-draft-openai',
+    productionReady: false,
+    providerConfigured: true,
+    quotaProviderConfigured: false,
+    model: 'gpt-5-mini'
+  });
+});
 
 test('rejects drafts that promise unsupported refunds or certifications', () => {
   assert.equal(containsUnsafePromise('We will issue a full refund and provide a certified replacement.'), true);

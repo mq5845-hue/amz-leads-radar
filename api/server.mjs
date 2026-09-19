@@ -29,6 +29,19 @@ export function createRequestCache() {
   };
 }
 
+export function getHealthStatus({ openAiKey, openAiModel, supabaseUrl, supabaseAnonKey }) {
+  const providerConfigured = Boolean(openAiKey);
+  const quotaProviderConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+  return {
+    ok: true,
+    service: providerConfigured ? 'review-draft-openai' : 'review-draft-local-demo',
+    productionReady: providerConfigured && quotaProviderConfigured,
+    providerConfigured,
+    quotaProviderConfigured,
+    model: providerConfigured ? openAiModel : 'local-demo'
+  };
+}
+
 function send(res, status, body) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS' });
   res.end(JSON.stringify(body));
@@ -36,7 +49,7 @@ function send(res, status, body) {
 
 const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') return send(res, 204, {});
-  if (req.method === 'GET' && req.url === '/health') return send(res, 200, { ok: true, service: openAiKey ? 'review-draft-openai' : 'review-draft-local-demo', productionReady: Boolean(openAiKey), providerConfigured: Boolean(openAiKey), model: openAiKey ? openAiModel : 'local-demo' });
+  if (req.method === 'GET' && req.url === '/health') return send(res, 200, getHealthStatus({ openAiKey, openAiModel, supabaseUrl, supabaseAnonKey }));
   if (req.method !== 'POST' || req.url !== '/api/review-drafts') return send(res, 404, { error: 'not-found' });
   let raw = '';
   req.on('data', (chunk) => { raw += chunk; if (raw.length > 100000) req.destroy(); });

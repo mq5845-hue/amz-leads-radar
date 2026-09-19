@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { readLiveSmokeConfig, readSmokeFlags, runLiveAuthSmoke } from '../scripts/live-auth-smoke.mjs';
+import { isLiveSmokeCliEntry, readLiveSmokeConfig, readSmokeFlags, runLiveAuthSmoke } from '../scripts/live-auth-smoke.mjs';
 
 test('live smoke config requires local-only auth inputs without exposing their values', () => {
   const result = readLiveSmokeConfig({
@@ -43,6 +43,12 @@ test('mutating live smoke steps are opt-in', () => {
     allowQuotaDecrement: true,
     runProductionApi: true,
   });
+});
+
+test('live smoke CLI entry detection works with Windows paths', () => {
+  assert.equal(isLiveSmokeCliEntry('C:\\Users\\july ane\\web-dashboard\\scripts\\live-auth-smoke.mjs'), true);
+  assert.equal(isLiveSmokeCliEntry('E:/workspace/web-dashboard/scripts/live-auth-smoke.mjs'), true);
+  assert.equal(isLiveSmokeCliEntry('C:\\workspace\\tests\\live-auth-smoke-contract.test.mjs'), false);
 });
 
 test('live smoke does not spend quota or call production API by default', async () => {

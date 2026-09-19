@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { pathToFileURL } from 'node:url';
+import { basename } from 'node:path';
 
 import { createClient } from '@supabase/supabase-js';
 
@@ -28,6 +28,10 @@ export function readSmokeFlags(env = process.env) {
     allowQuotaDecrement: env.AMZ_SMOKE_ALLOW_QUOTA_DECREMENT === '1',
     runProductionApi: env.AMZ_SMOKE_RUN_PRODUCTION_API === '1',
   };
+}
+
+export function isLiveSmokeCliEntry(pathname) {
+  return basename(String(pathname || '').replaceAll('\\', '/')) === 'live-auth-smoke.mjs';
 }
 
 function assertCondition(condition, message) {
@@ -120,7 +124,7 @@ export async function runLiveAuthSmoke({ env = process.env, createSupabaseClient
   return { ok: true, output };
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (isLiveSmokeCliEntry(process.argv[1])) {
   const result = await runLiveAuthSmoke();
   if (!result.ok) {
     console.error(`live-auth-smoke: ${result.message}`);

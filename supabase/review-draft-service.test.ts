@@ -7,13 +7,12 @@ const repo: ReviewDraftRepository = {
   findUsageEvent: async () => null,
   countUsage: async () => 0,
   usageLimit: async () => 3,
-  insertDraft: async () => { calls.push('draft'); return { id: 'd1' }; },
-  insertUsage: async () => { calls.push('usage'); return { id: 'e1' }; }
+  recordDraftAndUsage: async () => { calls.push('draft+usage'); return { draftId: 'd1', usageEventId: 'e1' }; }
 };
 
 const result = await generateReviewDraft(input, repo, async () => ({ draft: 'We are sorry to hear this.', analysis: 'Broken zipper', modelVersion: 'test' }));
 assert.equal(result.usageEventId, 'e1');
-assert.deepEqual(calls, ['draft', 'usage']);
+assert.deepEqual(calls, ['draft+usage']);
 
 await assert.rejects(() => generateReviewDraft({ ...input, stars: 5 }, repo, async () => ({ draft: 'x', analysis: 'x', modelVersion: 'test' })), /only-1-to-3-star/);
 await assert.rejects(() => generateReviewDraft({ ...input, stars: 2.5 }, repo, async () => ({ draft: 'x', analysis: 'x', modelVersion: 'test' })), /only-1-to-3-star/);

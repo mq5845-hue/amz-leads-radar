@@ -21,8 +21,8 @@ export interface ReviewDraftRepository {
   findUsageEvent(userId: string, requestId: string): Promise<{ id: string } | null>;
   countUsage(userId: string, feature: 'review_generate'): Promise<number>;
   usageLimit(userId: string): Promise<number>;
-  insertDraft(input: ReviewDraftInput, output: ReviewModelOutput): Promise<{ id: string }>;
-  insertUsage(input: ReviewDraftInput, draftId: string): Promise<{ id: string }>;
+  /** Persist the draft and successful usage event in one database transaction. */
+  recordDraftAndUsage(input: ReviewDraftInput, output: ReviewModelOutput): Promise<{ draftId: string; usageEventId: string }>;
 }
 
 export type ReviewModel = (input: ReviewDraftInput) => Promise<ReviewModelOutput>;
@@ -69,7 +69,6 @@ export async function generateReviewDraft(
   const output = await model(input);
   const warnings = validateModelOutput(output);
   const normalized = { ...output, warnings };
-  const draft = await repository.insertDraft(input, normalized);
-  const usage = await repository.insertUsage(input, draft.id);
-  return { ...normalized, usageEventId: usage.id };
+  const recorded = await repository.recordDraftAndUsage(input, normalized);
+  return { ...normalized, usageEventId: recorded.usageEventId };
 }

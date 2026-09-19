@@ -35,10 +35,16 @@ const unsafePatterns = [
 ];
 
 export function validateReviewInput(input: ReviewDraftInput): void {
-  if (!input.userId || !input.requestId) throw new Error('missing-identity');
-  if (!Number.isFinite(input.stars) || input.stars < 1 || input.stars > 3) throw new Error('only-1-to-3-star-reviews-supported');
-  if (!input.reviewText.trim() || input.reviewText.length > 10000) throw new Error('invalid-review-text');
-  if (input.asin && !/^[A-Z0-9]{10}$/.test(input.asin)) throw new Error('invalid-asin');
+  if (typeof input.userId !== 'string' || !input.userId.trim() || typeof input.requestId !== 'string' || !input.requestId.trim()) {
+    throw new Error('missing-identity');
+  }
+  if (!Number.isInteger(input.stars) || input.stars < 1 || input.stars > 3) throw new Error('only-1-to-3-star-reviews-supported');
+  if (typeof input.reviewText !== 'string' || !input.reviewText.trim() || input.reviewText.length > 10000) {
+    throw new Error('invalid-review-text');
+  }
+  if (input.asin !== null && (typeof input.asin !== 'string' || !/^[A-Z0-9]{10}$/.test(input.asin))) {
+    throw new Error('invalid-asin');
+  }
 }
 
 export function validateModelOutput(output: ReviewModelOutput): string[] {

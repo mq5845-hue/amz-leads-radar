@@ -8,16 +8,22 @@
 
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { createClient } from "@supabase/supabase-js";
+import { pathToFileURL } from "node:url";
 import Parser from "rss-parser";
 
-// 1. Environment Configurations
-const SUPABASE_URL = process.env.SUPABASE_URL || "https://your-project.supabase.co";
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "your-service-role-key";
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "your-gemini-api-key";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 const rssParser = new Parser();
+
+function requiredEnv(name: string): string {
+  const value = process.env[name]?.trim();
+  if (!value) throw new Error(`Missing required environment variable: ${name}`);
+  return value;
+}
+
+function createPipelineClients() {
+  const supabase = createClient(requiredEnv("SUPABASE_URL"), requiredEnv("SUPABASE_SERVICE_ROLE_KEY"));
+  const ai = new GoogleGenAI({ apiKey: requiredEnv("GEMINI_API_KEY") });
+  return { supabase, ai };
+}
 
 // Targeted Subreddits & Keywords
 const TARGET_FEEDS = [
@@ -90,6 +96,7 @@ const LeadAnalysisSchema: Schema = {
  * Ingest and process posts from RSS
  */
 export async function runIngestionPipeline() {
+  const { supabase, ai } = createPipelineClients();
   console.log("🚀 Starting AMZ Leads Radar ingestion pipeline...");
 
   for (const feed of TARGET_FEEDS) {
@@ -176,7 +183,7 @@ Generate the response strictly according to the provided schema.
   console.log("🎉 Ingestion cycle finished.");
 }
 
-// If executed directly
-if (require.main === module) {
+// If executed directly in an ESM/tsx runtime
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   runIngestionPipeline().catch(console.error);
 }

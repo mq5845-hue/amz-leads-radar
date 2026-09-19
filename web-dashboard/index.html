@@ -572,9 +572,34 @@
       }
     ];
 
+    function readStoredValue(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[character]));
+    }
+
+    function safeLeadId(lead) {
+      return encodeURIComponent(String(lead.id ?? '')).replace(/'/g, '%27');
+    }
+
     // App State
-    let leads = JSON.parse(localStorage.getItem('amz_radar_leads')) || INITIAL_LEADS;
-    let profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || {
+    const storedLeads = readStoredValue('amz_radar_leads', INITIAL_LEADS);
+    let leads = Array.isArray(storedLeads) ? storedLeads : INITIAL_LEADS;
+    const storedProfile = readStoredValue('amz_radar_profile', null);
+    let profile = storedProfile && typeof storedProfile === 'object' && !Array.isArray(storedProfile) ? storedProfile : {
       brand_name: 'ApexGear Pro',
       store_url: 'https://amazon.com/dp/B08EXAMPLE',
       plan: 'free',
@@ -621,7 +646,7 @@
         const radius = 12 + ((lead.match_score || 0) % 31);
         const x = 50 + Math.cos(angle) * radius;
         const y = 50 + Math.sin(angle) * radius;
-        return `<span class="amz-radar-point" title="${severity}-star negative signal: ${String(lead.title || '').replace(/"/g, '&quot;')}" style="width:${size}px;height:${size}px;left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;margin:-${size / 2}px 0 0 -${size / 2}px;box-shadow:${glow};animation-delay:${(index * .23).toFixed(2)}s"></span>`;
+        return `<span class="amz-radar-point" title="${escapeHtml(`${severity}-star negative signal: ${String(lead.title || '')}`)}" style="width:${size}px;height:${size}px;left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;margin:-${size / 2}px 0 0 -${size / 2}px;box-shadow:${glow};animation-delay:${(index * .23).toFixed(2)}s"></span>`;
       }).join('');
     }
 
@@ -873,9 +898,9 @@
       return leads.filter(l => {
         if (filters.search) {
           const q = filters.search.toLowerCase();
-          const matchTitle = l.title.toLowerCase().includes(q);
-          const matchPain = l.painpoint_summary.toLowerCase().includes(q);
-          const matchKw = l.keyword_matches.some(k => k.toLowerCase().includes(q));
+          const matchTitle = String(l.title || '').toLowerCase().includes(q);
+          const matchPain = String(l.painpoint_summary || '').toLowerCase().includes(q);
+          const matchKw = (Array.isArray(l.keyword_matches) ? l.keyword_matches : []).some(k => String(k).toLowerCase().includes(q));
           if (!matchTitle && !matchPain && !matchKw) return false;
         }
         if (filters.subreddit !== 'all' && l.subreddit !== filters.subreddit) return false;
@@ -899,9 +924,12 @@
 
       emptyState.classList.add('hidden');
       container.innerHTML = filtered.map(lead => {
-        const scoreBadge = lead.match_score >= 90
-          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${lead.match_score}% 匹配</span>`
-          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${lead.match_score}% 匹配</span>`;
+        const matchScore = Number.isFinite(Number(lead.match_score)) ? Number(lead.match_score) : 0;
+        const keywords = Array.isArray(lead.keyword_matches) ? lead.keyword_matches : [];
+        const encodedLeadId = safeLeadId(lead);
+        const scoreBadge = matchScore >= 90
+          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${matchScore}% 匹配</span>`
+          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${matchScore}% 匹配</span>`;
 
         let statusBadge = '';
         if (lead.status === 'new') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">新商機</span>';
@@ -914,7 +942,7 @@
             <div>
               <div class="flex items-center justify-between mb-2.5 flex-wrap gap-2">
                 <div class="flex items-center space-x-2">
-                  <span class="px-2.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${lead.subreddit}</span>
+                  <span class="px-2.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${escapeHtml(lead.subreddit)}</span>
                   <span class="text-xs text-slate-500 flex items-center space-x-1">
                     <i data-lucide="clock" class="w-3 h-3"></i>
                     <span>2 小時前</span>
@@ -925,7 +953,7 @@
               </div>
 
               <h3 class="text-base font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 mb-3">
-                ${lead.title}
+                ${escapeHtml(lead.title)}
               </h3>
 
               <div class="bg-amber-950/20 border border-amber-800/40 rounded-lg p-3 mb-3.5">
@@ -933,11 +961,11 @@
                   <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
                   <span>AI 提煉買家痛點 / 差評關鍵：</span>
                 </div>
-                <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${lead.painpoint_summary}</p>
+                <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${escapeHtml(lead.painpoint_summary)}</p>
               </div>
 
               <div class="flex flex-wrap gap-1.5 mb-4">
-                ${lead.keyword_matches.map(kw => `<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60">#${kw}</span>`).join('')}
+                ${keywords.map(kw => `<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60">#${escapeHtml(kw)}</span>`).join('')}
               </div>
             </div>
 
@@ -945,21 +973,21 @@
               <div class="flex items-center space-x-4 text-xs text-slate-400">
                 <span class="flex items-center space-x-1" title="Reddit 貼文讚數">
                   <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-blue-400"></i>
-                  <span class="font-semibold text-slate-200">${lead.upvotes}</span>
+                  <span class="font-semibold text-slate-200">${escapeHtml(lead.upvotes)}</span>
                 </span>
                 <span class="flex items-center space-x-1" title="Reddit 討論留言數">
                   <i data-lucide="message-square" class="w-3.5 h-3.5 text-purple-400"></i>
-                  <span class="font-semibold text-slate-200">${lead.comments_count}</span>
+                  <span class="font-semibold text-slate-200">${escapeHtml(lead.comments_count)}</span>
                 </span>
-                <span class="text-[11px] text-slate-500">${lead.category}</span>
+                <span class="text-[11px] text-slate-500">${escapeHtml(lead.category)}</span>
               </div>
 
               <div class="flex items-center space-x-2">
-                <button onclick="openDetailModal('${lead.id}')" class="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
+                <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" class="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
                   <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
                   <span>預擬回覆</span>
                 </button>
-                <button onclick="jumpToReddit('${lead.id}')" class="px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 rounded-lg shadow-sm shadow-indigo-600/30 transition-all flex items-center space-x-1.5 active:scale-95" title="跳轉至 Reddit 原文並啟動瀏覽器 Copilot">
+                <button onclick="jumpToReddit(decodeURIComponent('${encodedLeadId}'))" class="px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 rounded-lg shadow-sm shadow-indigo-600/30 transition-all flex items-center space-x-1.5 active:scale-95" title="跳轉至 Reddit 原文並啟動瀏覽器 Copilot">
                   <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
                   <span>前往 Reddit 回覆</span>
                   <i data-lucide="external-link" class="w-3 h-3 text-white/70"></i>
@@ -1012,9 +1040,9 @@
 
       currentTone = 'helpful_enthusiast';
       document.getElementById('modal-meta').innerHTML = `
-        <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${currentLead.subreddit}</span>
-        <span class="text-xs text-slate-400">作者: u/${currentLead.author}</span>
-        <span class="text-xs text-emerald-400 font-bold">🎯 ${currentLead.match_score}% 匹配</span>
+        <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${escapeHtml(currentLead.subreddit)}</span>
+        <span class="text-xs text-slate-400">作者: u/${escapeHtml(currentLead.author)}</span>
+        <span class="text-xs text-emerald-400 font-bold">🎯 ${escapeHtml(currentLead.match_score)}% 匹配</span>
       `;
       document.getElementById('modal-title').textContent = currentLead.title;
       document.getElementById('modal-painpoint').textContent = currentLead.painpoint_summary;
@@ -1108,7 +1136,20 @@
 
     async function jumpToReddit(leadId) {
       const lead = leads.find(l => l.id === leadId);
-      if (!lead) return;
+      if (!lead) return false;
+
+      let url;
+      try {
+        url = new URL(lead.reddit_url);
+      } catch {
+        alert('此線索的 Reddit 連結無效，無法跳轉。');
+        return false;
+      }
+      const hostname = url.hostname.toLowerCase();
+      if (url.protocol !== 'https:' || (hostname !== 'reddit.com' && !hostname.endsWith('.reddit.com'))) {
+        alert('此線索不是受支援的 Reddit 連結，已阻止跳轉。');
+        return false;
+      }
 
       // Reserve a tab inside the click handler so an awaited quota RPC does not
       // cause the browser to block the eventual Reddit navigation as a popup.
@@ -1126,7 +1167,7 @@
         if (!result?.success) {
           pendingWindow?.close();
           alert(result?.message || '今日額度已用完，無法前往 Reddit。');
-          return;
+          return false;
         }
       }
 
@@ -1135,21 +1176,21 @@
       saveLeads();
       renderLeads();
 
-      const url = new URL(lead.reddit_url);
       url.searchParams.set('amz_radar_lead_id', lead.id);
       url.searchParams.set('brand', profile.brand_name || '');
       url.searchParams.set('store_url', profile.store_url || '');
       if (pendingWindow) {
         pendingWindow.location.href = url.toString();
       } else {
-        window.open(url.toString(), '_blank');
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
       }
+      return true;
     }
 
     async function jumpFromModal() {
       if (currentLead) {
-        await jumpToReddit(currentLead.id);
-        closeDetailModal();
+        const didOpen = await jumpToReddit(currentLead.id);
+        if (didOpen) closeDetailModal();
       }
     }
 

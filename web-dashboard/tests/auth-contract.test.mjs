@@ -52,6 +52,13 @@ test('opening the same lead does not regenerate and charge a cached review draft
   assert.match(generateDraft, /if \(lead\.api_draft\) return;/);
 });
 
+test('legacy dashboard escapes persisted lead content before innerHTML rendering', () => {
+  assert.match(dashboardHtml, /function escapeHtml\(value\)/);
+  assert.match(dashboardHtml, /escapeHtml\(lead\.title\)/);
+  assert.match(dashboardHtml, /escapeHtml\(lead\.painpoint_summary\)/);
+  assert.match(dashboardHtml, /safeLeadId/);
+});
+
 test('quota RPC rejects a user id that is not the current session user', () => {
   assert.match(authMigration, /auth\.uid\(\)\s+is distinct from\s+p_user_id/);
   assert.match(authMigration, /grant execute on function public\.consume_daily_quota\(uuid\) to authenticated/i);
@@ -72,6 +79,10 @@ test('authenticated Reddit navigation reserves a user-initiated tab before await
   assert.match(jumpToReddit, /const pendingWindow = isDemoMode \? null : window\.open\(['"]about:blank['"], ['"]_blank['"]\)/);
   assert.match(jumpToReddit, /const result = await window\.amzAuth\?\.consumeQuota\(\)/);
   assert.match(jumpToReddit, /pendingWindow\.location\.href = url\.toString\(\)/);
+  assert.match(jumpToReddit, /url\.protocol !== ['"]https:['"]/);
+  assert.match(jumpToReddit, /hostname\.endsWith\(['"]\.reddit\.com['"]\)/);
+  assert.match(jumpToReddit, /return false/);
+  assert.match(dashboardHtml, /const didOpen = await jumpToReddit\(currentLead\.id\);[\s\S]*?if \(didOpen\) closeDetailModal\(\)/);
 });
 
 test('legacy footer does not expose dead hash links', () => {

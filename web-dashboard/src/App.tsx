@@ -77,9 +77,26 @@ export function App() {
     );
   };
 
-  const handleJumpToReddit = (lead: Lead) => {
-    // Deduct quota if free plan
-    if (profile.plan === 'free' && profile.daily_usage_left > 0) {
+  const handleJumpToReddit = (lead: Lead): boolean => {
+    let targetUrl: URL;
+    try {
+      targetUrl = new URL(lead.reddit_url);
+    } catch {
+      alert('此線索的 Reddit 連結無效，無法跳轉。');
+      return false;
+    }
+    const hostname = targetUrl.hostname.toLowerCase();
+    if (targetUrl.protocol !== 'https:' || (hostname !== 'reddit.com' && !hostname.endsWith('.reddit.com'))) {
+      alert('此線索不是受支援的 Reddit 連結，已阻止跳轉。');
+      return false;
+    }
+
+    // Demo mode keeps quota local, but must still stop at zero.
+    if (profile.plan === 'free' && profile.daily_usage_left <= 0) {
+      alert('今日額度已用完，請明日再試或升級方案。');
+      return false;
+    }
+    if (profile.plan === 'free') {
       setProfile((prev) => ({
         ...prev,
         daily_usage_left: prev.daily_usage_left - 1
@@ -90,13 +107,13 @@ export function App() {
     handleStatusChange(lead.id, 'in_progress');
 
     // Build URL with lead context parameter
-    const targetUrl = new URL(lead.reddit_url);
     targetUrl.searchParams.set('amz_radar_lead_id', lead.id);
     targetUrl.searchParams.set('brand', profile.brand_name || '');
     targetUrl.searchParams.set('store_url', profile.store_url || '');
 
     // Open target in new tab
-    window.open(targetUrl.toString(), '_blank');
+    window.open(targetUrl.toString(), '_blank', 'noopener,noreferrer');
+    return true;
   };
 
   const handleUpgradeMock = () => {

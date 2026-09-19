@@ -38,6 +38,16 @@
     toastMessage: ''
   };
 
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[character]));
+  }
+
   function updateDraftText() {
     let raw = SAMPLE_ANALYSIS.replies[state.activeTone];
     const linkText = state.storeUrl 
@@ -119,15 +129,15 @@
         <div>
           <span class="amz-tone-label">品牌與推廣連結：</span>
           <div class="amz-variables-row">
-            <input type="text" class="amz-input" id="amz-brand-input" placeholder="品牌 (如: ApexGear)" value="${state.brandName}" />
-            <input type="text" class="amz-input" id="amz-url-input" placeholder="店鋪 / 商品 URL" value="${state.storeUrl}" />
+            <input type="text" class="amz-input" id="amz-brand-input" placeholder="品牌 (如: ApexGear)" value="${escapeHtml(state.brandName)}" />
+            <input type="text" class="amz-input" id="amz-url-input" placeholder="店鋪 / 商品 URL" value="${escapeHtml(state.storeUrl)}" />
           </div>
         </div>
 
         <!-- Editable Draft -->
         <div>
           <span class="amz-tone-label">預擬美式英文文案：</span>
-          <textarea class="amz-draft-textarea" id="amz-draft-text" rows="4">${state.draftText}</textarea>
+          <textarea class="amz-draft-textarea" id="amz-draft-text" rows="4">${escapeHtml(state.draftText)}</textarea>
         </div>
 
         <!-- Autofill Action -->
@@ -137,7 +147,7 @@
 
         ${state.toastMessage ? `
           <div class="amz-toast">
-            <span>${state.toastMessage}</span>
+            <span>${escapeHtml(state.toastMessage)}</span>
           </div>
         ` : ''}
       </div>

@@ -2,6 +2,40 @@
 -- The function is intentionally scoped to the authenticated caller and only
 -- records successful review_generate events. It is not a billing system.
 
+-- The live AMZ project has the review tables but may not yet have the legacy
+-- profile/quota table. Keep this additive so the RPC can compile safely.
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  plan text not null default 'free' check (plan in ('free', 'pro', 'agency')),
+  daily_usage_left integer not null default 3 check (daily_usage_left >= 0),
+  max_daily_usage integer not null default 3 check (max_daily_usage >= 0),
+  last_usage_reset date not null default current_date,
+  brand_name text not null default '',
+  store_url text not null default '',
+  stripe_customer_id text,
+  stripe_subscription_id text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+grant select, insert, update on public.profiles to authenticated;
+
+do $$
+begin
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'profiles' and policyname = 'Users read own profiles') then
+    create policy "Users read own profiles" on public.profiles for select to authenticated using ((select auth.uid()) = id);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'profiles' and policyname = 'Users insert own profiles') then
+    create policy "Users insert own profiles" on public.profiles for insert to authenticated with check ((select auth.uid()) = id);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'profiles' and policyname = 'Users update own profiles') then
+    create policy "Users update own profiles" on public.profiles for update to authenticated using ((select auth.uid()) = id) with check ((select auth.uid()) = id);
+  end if;
+end;
+$$;
+
 create or replace function public.consume_review_generation(
   p_request_id text,
   p_metadata jsonb default '{}'::jsonb

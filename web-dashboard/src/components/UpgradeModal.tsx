@@ -107,7 +107,7 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({
               onClick={onUpgradeMock}
               className="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
             >
-              立即開通 Pro 專業版 (串接 Stripe)
+              立即開通 Pro 專業版 (Lemon Squeezy)
             </button>
           </div>
         </div>

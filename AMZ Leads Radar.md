@@ -39,7 +39,7 @@
 | **核心 AI 引擎** | Google Gemini 2.5 Flash | 語義提取精準、成本極低（百萬 Token 免費配額）、速度快 |
 | **資料庫與認證** | Supabase (PostgreSQL + RLS + Auth) | 免自建後端伺服器，支援即時數據同步與資料安全隔離 |
 | **數據收集管道** | Reddit 公開 RSS / 輕量 Ingest Worker | 避開 Reddit 昂貴的 API 收費，以合規公開方式抓取數據 |
-| **金流支付** | Stripe Billing (Checkout & Portal) | 免代碼/低代碼快速實現月費訂閱與配額控管 |
+| **金流支付** | Lemon Squeezy (Merchant of Record) hosted checkout | 由 Lemon Squeezy 處理付款、稅務與訂閱管理；後端以 Webhook 同步權限 |
 
 ---
 
@@ -75,8 +75,10 @@ create table public.profiles (
   daily_usage_left integer default 3,
   max_daily_usage integer default 3,
   last_usage_reset date default current_date,
-  stripe_customer_id text,
-  stripe_subscription_id text,
+  lemon_squeezy_customer_id text,
+  lemon_squeezy_subscription_id text,
+  lemon_squeezy_variant_id text,
+  subscription_status text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

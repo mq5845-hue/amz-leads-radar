@@ -102,5 +102,5 @@
 
 - Reddit 貼文頁摘要與既有 Copilot 整合。
 - ASIN／品牌／關鍵字主動搜尋。
-- Supabase Auth、Stripe subscription webhook、Pro entitlement。
+- Supabase Auth、Lemon Squeezy subscription webhook、Pro entitlement。
 - 品牌網站語氣自動建立與 Dashboard 管理介面。

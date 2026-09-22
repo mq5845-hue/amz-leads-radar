@@ -117,14 +117,12 @@ export function App() {
   };
 
   const handleUpgradeMock = () => {
-    setProfile((prev) => ({
-      ...prev,
-      plan: 'pro',
-      daily_usage_left: 9999,
-      max_daily_usage: 9999
-    }));
-    setIsUpgradeOpen(false);
-    alert('🎉 恭喜！您已成功升級至 AMZ Leads Radar Pro 專業版，解鎖無限線索監控與自動填入！');
+    const checkoutUrl = import.meta.env.VITE_LEMON_SQUEEZY_CHECKOUT_URL;
+    if (!checkoutUrl) {
+      alert('尚未設定 Lemon Squeezy checkout URL，請先完成付款設定。');
+      return;
+    }
+    window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleRefresh = () => {

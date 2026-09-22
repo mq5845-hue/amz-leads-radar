@@ -48,10 +48,23 @@ create table if not exists public.profiles (
   last_usage_reset date default current_date,
   brand_name text default '',
   store_url text default '',
-  stripe_customer_id text,
-  stripe_subscription_id text,
+  lemon_squeezy_customer_id text,
+  lemon_squeezy_subscription_id text,
+  lemon_squeezy_variant_id text,
+  subscription_status text default 'free' check (subscription_status in ('free', 'active', 'paused', 'past_due', 'cancelled', 'expired')),
+  subscription_renews_at timestamp with time zone,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+create table if not exists public.webhook_events (
+  id uuid default gen_random_uuid() primary key,
+  provider text not null check (provider = 'lemon_squeezy'),
+  event_id text not null,
+  event_name text not null,
+  payload jsonb not null,
+  received_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  unique (provider, event_id)
 );
 
 -- 4. Lead Activities Table (用戶操作軌跡與轉化追蹤)
@@ -127,6 +140,8 @@ $$;
 alter table public.leads enable row level security;
 alter table public.profiles enable row level security;
 alter table public.lead_activities enable row level security;
+alter table public.webhook_events enable row level security;
+revoke all on public.webhook_events from anon, authenticated;
 
 -- Leads: All authenticated and anon users can read leads
 create policy "Allow read leads" on public.leads

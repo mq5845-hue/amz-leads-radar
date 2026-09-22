@@ -1,0 +1,3 @@
+[functions.lemon-squeezy-webhook]
+# Lemon Squeezy authenticates this endpoint with x-signature, not a Supabase JWT.
+verify_jwt = false

@@ -512,6 +512,13 @@
         if (element instanceof HTMLElement && !element.closest('.amz-radar-visual')) element.classList.add('hover-glow-card');
       });
     });
+    document.addEventListener('amz-locale-change', () => {
+      if (typeof renderStats === 'function') renderStats();
+      if (typeof renderLeads === 'function') renderLeads();
+      if (typeof initOptions === 'function') initOptions();
+      if (typeof updateQuotaUI === 'function') updateQuotaUI();
+      if (typeof updateAuthUI === 'function') updateAuthUI();
+    });
   </script>
   <script>
     // Initial Seed Data

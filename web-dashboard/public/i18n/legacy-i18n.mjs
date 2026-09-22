@@ -217,6 +217,7 @@ export function bootstrapLegacyI18n(root = document) {
   translateUi(locale, root);
   window.amzI18n.matchLabel = matchLabels[locale] || matchLabels.en;
   setupLocaleSelector(locale);
+  document.dispatchEvent(new CustomEvent('amz-locale-change', { detail: { locale } }));
   return locale;
 }
 
@@ -237,6 +238,7 @@ export function setAccountLocale(locale, root = document) {
   translateUi(normalized, root);
   window.amzI18n.matchLabel = matchLabels[normalized] || matchLabels.en;
   setupLocaleSelector(normalized);
+  document.dispatchEvent(new CustomEvent('amz-locale-change', { detail: { locale: normalized } }));
   return normalized;
 }
 
@@ -263,6 +265,7 @@ function setupLocaleSelector(locale) {
     select.value = next;
     syncMenu(next);
     try { localStorage.setItem('amz_radar_locale', next); } catch { /* storage is optional */ }
+    menu.dataset.suppressHover = 'true';
     menu?.classList.remove('is-open');
     menu?.classList.remove('is-pinned', 'is-collapsed');
     globeToggle?.setAttribute('aria-pressed', 'false');
@@ -279,11 +282,13 @@ function setupLocaleSelector(locale) {
   });
   menu?.addEventListener('mouseenter', () => {
     clearTimeout(closeTimer);
+    if (menu.dataset.suppressHover === 'true') return;
     menu.classList.remove('is-collapsed');
     if (!menu.classList.contains('is-pinned')) menu.classList.add('is-open');
     trigger?.setAttribute('aria-expanded', 'true');
   });
   menu?.addEventListener('mouseleave', () => {
+    menu.dataset.suppressHover = 'false';
     if (menu.classList.contains('is-pinned')) return;
     closeTimer = setTimeout(() => {
       if (menu.classList.contains('is-pinned')) return;

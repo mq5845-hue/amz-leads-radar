@@ -838,9 +838,10 @@
 
       emptyState.classList.add('hidden');
       container.innerHTML = filtered.map(lead => {
+        const matchLabel = document.documentElement.lang === 'en' ? 'match' : '匹配';
         const scoreBadge = lead.match_score >= 90
-          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${lead.match_score}% 匹配</span>`
-          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${lead.match_score}% 匹配</span>`;
+          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${lead.match_score}% ${matchLabel}</span>`
+          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${lead.match_score}% ${matchLabel}</span>`;
 
         let statusBadge = '';
         if (lead.status === 'new') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">新商機</span>';
@@ -1129,9 +1130,10 @@
     }
 
     function updateQuotaUI() {
-      const quotaText = profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} 次` : '無限次數';
+      const isEnglish = document.documentElement.lang === 'en';
+      const quotaText = profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} ${isEnglish ? 'uses' : '次'}` : (isEnglish ? 'Unlimited uses' : '無限次數');
       document.getElementById('quota-display').textContent = quotaText;
-      document.getElementById('quota-display').title = liveProfileLoaded ? 'Live Supabase quota' : 'Demo quota（尚未登入）';
+      document.getElementById('quota-display').title = liveProfileLoaded ? 'Live Supabase quota' : (document.documentElement.lang === 'en' ? 'Demo quota (not signed in)' : 'Demo quota（尚未登入）');
       if (profile.plan === 'pro') {
         document.getElementById('btn-upgrade-top').classList.add('hidden');
       }
@@ -1139,7 +1141,8 @@
 
     function openAuthModal() {
       document.getElementById('auth-modal').classList.remove('hidden');
-      document.getElementById('auth-status').textContent = SUPABASE_URL && SUPABASE_ANON_KEY ? '登入後會讀取 server-side quota。' : 'Dashboard 尚未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY。';
+      const isEnglish = document.documentElement.lang === 'en';
+      document.getElementById('auth-status').textContent = SUPABASE_URL && SUPABASE_ANON_KEY ? (isEnglish ? 'Your server-side quota will load after sign-in.' : '登入後會讀取 server-side quota。') : (isEnglish ? 'Dashboard Supabase environment variables are not configured.' : 'Dashboard 尚未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY。');
     }
 
     function closeAuthModal() {
@@ -1149,7 +1152,7 @@
     function updateAuthUI() {
       const button = document.getElementById('auth-button');
       if (!button) return;
-      button.textContent = liveProfileLoaded ? '已登入' : '登入';
+      button.textContent = liveProfileLoaded ? (document.documentElement.lang === 'en' ? 'Signed in' : '已登入') : (document.documentElement.lang === 'en' ? 'Sign in' : '登入');
       button.title = liveProfileLoaded ? 'Supabase session active' : '登入 Supabase 以同步 quota';
     }
 

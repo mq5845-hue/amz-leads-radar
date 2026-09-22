@@ -65,6 +65,12 @@ const uiCopy = {
     'Reddit 討論留言數': 'Reddit discussion comments', '品牌與自訂店鋪連結設定': 'Brand and custom store link settings',
     '店鋪與品牌設定': 'Store and brand settings', '登入 Supabase 以同步 quota': 'Sign in to Supabase to sync quota',
     'Dashboard 尚未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY。': 'Dashboard Supabase environment variables are not configured.'
+    ,'跨境電商站外拓客雙軌制 SaaS': 'Dual-channel e-commerce acquisition SaaS', 'Demo quota（尚未登入）': 'Demo quota (not signed in)',
+    '2 小時前': '2 hours ago', '篇潛在貼文': 'potential posts', '匹配': 'match', '極高': 'very high',
+    '，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！': ', then use the Chrome extension to adjust tone and fill the reply in one click!',
+    '今日回覆額度:': 'Daily quota:', '3 / 3 次': '3 / 3 uses', '無限次數': 'Unlimited uses',
+    'AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS': 'AMZ Leads Radar © 2026 • Dual-channel e-commerce acquisition SaaS',
+    '全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可': 'Monitor overseas communities for recommendations and competitor complaints. Click any opportunity to', '≥ 90% (極高)': '≥ 90% (very high)'
   },
   'zh-CN': { '今日回覆額度:': '今日回复额度：', '今日即時數據已同步 • 5 篇高潛力站外商機': '实时数据已同步 • 5 个高潜力商机', '所有 Subreddits': '所有 Subreddits', '所有品類': '所有品类', '匹配度:': '匹配度：', '不限': '不限', '店鋪設定': '店铺设置', '登入': '登录', '升級 Pro 專業版': '升级 Pro 专业版', '重設所有篩選': '重置所有筛选' },
   ja: { '今日回覆額度:': '本日の返信枠:', '所有 Subreddits': 'すべてのSubreddit', '所有品類': 'すべてのカテゴリ', '匹配度:': '一致度:', '不限': '指定なし', '店鋪設定': '店舗設定', '登入': 'ログイン', '升級 Pro 專業版': 'Proにアップグレード', '重設所有篩選': 'すべてのフィルターをリセット' },
@@ -137,6 +143,7 @@ export function bootstrapLegacyI18n(root = document) {
   const locale = resolveLocale();
   const direction = ['ar', 'fa', 'he', 'ur'].includes(locale) ? 'rtl' : 'ltr';
   document.documentElement.lang = locale;
+  if (locale === 'en') document.title = 'AMZ Leads Radar - Off-Amazon Traffic Opportunity Radar';
   document.documentElement.dir = direction;
   const canonicalPath = pathWithLocale(window.location.pathname, locale);
   if (window.location.pathname !== canonicalPath) {
@@ -155,6 +162,7 @@ export function bootstrapLegacyI18n(root = document) {
 export function setAccountLocale(locale, root = document) {
   const normalized = normalize(locale);
   document.documentElement.lang = normalized;
+  if (normalized === 'en') document.title = 'AMZ Leads Radar - Off-Amazon Traffic Opportunity Radar';
   document.documentElement.dir = ['ar', 'fa', 'he', 'ur'].includes(normalized) ? 'rtl' : 'ltr';
   const canonicalPath = pathWithLocale(window.location.pathname, normalized);
   if (window.location.pathname !== canonicalPath) {

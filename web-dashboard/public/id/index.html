@@ -1,1 +1,1 @@
-<!doctype html><script>location.replace('/?lang=id')</script>
+<!doctype html><script>const p=new URLSearchParams(location.search);p.set('lang','id');location.replace('/?'+p.toString()+location.hash)</script>

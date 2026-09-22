@@ -901,7 +901,7 @@
               <div class="bg-amber-950/20 border border-amber-800/40 rounded-lg p-3 mb-3.5">
                 <div class="flex items-center space-x-1.5 text-xs font-semibold text-amber-400 mb-1">
                   <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                  <span>AI 提煉買家痛點 / 差評關鍵：</span>
+                  <span>${document.documentElement.lang === 'zh-TW' ? 'AI 買家痛點／評論訊號：' : document.documentElement.lang === 'zh-CN' ? 'AI 买家痛点／评论信号：' : document.documentElement.lang === 'ja' ? 'AIによる購入者の課題・レビュー分析:' : document.documentElement.lang === 'ko' ? 'AI 구매자 문제 / 리뷰 신호:' : document.documentElement.lang === 'ms' ? 'Titik masalah pembeli / isyarat ulasan AI:' : document.documentElement.lang === 'id' ? 'Masalah pembeli / sinyal ulasan AI:' : document.documentElement.lang === 'vi' ? 'Vấn đề người mua / tín hiệu đánh giá AI:' : 'AI buyer pain points / review signals:'}</span>
                 </div>
           <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${document.documentElement.lang === 'en' ? (lead.painpoint_summary_en || lead.painpoint_summary) : document.documentElement.lang === 'ms' ? (lead.painpoint_summary_ms || lead.painpoint_summary) : document.documentElement.lang === 'id' ? (lead.painpoint_summary_id || lead.painpoint_summary) : document.documentElement.lang === 'ja' ? (lead.painpoint_summary_ja || lead.painpoint_summary) : document.documentElement.lang === 'ko' ? (lead.painpoint_summary_ko || lead.painpoint_summary) : document.documentElement.lang === 'vi' ? (lead.painpoint_summary_vi || lead.painpoint_summary) : lead.painpoint_summary}</p>
               </div>

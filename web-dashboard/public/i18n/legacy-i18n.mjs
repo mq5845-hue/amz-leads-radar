@@ -59,7 +59,12 @@ const uiCopy = {
     '標記為已回覆': 'Mark as replied', '前往 Reddit 並喚醒 Copilot': 'Open Reddit and wake Copilot', '複製草稿': 'Copy draft',
     '品牌與店鋪設定': 'Brand and store settings', '您的品牌名稱 (Brand Name)': 'Your brand name (Brand Name)',
     'Amazon 商品超連結或店鋪首頁 URL': 'Amazon product link or storefront URL', '時區': 'Timezone',
-    '支援自訂': 'Custom support', '設定同步失敗，已保留本機設定。': 'Sync failed; local settings were kept.'
+    '支援自訂': 'Custom support', '設定同步失敗，已保留本機設定。': 'Sync failed; local settings were kept.',
+    '固定或收回語言選單': 'Pin or close language menu', '掃描最新線索': 'Scan latest leads', 'Supabase 登入': 'Supabase sign in',
+    '跳轉至 Reddit 原文並啟動瀏覽器 Copilot': 'Open the Reddit source and start Browser Copilot', 'Reddit 貼文讚數': 'Reddit post upvotes',
+    'Reddit 討論留言數': 'Reddit discussion comments', '品牌與自訂店鋪連結設定': 'Brand and custom store link settings',
+    '店鋪與品牌設定': 'Store and brand settings', '登入 Supabase 以同步 quota': 'Sign in to Supabase to sync quota',
+    'Dashboard 尚未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY。': 'Dashboard Supabase environment variables are not configured.'
   },
   'zh-CN': { '今日回覆額度:': '今日回复额度：', '今日即時數據已同步 • 5 篇高潛力站外商機': '实时数据已同步 • 5 个高潜力商机', '所有 Subreddits': '所有 Subreddits', '所有品類': '所有品类', '匹配度:': '匹配度：', '不限': '不限', '店鋪設定': '店铺设置', '登入': '登录', '升級 Pro 專業版': '升级 Pro 专业版', '重設所有篩選': '重置所有筛选' },
   ja: { '今日回覆額度:': '本日の返信枠:', '所有 Subreddits': 'すべてのSubreddit', '所有品類': 'すべてのカテゴリ', '匹配度:': '一致度:', '不限': '指定なし', '店鋪設定': '店舗設定', '登入': 'ログイン', '升級 Pro 專業版': 'Proにアップグレード', '重設所有篩選': 'すべてのフィルターをリセット' },
@@ -96,6 +101,12 @@ function translateUi(locale, root = document) {
   }
   const placeholderMap = { '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': dictionary['搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...'] || uiCopy.en['搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...'] };
   root.querySelectorAll('[placeholder]').forEach((element) => { if (placeholderMap[element.placeholder]) element.placeholder = placeholderMap[element.placeholder]; });
+  root.querySelectorAll('[title], [aria-label]').forEach((element) => {
+    for (const attribute of ['title', 'aria-label']) {
+      const key = element.getAttribute(attribute);
+      if (key && (dictionary[key] || uiCopy.en[key])) element.setAttribute(attribute, dictionary[key] || uiCopy.en[key]);
+    }
+  });
 }
 
 function normalize(value) {

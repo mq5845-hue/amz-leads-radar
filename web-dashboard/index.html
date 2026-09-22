@@ -1129,7 +1129,17 @@
 
     async function generateRemoteDraft(lead) {
       const area = document.getElementById('modal-draft-area');
-      area.value = '正在使用 OpenAI 產生草稿…';
+      const runtimeCopy = {
+        en: 'Generating draft with OpenAI…',
+        'zh-TW': '正在使用 OpenAI 產生草稿…',
+        'zh-CN': '正在使用 OpenAI 生成草稿…',
+        ja: 'OpenAIで返信下書きを生成中…',
+        ko: 'OpenAI로 답변 초안을 생성하는 중…',
+        ms: 'Draf sedang dijana dengan OpenAI…',
+        id: 'Sedang membuat draf dengan OpenAI…',
+        vi: 'Đang tạo bản nháp bằng OpenAI…'
+      }[document.documentElement.lang || 'en'] || 'Generating draft with OpenAI…';
+      area.value = runtimeCopy;
       try {
         const response = await fetch('/api/review-drafts', {
           method: 'POST',
@@ -1150,9 +1160,10 @@
     function copyDraftText() {
       const text = document.getElementById('modal-draft-area').value;
       navigator.clipboard.writeText(text);
-      document.getElementById('copy-btn-text').textContent = '已複製！';
+      const copied = { en: 'Copied!', 'zh-TW': '已複製！', 'zh-CN': '已复制！', ja: 'コピーしました！', ko: '복사됨!', ms: 'Disalin!', id: 'Tersalin!', vi: 'Đã sao chép!' }[document.documentElement.lang || 'en'] || 'Copied!';
+      document.getElementById('copy-btn-text').textContent = copied;
       setTimeout(() => {
-        document.getElementById('copy-btn-text').textContent = '複製草稿';
+        document.getElementById('copy-btn-text').textContent = 'Copy draft';
       }, 2000);
     }
 

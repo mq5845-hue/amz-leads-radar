@@ -311,13 +311,13 @@
         <div class="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4">
           <div class="flex items-center space-x-2 text-xs font-semibold text-amber-400 mb-1.5">
             <i data-lucide="alert-circle" class="w-4 h-4"></i>
-            <span>AI 核心痛點拆解：</span>
+            <span id="modal-painpoint-label">AI 核心痛點拆解：</span>
           </div>
           <p class="text-sm text-amber-200 leading-relaxed" id="modal-painpoint"></p>
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Reddit 原文內容預覽</label>
+          <label id="modal-source-label" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Reddit 原文內容預覽</label>
           <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 leading-relaxed max-h-40 overflow-y-auto font-mono" id="modal-raw-content"></div>
         </div>
 
@@ -325,9 +325,9 @@
           <div class="flex items-center justify-between mb-2.5">
             <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
               <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
-              <span>AI 預擬回覆話術（語氣切換）</span>
+              <span id="modal-tone-label">AI 預擬回覆話術（語氣切換）</span>
             </label>
-            <span class="text-[11px] text-slate-500">已自動代入您的品牌：<strong class="text-slate-300" id="modal-brand-tag"></strong></span>
+            <span class="text-[11px] text-slate-500"><span id="modal-brand-label">已自動代入您的品牌：</span><strong class="text-slate-300" id="modal-brand-tag"></strong></span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-3" id="modal-tone-buttons">
@@ -347,14 +347,14 @@
       <div class="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div class="flex items-center space-x-2 text-xs text-slate-400">
           <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-          <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
+          <span id="modal-review-label">真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
         </div>
         <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
           <button onclick="markCurrentReplied()" class="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
-            標記為已回覆
+            <span id="modal-mark-replied">標記為已回覆</span>
           </button>
           <button onclick="jumpFromModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30">
-            <span>前往 Reddit 並喚醒 Copilot</span>
+            <span id="modal-open-reddit">前往 Reddit 並喚醒 Copilot</span>
             <i data-lucide="external-link" class="w-4 h-4"></i>
           </button>
         </div>
@@ -519,7 +519,8 @@
         if (typeof renderLeads === 'function') renderLeads();
         if (typeof initOptions === 'function') initOptions();
         if (typeof updateQuotaUI === 'function') updateQuotaUI();
-        if (typeof updateAuthUI === 'function') updateAuthUI();
+      if (typeof updateAuthUI === 'function') updateAuthUI();
+        if (typeof applyLeadModalLocale === 'function') applyLeadModalLocale();
       }, 0);
     });
     function applyHeroLocale() {
@@ -1033,6 +1034,7 @@
       if (!currentLead) return;
 
       currentTone = 'helpful_enthusiast';
+      applyLeadModalLocale();
       document.getElementById('modal-meta').innerHTML = `
         <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${currentLead.subreddit}</span>
         <span class="text-xs text-slate-400">作者: u/${currentLead.author}</span>
@@ -1065,11 +1067,22 @@
     }
 
     function renderToneButtons() {
+      const locale = document.documentElement.lang || 'en';
       const tones = [
         { key: 'helpful_enthusiast', title: '💡 客觀熱心網友', desc: '以第三方視角科普產品規格與避坑點，軟性植入推薦' },
         { key: 'fellow_sufferer', title: '🤝 同病相憐買家', desc: '共鳴原帖差評痛點，真誠分享更換品牌後的親身體驗' },
         { key: 'tech_pro_solution', title: '🛠 技術專家解方', desc: '從材料或電路工程角度剖析問題，建立專業信任度' }
       ];
+      const localized = {
+        en: [['💡 Helpful enthusiast','Educate from a third-party perspective and softly recommend a fit'],['🤝 Fellow buyer','Relate to the original pain point and share an honest replacement experience'],['🛠 Technical expert solution','Analyze the issue from an engineering perspective to build trust']],
+        'zh-CN': [['💡 客观热心网友','从第三方视角科普产品规格与避坑点，自然地加入推荐'],['🤝 同病相怜买家','共鸣原帖差评痛点，真诚分享更换品牌后的亲身体验'],['🛠 技术专家方案','从材料或电路工程角度分析问题，建立专业信任']],
+        ja: [['💡 親身な愛用者','第三者の視点で製品仕様を解説し、自然に提案します'],['🤝 同じ悩みを持つ購入者','元の不満に共感し、交換後の体験を共有します'],['🛠 技術専門家の解決策','素材や回路の観点から分析し、信頼を築きます']],
+        ko: [['💡 객관적인 사용자','제3자의 관점에서 제품 사양과 주의점을 설명하고 자연스럽게 추천합니다'],['🤝 같은 문제를 겪은 구매자','원문의 불편에 공감하고 교체 후 경험을 진솔하게 공유합니다'],['🛠 기술 전문가의 해결책','소재와 회로 관점에서 분석해 전문적인 신뢰를 만듭니다']],
+        ms: [['💡 Pengguna prihatin','Terangkan spesifikasi dari sudut pihak ketiga dan cadangkan secara semula jadi'],['🤝 Pembeli yang mengalami perkara sama','Kongsi pengalaman sebenar selepas memahami masalah asal'],['🛠 Penyelesaian pakar teknikal','Analisis dari sudut bahan atau litar untuk membina kepercayaan']],
+        id: [['💡 Pengguna yang membantu','Jelaskan spesifikasi dari sudut pihak ketiga dan berikan rekomendasi secara alami'],['🤝 Pembeli dengan masalah serupa','Pahami keluhan awal dan bagikan pengalaman setelah mengganti produk'],['🛠 Solusi pakar teknis','Analisis dari sisi material atau sirkuit untuk membangun kepercayaan']],
+        vi: [['💡 Người dùng nhiệt tình','Giải thích thông số từ góc nhìn bên thứ ba và giới thiệu tự nhiên'],['🤝 Người mua cùng hoàn cảnh','Đồng cảm với vấn đề ban đầu và chia sẻ trải nghiệm thay thế chân thật'],['🛠 Giải pháp chuyên gia kỹ thuật','Phân tích từ góc độ vật liệu hoặc mạch điện để xây dựng niềm tin']]
+      }[locale];
+      if (localized) localized.forEach((item, index) => { tones[index].title = item[0]; tones[index].desc = item[1]; });
 
       const container = document.getElementById('modal-tone-buttons');
       container.innerHTML = tones.map(t => `
@@ -1078,6 +1091,22 @@
           <div class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${t.desc}</div>
         </button>
       `).join('');
+    }
+
+    function applyLeadModalLocale() {
+      const locale = document.documentElement.lang || 'en';
+      const copy = {
+        en: ['AI pain-point breakdown:', 'Reddit source preview', 'AI draft reply (tone)', 'Your brand has been inserted automatically:', 'Human review required: the extension assists entry; you click publish manually to protect your account.', 'Mark as replied', 'Open Reddit and wake Copilot'],
+        'zh-CN': ['AI 核心痛点拆解：', 'Reddit 原文内容预览', 'AI 预拟回复话术（语气切换）', '已自动代入您的品牌：', '需要人工审核：扩展程序辅助填写，发布操作由您手动完成，以保护账户安全。', '标记为已回复', '前往 Reddit 并唤醒 Copilot'],
+        ja: ['AIによる課題分析:', 'Reddit原文プレビュー', 'AI返信下書き（トーン）', 'ブランドが自動入力されています:', '人による確認が必要です。拡張機能は入力を補助し、公開はアカウント保護のため手動で行います。', '返信済みにする', 'Redditを開いてCopilotを起動'],
+        ko: ['AI 핵심 문제 분석:', 'Reddit 원문 미리보기', 'AI 답변 초안 (말투)', '브랜드가 자동으로 입력되었습니다:', '사람의 검토가 필요합니다. 확장 프로그램은 입력을 돕고 게시 버튼은 계정 보호를 위해 직접 누릅니다.', '답변 완료로 표시', 'Reddit을 열고 Copilot 실행'],
+        ms: ['Pecahan masalah utama AI:', 'Pratonton sumber Reddit', 'Draf balasan AI (nada)', 'Jenama anda telah dimasukkan secara automatik:', 'Semakan manusia diperlukan: sambungan membantu mengisi, anda menerbitkan secara manual untuk melindungi akaun.', 'Tandakan sebagai dibalas', 'Buka Reddit dan aktifkan Copilot'],
+        id: ['Analisis masalah utama AI:', 'Pratinjau sumber Reddit', 'Draf balasan AI (gaya)', 'Merek Anda telah dimasukkan otomatis:', 'Tinjauan manusia diperlukan: ekstensi membantu mengisi, Anda menerbitkan secara manual untuk melindungi akun.', 'Tandai sudah dibalas', 'Buka Reddit dan jalankan Copilot'],
+        vi: ['Phân tích vấn đề cốt lõi của AI:', 'Xem trước nguồn Reddit', 'Bản nháp trả lời AI (giọng điệu)', 'Thương hiệu của bạn đã được chèn tự động:', 'Cần con người duyệt: tiện ích hỗ trợ nhập liệu, bạn phải tự bấm đăng để bảo vệ tài khoản.', 'Đánh dấu đã trả lời', 'Mở Reddit và đánh thức Copilot']
+      }[locale] || null;
+      if (!copy) return;
+      ['modal-painpoint-label','modal-source-label','modal-tone-label','modal-brand-label','modal-review-label','modal-mark-replied','modal-open-reddit'].forEach((id, index) => { const node = document.getElementById(id); if (node) node.textContent = copy[index]; });
+      renderToneButtons();
     }
 
     function setTone(toneKey) {

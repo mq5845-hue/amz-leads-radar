@@ -303,15 +303,10 @@ function setupLocaleSelector(locale) {
   select.dataset.localeBound = 'true';
   options.forEach((option) => option.addEventListener('click', (event) => {
     event.stopPropagation();
-    const next = setAccountLocale(option.dataset.locale);
-    select.value = next;
-    syncMenu(next);
+    const next = normalize(option.dataset.locale);
     try { localStorage.setItem('amz_radar_locale', next); } catch { /* storage is optional */ }
-    menu.dataset.suppressHover = 'true';
-    menu?.classList.remove('is-open');
-    menu?.classList.remove('is-pinned', 'is-collapsed');
-    globeToggle?.setAttribute('aria-pressed', 'false');
-    trigger?.setAttribute('aria-expanded', 'false');
+    const target = pathWithLocale(window.location.pathname, next);
+    window.location.assign(`${target}${window.location.search}${window.location.hash}`);
   }));
   menu?.addEventListener('click', (event) => {
     if (event.target.closest('.locale-menu-option')) return;

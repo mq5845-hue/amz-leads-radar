@@ -1,0 +1,49 @@
+name: i18n contract
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  i18n-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate i18n contract
+        run: node scripts/i18n-contract-check.mjs
+
+      - name: Validate SEO and RTL contract
+        run: node scripts/seo-rtl-contract-check.mjs
+
+      - name: Run i18n and notification tests
+        run: node --test i18n/*.test.mjs notifications/*.test.mjs
+
+      - name: Run API contract tests
+        run: node --test api/server.test.mjs api/supabase-quota.test.mjs
+
+      - name: Check Extension JavaScript syntax
+        shell: pwsh
+        run: |
+          Get-ChildItem extension -Recurse -Filter *.js | ForEach-Object {
+            node --check $_.FullName
+          }
+
+      - name: Install Dashboard dependencies
+        working-directory: web-dashboard
+        run: npm install --no-audit --no-fund
+
+      - name: Build Dashboard
+        working-directory: web-dashboard
+        run: npm run build

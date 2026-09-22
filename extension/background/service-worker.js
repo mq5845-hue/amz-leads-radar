@@ -11,6 +11,9 @@ chrome.runtime.onInstalled.addListener(() => {
     usage_left: 3,
     max_usage: 3
   });
+  chrome.storage.sync.get(['locale'], (data) => {
+    if (!data.locale) chrome.storage.sync.set({ locale: 'en' });
+  });
 });
 
 // Listen for messages from content scripts

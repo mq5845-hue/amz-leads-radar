@@ -50,6 +50,10 @@ export function getRootStatus() {
   };
 }
 
+export function apiError(code, params = {}) {
+  return { error: { code, params } };
+}
+
 function send(res, status, body) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'GET,POST,OPTIONS' });
   res.end(JSON.stringify(body));
@@ -59,30 +63,30 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') return send(res, 204, {});
   if (req.method === 'GET' && req.url === '/') return send(res, 200, getRootStatus());
   if (req.method === 'GET' && req.url === '/health') return send(res, 200, getHealthStatus({ openAiKey, openAiModel, supabaseUrl, supabaseAnonKey }));
-  if (req.method !== 'POST' || req.url !== '/api/review-drafts') return send(res, 404, { error: 'not-found' });
+  if (req.method !== 'POST' || req.url !== '/api/review-drafts') return send(res, 404, apiError('ROUTE_NOT_FOUND'));
   let raw = '';
   req.on('data', (chunk) => { raw += chunk; if (raw.length > 100000) req.destroy(); });
   req.on('end', async () => {
     try {
       const input = JSON.parse(raw || '{}');
-      if (![1, 2, 3].includes(Number(input.stars)) || !String(input.reviewText || '').trim()) return send(res, 400, { error: 'only-1-to-3-star-reviews-with-text-supported' });
-      if (!String(input.requestId || '').trim()) return send(res, 400, { error: 'request-id-required' });
+      if (![1, 2, 3].includes(Number(input.stars)) || !String(input.reviewText || '').trim()) return send(res, 400, apiError('UNSUPPORTED_REVIEW_INPUT'));
+      if (!String(input.requestId || '').trim()) return send(res, 400, apiError('REQUEST_ID_REQUIRED'));
       const text = String(input.reviewText).trim();
       const result = await requestCache.run(String(input.requestId), async () => {
         if (openAiKey) {
         const openAiResponse = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${openAiKey}` }, body: JSON.stringify({ model: openAiModel, store: false, input: `Write one concise, professional American-English Amazon seller reply to this ${input.stars}-star review. Do not invent refunds, certifications, guarantees, or product features. Review: ${text}` }) });
-        if (!openAiResponse.ok) return { status: 502, body: { error: 'ai-provider-failed' } };
+        if (!openAiResponse.ok) return { status: 502, body: apiError('AI_PROVIDER_FAILED') };
         const payload = await openAiResponse.json();
         const draft = payload.output_text?.trim() || payload.output?.flatMap((item) => item.content || []).find((part) => part.type === 'output_text')?.text?.trim();
-        if (!draft) return { status: 502, body: { error: 'ai-empty-response' } };
-        if (containsUnsafePromise(draft)) return { status: 502, body: { error: 'ai-unsafe-response', warnings: ['unsupported-promise-detected'] } };
+        if (!draft) return { status: 502, body: apiError('AI_EMPTY_RESPONSE') };
+        if (containsUnsafePromise(draft)) return { status: 502, body: apiError('AI_UNSAFE_RESPONSE', { warnings: ['UNSUPPORTED_PROMISE_DETECTED'] }) };
         return { status: 200, body: { draft, analysis: 'OpenAI analysis completed.', warnings: [], usageEventId: `openai-${Date.now()}`, modelVersion: openAiModel } };
         }
         return { status: 200, body: { draft: `We’re sorry to hear about your experience with this product. We understand how frustrating it is when ${text.slice(0, 120)} Please contact our customer support team so we can review the details and help with the next steps.`, analysis: 'Local demo analysis: the review describes a product experience requiring acknowledgement and support follow-up.', warnings: ['local-demo-not-ai-generated'], usageEventId: `local-${Date.now()}`, modelVersion: 'local-demo' } };
       });
       if (result.status === 200 && (supabaseUrl || supabaseAnonKey)) {
         const accessToken = getBearerToken(req.headers);
-        if (!supabaseUrl || !supabaseAnonKey || !accessToken) return send(res, 401, { error: 'authenticated-supabase-session-required' });
+        if (!supabaseUrl || !supabaseAnonKey || !accessToken) return send(res, 401, apiError('AUTHENTICATED_SESSION_REQUIRED'));
         try {
           const quota = await consumeReviewGeneration({
             url: supabaseUrl,
@@ -91,15 +95,15 @@ const server = http.createServer(async (req, res) => {
             requestId: String(input.requestId),
             metadata: { asin: input.asin || null, stars: Number(input.stars) }
           });
-          if (!quota.success) return send(res, 429, { error: quota.error || 'review-generation-quota-rejected', usageLeft: quota.usage_left ?? null });
+          if (!quota.success) return send(res, 429, apiError('REVIEW_GENERATION_QUOTA_REJECTED', { providerCode: quota.error || null, usageLeft: quota.usage_left ?? null }));
           result.body.usageEventId = quota.usage_event_id || result.body.usageEventId;
           result.body.remainingQuota = quota.usage_left ?? null;
         } catch {
-          return send(res, 502, { error: 'supabase-quota-check-failed' });
+          return send(res, 502, apiError('SUPABASE_QUOTA_CHECK_FAILED'));
         }
       }
       return send(res, result.status, result.body);
-    } catch { return send(res, 400, { error: 'invalid-json' }); }
+    } catch { return send(res, 400, apiError('INVALID_JSON')); }
   });
 });
 

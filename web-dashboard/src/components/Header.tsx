@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, Zap, Crown, Settings, Sparkles, RefreshCw } from 'lucide-react';
+import { Zap, Crown, Settings, Sparkles, RefreshCw } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -22,9 +22,11 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Radar className="w-6 h-6 text-white animate-pulse" />
-          </div>
+          <img
+            src="/logo-girl.png?v=20260923-girl"
+            alt="AMZ Leads Radar 小姐姐 Logo"
+            className="h-10 w-10 rounded-xl object-contain shadow-lg shadow-indigo-500/20"
+          />
           <div>
             <div className="flex items-center space-x-2">
               <h1 className="font-bold text-lg text-white tracking-tight">AMZ Leads Radar</h1>

@@ -1,6 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { containsUnsafePromise, createRequestCache, getHealthStatus, getRootStatus } from './server.mjs';
+import { apiError, containsUnsafePromise, createRequestCache, getHealthStatus, getRootStatus } from './server.mjs';
+
+test('creates a stable API error envelope with structured params', () => {
+  assert.deepEqual(apiError('REQUEST_ID_REQUIRED'), {
+    error: { code: 'REQUEST_ID_REQUIRED', params: {} }
+  });
+  assert.deepEqual(apiError('QUOTA_REJECTED', { usageLeft: 0 }), {
+    error: { code: 'QUOTA_REJECTED', params: { usageLeft: 0 } }
+  });
+});
 
 test('exposes a useful root status for local browser checks', () => {
   assert.deepEqual(getRootStatus(), {

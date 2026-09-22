@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>AMZ Leads Radar</title>
@@ -13,21 +13,21 @@
         <span class="logo">🎯</span>
         <div>
           <div class="brand-title">AMZ Leads Radar</div>
-          <div class="brand-sub">跨境電商站外引流 Copilot</div>
+          <div class="brand-sub" data-i18n="brandSub">Off-Amazon growth Copilot</div>
         </div>
       </div>
-      <span class="status-badge">🟢 運行中</span>
+      <span class="status-badge" data-i18n="running">🟢 Running</span>
     </div>
 
     <!-- User & Quota Card -->
     <div class="quota-card">
       <div class="user-info">
-        <span class="plan-tag" id="plan-tag">Free 體驗方案</span>
+        <span class="plan-tag" id="plan-tag" data-i18n="freePlan">Free plan</span>
         <span class="user-email" id="user-email">seller@amazonbrand.com</span>
       </div>
       <div class="quota-progress-box">
         <div class="quota-label">
-          <span>今日輔助填入額度</span>
+          <span data-i18n="dailyQuota">Daily assisted-fill quota</span>
           <span class="quota-count" id="quota-count">3 / 3 次</span>
         </div>
         <div class="progress-bar">
@@ -39,22 +39,25 @@
     <!-- Quick Actions -->
     <div class="action-section">
       <button class="btn-primary" id="btn-open-dashboard">
-        <span>🚀 開啟 Web 線索看板 (Dashboard)</span>
+        <span data-i18n="openDashboard">🚀 Open Web Dashboard</span>
       </button>
 
       <button class="btn-secondary" id="btn-upgrade">
-        <span>👑 升級 Pro 專業版 (無限解鎖)</span>
+        <span data-i18n="upgrade">👑 Upgrade to Pro (Unlimited)</span>
       </button>
     </div>
 
     <!-- Reddit Status Notice -->
     <div class="info-tip">
-      💡 <strong>使用方式：</strong>在 Web 看板點擊任一商機跳轉至 Reddit，或直接瀏覽 Reddit 貼文時，AI 助手會在網頁右側自動喚出！
+      💡 <strong data-i18n="howTo">How it works:</strong> Open a lead from the Web Dashboard or browse a Reddit post; the AI assistant appears on the right.
     </div>
 
     <!-- Footer -->
     <div class="popup-footer">
       <span>AMZ Leads Radar v1.0.0</span>
+      <select id="locale-select" aria-label="Language">
+        <option value="en">English</option><option value="zh-TW">繁體中文</option><option value="zh-CN">简体中文</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ms">Bahasa Melayu</option><option value="id">Bahasa Indonesia</option><option value="vi">Tiếng Việt</option>
+      </select>
       <a href="#" id="link-options">設定</a>
     </div>
   </div>

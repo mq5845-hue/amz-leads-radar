@@ -1,0 +1,18 @@
+(function () {
+  'use strict';
+  const supported = ['zh-TW', 'zh-CN', 'en', 'ja', 'ko', 'ms', 'id', 'vi'];
+  const copy = {
+    en: { title: 'AMZ Review Copilot', review: 'Review', instruction: 'Extra instruction', placeholder: 'Acknowledge the issue and guide the customer to support', generate: 'Generate reply', draft: 'English draft', fill: 'Fill reply', copy: 'Copy draft', ready: 'Draft ready for review.', generating: 'Generating…', manual: 'Please review and submit manually in Amazon.', missing: 'Reply field not detected. Use Copy Draft.' },
+    'zh-TW': { title: 'AMZ Review Copilot', review: '評論', instruction: '額外指示', placeholder: '承認問題並引導聯絡客服', generate: '產生回覆', draft: '英文草稿', fill: '填入回覆', copy: '複製草稿', ready: '草稿已準備好，請先審閱。', generating: '產生中…', manual: '請在 Amazon 人工審閱並提交。', missing: '找不到回覆欄位，請使用複製草稿。' },
+    'zh-CN': { title: 'AMZ Review Copilot', review: '评论', instruction: '额外指示', placeholder: '承认问题并引导联系客户支持', generate: '生成回复', draft: '英文草稿', fill: '填入回复', copy: '复制草稿', ready: '草稿已准备好，请先审阅。', generating: '生成中…', manual: '请在 Amazon 人工审阅并提交。', missing: '找不到回复栏位，请使用复制草稿。' },
+    ja: { title: 'AMZ Review Copilot', review: 'レビュー', instruction: '追加指示', placeholder: '問題を認め、サポートへの連絡を案内', generate: '返信を生成', draft: '英語の下書き', fill: '返信欄に入力', copy: '下書きをコピー', ready: '下書きの準備ができました。確認してください。', generating: '生成中…', manual: 'Amazonで内容を確認して手動で送信してください。', missing: '返信欄が見つかりません。下書きをコピーしてください。' },
+    ko: { title: 'AMZ Review Copilot', review: '리뷰', instruction: '추가 지침', placeholder: '문제를 인정하고 고객 지원 문의를 안내하세요', generate: '답변 생성', draft: '영어 초안', fill: '답변 입력', copy: '초안 복사', ready: '초안이 준비되었습니다. 검토해 주세요.', generating: '생성 중…', manual: 'Amazon에서 검토한 후 직접 제출하세요.', missing: '답변 필드를 찾을 수 없습니다. 초안을 복사하세요.' },
+    ms: { title: 'AMZ Review Copilot', review: 'Ulasan', instruction: 'Arahan tambahan', placeholder: 'Akui masalah dan pandu pelanggan menghubungi sokongan', generate: 'Jana balasan', draft: 'Draf bahasa Inggeris', fill: 'Isi balasan', copy: 'Salin draf', ready: 'Draf sedia untuk semakan.', generating: 'Menjana…', manual: 'Semak dan hantar secara manual di Amazon.', missing: 'Medan balasan tidak ditemui. Salin draf.' },
+    id: { title: 'AMZ Review Copilot', review: 'Ulasan', instruction: 'Instruksi tambahan', placeholder: 'Akui masalah dan arahkan pelanggan ke dukungan', generate: 'Buat balasan', draft: 'Draf bahasa Inggris', fill: 'Isi balasan', copy: 'Salin draf', ready: 'Draf siap ditinjau.', generating: 'Membuat…', manual: 'Tinjau dan kirim secara manual di Amazon.', missing: 'Kolom balasan tidak ditemukan. Gunakan Salin Draf.' },
+    vi: { title: 'AMZ Review Copilot', review: 'Đánh giá', instruction: 'Hướng dẫn thêm', placeholder: 'Thừa nhận vấn đề và hướng dẫn khách liên hệ hỗ trợ', generate: 'Tạo phản hồi', draft: 'Bản nháp tiếng Anh', fill: 'Điền phản hồi', copy: 'Sao chép bản nháp', ready: 'Bản nháp đã sẵn sàng để xem xét.', generating: 'Đang tạo…', manual: 'Vui lòng xem xét và gửi thủ công trên Amazon.', missing: 'Không tìm thấy ô phản hồi. Hãy sao chép bản nháp.' }
+  };
+  const normalize = (value) => supported.includes(value) ? value : (supported.find((locale) => locale.toLowerCase() === String(value || '').split('-')[0].toLowerCase()) || 'en');
+  const apply = (locale) => { const selected = normalize(locale); window.AmzContentI18n = { locale: selected, t: (key) => (copy[selected] || copy.en)[key] || copy.en[key] || key }; window.dispatchEvent(new CustomEvent('amz-content-i18n-ready')); };
+  if (typeof chrome !== 'undefined' && chrome.storage?.sync) chrome.storage.sync.get(['locale'], (data) => apply(data.locale || navigator.language));
+  else apply(navigator.language);
+})();

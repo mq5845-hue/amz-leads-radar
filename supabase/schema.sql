@@ -48,11 +48,34 @@ create table if not exists public.profiles (
   last_usage_reset date default current_date,
   brand_name text default '',
   store_url text default '',
+  locale text not null default 'en' check (locale in ('zh-TW', 'zh-CN', 'en', 'ja', 'ko', 'ms', 'id', 'vi')),
+  timezone text not null default 'UTC',
   stripe_customer_id text,
   stripe_subscription_id text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- 3a. Notification delivery localization snapshots
+create table if not exists public.notification_deliveries (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  channel text not null check (channel in ('email', 'in_app')),
+  template_key text not null,
+  template_version integer not null check (template_version > 0),
+  locale text not null check (locale in ('zh-TW', 'zh-CN', 'en', 'ja', 'ko', 'ms', 'id', 'vi')),
+  timezone text not null,
+  marketplace text not null,
+  status text not null default 'queued' check (status in ('queued', 'sent', 'failed')),
+  provider_message_id text,
+  error_code text,
+  queued_at timestamptz not null default now(),
+  sent_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.notification_deliveries enable row level security;
 
 -- 4. Lead Activities Table (用戶操作軌跡與轉化追蹤)
 create table if not exists public.lead_activities (

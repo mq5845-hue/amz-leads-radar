@@ -706,6 +706,15 @@
     INITIAL_LEADS.forEach((lead, index) => { lead.painpoint_summary_ja = JA_PAINPOINTS[index]; lead.title_ja = JA_TITLES[index]; lead.painpoint_summary_ko = KO_PAINPOINTS[index]; lead.title_ko = KO_TITLES[index]; lead.painpoint_summary_vi = VI_PAINPOINTS[index]; lead.painpoint_summary_zh_CN = ZH_CN_PAINPOINTS[index]; lead.painpoint_summary_zh_TW = ZH_TW_PAINPOINTS[index]; Object.entries(LOCALE_TITLES).forEach(([locale, titles]) => { lead[`title_${locale.replace('-', '_')}`] = titles[index]; }); });
     let leads = JSON.parse(localStorage.getItem('amz_radar_leads')) || INITIAL_LEADS;
     leads.forEach((lead, index) => { if (!lead.painpoint_summary_ja) lead.painpoint_summary_ja = JA_PAINPOINTS[index]; if (!lead.title_ja) lead.title_ja = JA_TITLES[index]; if (!lead.painpoint_summary_ko) lead.painpoint_summary_ko = KO_PAINPOINTS[index]; if (!lead.title_ko) lead.title_ko = KO_TITLES[index]; if (!lead.painpoint_summary_vi) lead.painpoint_summary_vi = VI_PAINPOINTS[index]; if (!lead.painpoint_summary_zh_CN) lead.painpoint_summary_zh_CN = ZH_CN_PAINPOINTS[index]; if (!lead.painpoint_summary_zh_TW) lead.painpoint_summary_zh_TW = ZH_TW_PAINPOINTS[index]; Object.entries(LOCALE_TITLES).forEach(([locale, titles]) => { const key = `title_${locale.replace('-', '_')}`; if (!lead[key]) lead[key] = titles[index]; }); });
+    // Migrate legacy browser data: old localStorage records only had the Traditional Chinese summary.
+    leads.forEach((lead, index) => {
+      const seed = INITIAL_LEADS.find((item) => item.id === lead.id) || INITIAL_LEADS[index];
+      if (!seed) return;
+      ['painpoint_summary_en', 'painpoint_summary_ms', 'painpoint_summary_id', 'painpoint_summary_ja', 'painpoint_summary_ko', 'painpoint_summary_vi', 'painpoint_summary_zh_CN', 'painpoint_summary_zh_TW'].forEach((key) => {
+        if (!lead[key] && seed[key]) lead[key] = seed[key];
+      });
+    });
+    try { localStorage.setItem('amz_radar_leads', JSON.stringify(leads)); } catch { /* storage is optional */ }
     let profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || {
       brand_name: 'ApexGear Pro',
       store_url: 'https://amazon.com/dp/B08EXAMPLE',

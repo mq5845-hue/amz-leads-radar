@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/(en|zh-TW|zh-CN|ja|ko|ms|id|vi)/:path*", "destination": "/index.html" },
+    { "source": "/(en|zh-TW|zh-CN|ja|ko|ms|id|vi)", "destination": "/index.html" }
+  ]
+}

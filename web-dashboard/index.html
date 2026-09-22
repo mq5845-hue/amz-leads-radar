@@ -669,9 +669,11 @@
       '水中のような音にならない、マイク性能の高いワイヤレスイヤホンは？',
       '動くたびに袋のような音がしない超軽量バックパッキング用マットは？'
     ];
-    INITIAL_LEADS.forEach((lead, index) => { lead.painpoint_summary_ja = JA_PAINPOINTS[index]; lead.title_ja = JA_TITLES[index]; });
+    const KO_PAINPOINTS = ['출장이 잦은 구매자들은 몇 달 만에 배터리가 부풀고 USB-C 포트가 헐거워진다고 말합니다. 과열과 팽창을 막는 65W PD 지원 보조배터리가 필요합니다.', '원격 근무자들은 저가 Amazon 의자의 허리 지지대가 부러지고 쿠션이 꺼진다고 말합니다. 3D 팔걸이와 통기성 메쉬를 갖춘 내구성 있는 의자를 원합니다.', '스페셜티 커피 애호가들은 저가 그라인더가 조밀한 약배전 원두에서 걸리고 모터가 탄다고 말합니다. 드립과 에스프레소에 적합한 고토크 그라인더가 필요합니다.', '온라인 회의가 많은 사용자들은 야외나 약한 바람에서 블루투스 이어버드 음성이 물속처럼 먹먹하다고 말합니다. 바람 소음 제거와 선명한 음성 수음이 필요합니다.', '백패커들은 초경량 매트가 과자 봉지처럼 시끄럽고 밤새 공기가 샌다고 말합니다. 조용하고 누출에 강하며 R값 4 이상인 매트가 필요합니다.'];
+    const VI_PAINPOINTS = ['Người thường xuyên đi công tác cho biết pin bị phồng và cổng USB-C lỏng chỉ sau vài tháng. Họ cần pin dự phòng bền, hỗ trợ PD 65W và không quá nóng.', 'Kỹ sư làm việc từ xa cho biết ghế Amazon giá rẻ bị gãy đỡ lưng và xẹp đệm. Họ cần ghế bền $400–$600 với tay vịn 3D và lưới thoáng.', 'Người yêu cà phê đặc sản cho biết máy xay rẻ thường kẹt với hạt rang sáng và cháy mô-tơ. Họ cần máy xay mô-men xoắn cao, ít bột dư cho pour-over và espresso.', 'Người họp trực tuyến nhiều giờ cho biết tai nghe Bluetooth bị đục tiếng ngoài trời hoặc khi có gió nhẹ. Họ cần thu âm giọng rõ và khử tiếng gió tốt.', 'Dân du lịch bụi cho biết đệm siêu nhẹ phát ra tiếng sột soạt và xì hơi qua đêm. Họ cần đệm yên tĩnh, chống rò dưới 18 oz với R-value trên 4.'];
+    INITIAL_LEADS.forEach((lead, index) => { lead.painpoint_summary_ja = JA_PAINPOINTS[index]; lead.title_ja = JA_TITLES[index]; lead.painpoint_summary_ko = KO_PAINPOINTS[index]; lead.painpoint_summary_vi = VI_PAINPOINTS[index]; });
     let leads = JSON.parse(localStorage.getItem('amz_radar_leads')) || INITIAL_LEADS;
-    leads.forEach((lead, index) => { if (!lead.painpoint_summary_ja) lead.painpoint_summary_ja = JA_PAINPOINTS[index]; if (!lead.title_ja) lead.title_ja = JA_TITLES[index]; });
+    leads.forEach((lead, index) => { if (!lead.painpoint_summary_ja) lead.painpoint_summary_ja = JA_PAINPOINTS[index]; if (!lead.title_ja) lead.title_ja = JA_TITLES[index]; if (!lead.painpoint_summary_ko) lead.painpoint_summary_ko = KO_PAINPOINTS[index]; if (!lead.painpoint_summary_vi) lead.painpoint_summary_vi = VI_PAINPOINTS[index]; });
     let profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || {
       brand_name: 'ApexGear Pro',
       store_url: 'https://amazon.com/dp/B08EXAMPLE',
@@ -901,7 +903,7 @@
                   <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
                   <span>AI 提煉買家痛點 / 差評關鍵：</span>
                 </div>
-          <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${document.documentElement.lang === 'en' ? (lead.painpoint_summary_en || lead.painpoint_summary) : document.documentElement.lang === 'ms' ? (lead.painpoint_summary_ms || lead.painpoint_summary) : document.documentElement.lang === 'id' ? (lead.painpoint_summary_id || lead.painpoint_summary) : document.documentElement.lang === 'ja' ? (lead.painpoint_summary_ja || lead.painpoint_summary) : lead.painpoint_summary}</p>
+          <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${document.documentElement.lang === 'en' ? (lead.painpoint_summary_en || lead.painpoint_summary) : document.documentElement.lang === 'ms' ? (lead.painpoint_summary_ms || lead.painpoint_summary) : document.documentElement.lang === 'id' ? (lead.painpoint_summary_id || lead.painpoint_summary) : document.documentElement.lang === 'ja' ? (lead.painpoint_summary_ja || lead.painpoint_summary) : document.documentElement.lang === 'ko' ? (lead.painpoint_summary_ko || lead.painpoint_summary) : document.documentElement.lang === 'vi' ? (lead.painpoint_summary_vi || lead.painpoint_summary) : lead.painpoint_summary}</p>
               </div>
 
               <div class="flex flex-wrap gap-1.5 mb-4">
@@ -994,7 +996,7 @@
             ? (currentLead.painpoint_summary_id || currentLead.painpoint_summary)
             : document.documentElement.lang === 'ja'
               ? (currentLead.painpoint_summary_ja || currentLead.painpoint_summary)
-              : currentLead.painpoint_summary;
+              : document.documentElement.lang === 'ko' ? (currentLead.painpoint_summary_ko || currentLead.painpoint_summary) : document.documentElement.lang === 'vi' ? (currentLead.painpoint_summary_vi || currentLead.painpoint_summary) : currentLead.painpoint_summary;
       document.getElementById('modal-raw-content').textContent = currentLead.content_raw;
       document.getElementById('modal-brand-tag').textContent = profile.brand_name || '預設品牌';
 

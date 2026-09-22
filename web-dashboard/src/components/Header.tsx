@@ -1,5 +1,6 @@
 import React from 'react';
-import { Radar, Zap, Crown, Settings, RefreshCw } from 'lucide-react';
+import { Zap, Crown, Settings, RefreshCw } from 'lucide-react';
+import logoUrl from '../favicon-head-transparent.png';
 import { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -22,8 +23,8 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Name */}
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Radar className="w-6 h-6 text-white animate-pulse" />
+          <div className="h-10 w-10 rounded-xl bg-slate-950/60 flex items-center justify-center shadow-lg shadow-indigo-500/20 overflow-hidden">
+            <img src={logoUrl} alt="AMZ Leads Radar" className="h-full w-full object-contain" />
           </div>
           <div>
             <div className="flex items-center space-x-2">

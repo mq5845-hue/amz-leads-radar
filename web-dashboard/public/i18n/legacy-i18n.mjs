@@ -226,9 +226,12 @@ function setupLocaleSelector(locale) {
   syncMenu(locale);
   if (select.dataset.localeBound === 'true') return;
   select.dataset.localeBound = 'true';
-  options.forEach((option) => option.addEventListener('click', () => {
-    select.value = option.dataset.locale;
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+  options.forEach((option) => option.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const next = setAccountLocale(option.dataset.locale);
+    select.value = next;
+    syncMenu(next);
+    try { localStorage.setItem('amz_radar_locale', next); } catch { /* storage is optional */ }
     menu?.classList.remove('is-open');
     menu?.classList.remove('is-pinned', 'is-collapsed');
     globeToggle?.setAttribute('aria-pressed', 'false');

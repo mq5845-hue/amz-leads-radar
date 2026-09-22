@@ -210,6 +210,19 @@ Object.assign(uiCopy['zh-TW'], {
   'Wireless earbuds where the microphone DOES NOT sound like I\'m underwater inside a submarine?': '麥克風不會像在潛水艇水下一樣的無線耳機？',
   'Ultralight backpacking sleeping pad that DOES NOT sound like a crinkly chip bag every time I move?': '每次翻身都不會像洋芋片袋一樣發出聲音的超輕量登山睡墊？'
 });
+Object.assign(uiCopy['zh-CN'], {
+  '全天候監控海外社群尋求推薦與競品負評。': '全天候监控海外社区的推荐与竞品差评。',
+  '全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可': '全天候监控海外社区的推荐与竞品差评。点击任一商机即可',
+  '，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！': '，通过 Chrome 扩展快速调整语气并一键填入回复！',
+  'AI buyer pain points / review signals:': 'AI 买家痛点／评论信号：', 'Electronics': '电子产品', 'Home & Office': '居家与办公', 'Home & Kitchen': '居家与厨房', 'Outdoor & Sports': '户外与运动',
+  'New opportunity': '新商机', 'In progress': '处理中', 'Replied': '已回复', 'Ignored': '已忽略', '2 hours ago': '2 小时前',
+  'Reddit post upvotes': 'Reddit 帖子点赞数', 'Reddit discussion comments': 'Reddit 讨论评论数', 'Reply on Reddit': '前往 Reddit 回复',
+  'Need a portable charger / powerbank that doesn\'t swell after 6 months of heavy travel': '长期旅行六个月后不会膨胀的充电宝？',
+  'Why are ergonomic desk chairs either $300 junk or $1600 Herman Miller? Is there a sweet spot?': '人体工学椅不是 300 美元的劣质品，就是 1600 美元的 Herman Miller？真正合适的价格带在哪里？',
+  'Burr coffee grinder that doesn\'t jam or stall on dense light roast Ethiopian beans?': '不会被高密度浅烘埃塞俄比亚豆卡住的磨豆机？',
+  'Wireless earbuds where the microphone DOES NOT sound like I\'m underwater inside a submarine?': '麦克风不会像在潜水艇水下一样的无线耳机？',
+  'Ultralight backpacking sleeping pad that DOES NOT sound like a crinkly chip bag every time I move?': '每次翻身都不会像薯片袋一样发出声音的超轻量登山睡垫？'
+});
 Object.assign(uiCopy.ko, {
   '今日即時數據已同步 • 5 篇高潛力站外商機': '실시간 데이터 동기화 완료 • 잠재력 높은 기회 5건', '從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶': 'Reddit의 문제를 Amazon 고객으로 전환하세요', '全天候監控海外社群尋求推薦與競品負評。': '해외 커뮤니티의 추천과 경쟁사 불만을 상시 모니터링합니다.',
   '篇潛在貼文': '잠재 게시물', 'AI 高相關性': 'AI 관련성 높음', '潛在關注買家': '잠재 구매자', '則已觸及評論': '댓글 도달', '2 小時前': '2시간 전', 'AI 提煉買家痛點 / 差評關鍵：': 'AI 구매자 문제 / 리뷰 신호:',

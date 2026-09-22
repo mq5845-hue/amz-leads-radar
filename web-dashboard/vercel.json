@@ -1,6 +1,10 @@
 {
-  "rewrites": [
-    { "source": "/:locale(en|zh-TW|zh-CN|ja|ko|ms|id|vi)/:path*", "destination": "/" },
-    { "source": "/:locale(en|zh-TW|zh-CN|ja|ko|ms|id|vi)", "destination": "/" }
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    }
   ]
 }

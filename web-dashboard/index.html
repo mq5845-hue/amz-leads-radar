@@ -973,6 +973,7 @@
       updateModalDraft();
 
       document.getElementById('lead-modal').classList.remove('hidden');
+      if (window.amzI18n) window.amzI18n.translateUi(document.documentElement.lang || 'en', document.getElementById('lead-modal'));
       lucide.createIcons();
       generateRemoteDraft(currentLead);
     }
@@ -1084,6 +1085,7 @@
     // Modals
     function openUpgradeModal() {
       document.getElementById('upgrade-modal').classList.remove('hidden');
+      if (window.amzI18n) window.amzI18n.translateUi(document.documentElement.lang || 'en', document.getElementById('upgrade-modal'));
       lucide.createIcons();
     }
     function closeUpgradeModal() {
@@ -1102,6 +1104,7 @@
       document.getElementById('setting-locale').value = profile.locale || document.documentElement.lang || 'en';
       document.getElementById('setting-timezone').value = profile.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
       document.getElementById('settings-modal').classList.remove('hidden');
+      if (window.amzI18n) window.amzI18n.translateUi(document.documentElement.lang || 'en', document.getElementById('settings-modal'));
       lucide.createIcons();
     }
     function closeSettingsModal() {
@@ -1148,6 +1151,7 @@
 
     function openAuthModal() {
       document.getElementById('auth-modal').classList.remove('hidden');
+      if (window.amzI18n) window.amzI18n.translateUi(document.documentElement.lang || 'en', document.getElementById('auth-modal'));
       const isEnglish = document.documentElement.lang === 'en';
       document.getElementById('auth-status').textContent = SUPABASE_URL && SUPABASE_ANON_KEY ? (isEnglish ? 'Your server-side quota will load after sign-in.' : '登入後會讀取 server-side quota。') : (isEnglish ? 'Dashboard Supabase environment variables are not configured.' : 'Dashboard 尚未配置 VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY。');
     }

@@ -133,7 +133,7 @@ function translateUi(locale, root = document) {
     const key = sourceText.get(node) || node.nodeValue.trim();
     sourceText.set(node, key);
     // Every Dashboard UI string must have at least an English fallback; review content is excluded above.
-    const value = dictionary[key] || uiCopy.en[key];
+    const value = key === '複製草稿' ? 'Copy draft' : (dictionary[key] || uiCopy.en[key]);
     if (value) node.nodeValue = node.nodeValue.replace(key, value);
   }
   const placeholderMap = { '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': dictionary['搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...'] || uiCopy.en['搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...'] };

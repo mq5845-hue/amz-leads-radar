@@ -179,7 +179,7 @@
         <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
           從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
+        <p id="hero-description" class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
           全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可<strong>一鍵跳轉至 Reddit</strong>，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！
         </p>
       </div>
@@ -513,12 +513,31 @@
       });
     });
     document.addEventListener('amz-locale-change', () => {
+      applyHeroLocale();
       if (typeof renderStats === 'function') renderStats();
       if (typeof renderLeads === 'function') renderLeads();
       if (typeof initOptions === 'function') initOptions();
       if (typeof updateQuotaUI === 'function') updateQuotaUI();
       if (typeof updateAuthUI === 'function') updateAuthUI();
     });
+    function applyHeroLocale() {
+      const element = document.getElementById('hero-description');
+      if (!element) return;
+      const locale = document.documentElement.lang || 'en';
+      const descriptions = {
+        en: 'Monitor overseas communities for recommendations and competitor complaints. Click any opportunity to <strong>jump to Reddit in one click</strong>, then use the Chrome extension to adjust tone and fill the reply in one click!',
+        'zh-TW': '全天候監控海外社群的推薦與競品負評。點擊任一商機即可<strong>一鍵跳轉至 Reddit</strong>，透過 Chrome 外掛快速調整語氣並一鍵填入留言！',
+        'zh-CN': '全天候监控海外社区的推荐与竞品差评。点击任一商机即可<strong>一键跳转至 Reddit</strong>，通过 Chrome 扩展快速调整语气并一键填入回复！',
+        ja: '海外コミュニティの推薦や競合への不満を監視します。機会をクリックすると<strong>ワンクリックでRedditへ移動</strong>し、Chrome拡張機能で文体を調整して返信を入力できます。',
+        ko: '해외 커뮤니티의 추천과 경쟁사 불만을 상시 모니터링합니다. 기회를 클릭하면<strong>한 번에 Reddit으로 이동</strong>하고 Chrome 확장 프로그램으로 말투를 조정해 답변을 입력할 수 있습니다.',
+        ms: 'Pantau komuniti luar negara untuk cadangan dan aduan pesaing. Klik peluang untuk<strong>ke Reddit dengan satu klik</strong>, kemudian laraskan nada dan isi balasan melalui sambungan Chrome.',
+        id: 'Pantau komunitas global untuk rekomendasi dan keluhan pesaing. Klik peluang untuk<strong>membuka Reddit dengan satu klik</strong>, lalu sesuaikan nada dan isi balasan melalui ekstensi Chrome.',
+        vi: 'Theo dõi cộng đồng quốc tế để tìm đề xuất và khiếu nại về đối thủ. Nhấp vào cơ hội để<strong>mở Reddit bằng một cú nhấp</strong>, sau đó điều chỉnh giọng điệu và điền phản hồi qua tiện ích Chrome.'
+      };
+      element.innerHTML = descriptions[locale] || descriptions.en;
+    }
+    if (document.readyState !== 'loading') applyHeroLocale();
+    else document.addEventListener('DOMContentLoaded', applyHeroLocale);
   </script>
   <script>
     // Initial Seed Data

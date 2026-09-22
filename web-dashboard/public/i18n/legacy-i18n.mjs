@@ -175,9 +175,13 @@ const pageTitles = {
 };
 const matchLabels = { en: 'match', 'zh-TW': '匹配', 'zh-CN': '匹配', ja: '一致', ko: '일치', ms: 'padanan', id: 'cocok', vi: 'khớp' };
 Object.assign(uiCopy.ja, {
+  'SaaS 看板': 'SaaSダッシュボード', '跨境電商站外引流智能商機雷達': 'Amazon外トラフィック機会レーダー', 'Off-Amazon Traffic Opportunity Radar': 'Amazon外トラフィック機会レーダー', 'SAAS DASHBOARD': 'SaaSダッシュボード',
   '今日即時數據已同步 • 5 篇高潛力站外商機': 'リアルタイムデータ同期済み • 有望な機会5件',
   '從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶': 'Redditの課題をAmazon顧客につなげる',
   '全天候監控海外社群尋求推薦與競品負評。': '海外コミュニティの推薦や競合への不満を常時監視します。',
+  'Monitor overseas communities for recommendations and competitor complaints. Click any opportunity to': '海外コミュニティの推薦や競合への不満を監視します。機会をクリックすると',
+  'jump to Reddit in one click': 'ワンクリックでRedditへ移動',
+  ', then use the Chrome extension to adjust tone and fill the reply in one click!': 'し、Chrome拡張機能で文体を調整して返信を入力できます。',
   '並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！': 'Chrome拡張機能で文体を調整し、ワンクリックで返信を入力できます。',
   '篇潛在貼文': '件の有望な投稿', 'AI 高相關性': 'AI関連度が高い', '潛在關注買家': '見込み購入者', '則已觸及評論': '件のコメント',
   '新商機': '新しい機会', '處理中': '対応中', '已回覆': '返信済み', '已忽略': '無視', '2 小時前': '2時間前',

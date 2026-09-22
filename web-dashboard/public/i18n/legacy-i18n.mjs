@@ -69,6 +69,16 @@ const uiCopy = {
   vi: { '今日回覆額度:': 'Hạn mức trả lời hôm nay:', '所有 Subreddits': 'Tất cả Subreddit', '所有品類': 'Tất cả danh mục', '匹配度:': 'Độ khớp:', '不限': 'Tất cả', '店鋪設定': 'Cài đặt cửa hàng', '登入': 'Đăng nhập', '升級 Pro 專業版': 'Nâng cấp Pro', '重設所有篩選': 'Đặt lại tất cả bộ lọc' },
   'zh-TW': {}
 };
+const sharedLocaleUi = {
+  'zh-CN': { '今日回覆額度:': '今日回复额度：', '今日偵測商機 Leads': '今日检测商机', '平均關鍵字匹配度': '平均关键词匹配度', '原帖社群熱度 (Upvotes)': '原帖社区热度（点赞）', '社群互動討論量 (Comments)': '社区互动量（评论）', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': '搜索标题、痛点摘要或关键词（例如：battery、coffee、chair）...', '全部線索': '全部线索', '預擬回覆': '拟定回复', '前往 Reddit 回覆': '前往 Reddit 回复' },
+  ja: { '今日回覆額度:': '本日の返信上限:', '今日偵測商機 Leads': '本日のリード', '平均關鍵字匹配度': '平均キーワード一致度', '原帖社群熱度 (Upvotes)': '元投稿の反応（Upvotes）', '社群互動討論量 (Comments)': 'コミュニティコメント', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': 'タイトル、課題、キーワードを検索（例：battery、coffee、chair）...', '全部線索': 'すべてのリード', '預擬回覆': '返信案', '前往 Reddit 回覆': 'Redditで返信' },
+  ko: { '今日回覆額度:': '오늘 답변 한도:', '今日偵測商機 Leads': '오늘 발견한 리드', '平均關鍵字匹配度': '평균 키워드 일치도', '原帖社群熱度 (Upvotes)': '원문 커뮤니티 반응(Upvotes)', '社群互動討論量 (Comments)': '커뮤니티 댓글', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': '제목, 문제 요약 또는 키워드 검색(예: battery, coffee, chair)...', '全部線索': '모든 리드', '預擬回覆': '답변 초안', '前往 Reddit 回覆': 'Reddit에서 답변' },
+  ms: { '今日回覆額度:': 'Kuota balasan hari ini:', '今日偵測商機 Leads': 'Petunjuk dikesan hari ini', '平均關鍵字匹配度': 'Padanan kata kunci purata', '原帖社群熱度 (Upvotes)': 'Aktiviti komuniti asal (Upvotes)', '社群互動討論量 (Comments)': 'Komen komuniti', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': 'Cari tajuk, masalah atau kata kunci...', '全部線索': 'Semua petunjuk', '預擬回覆': 'Draf balasan', '前往 Reddit 回覆': 'Balas di Reddit' },
+  id: { '今日回覆額度:': 'Kuota balasan hari ini:', '今日偵測商機 Leads': 'Prospek terdeteksi hari ini', '平均關鍵字匹配度': 'Kecocokan kata kunci rata-rata', '原帖社群熱度 (Upvotes)': 'Aktivitas komunitas asli (Upvotes)', '社群互動討論量 (Comments)': 'Komentar komunitas', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': 'Cari judul, masalah, atau kata kunci...', '全部線索': 'Semua prospek', '預擬回覆': 'Draf balasan', '前往 Reddit 回覆': 'Balas di Reddit' },
+  vi: { '今日回覆額度:': 'Hạn mức trả lời hôm nay:', '今日偵測商機 Leads': 'Khách hàng tiềm năng hôm nay', '平均關鍵字匹配度': 'Độ khớp từ khóa trung bình', '原帖社群熱度 (Upvotes)': 'Tương tác bài đăng gốc (Upvotes)', '社群互動討論量 (Comments)': 'Bình luận cộng đồng', '搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)...': 'Tìm tiêu đề, vấn đề hoặc từ khóa...', '全部線索': 'Tất cả khách hàng tiềm năng', '預擬回覆': 'Bản nháp trả lời', '前往 Reddit 回覆': 'Trả lời trên Reddit' },
+  'zh-TW': {}, en: {}
+};
+for (const locale of Object.keys(sharedLocaleUi)) uiCopy[locale] = { ...(uiCopy[locale] || {}), ...sharedLocaleUi[locale] };
 const sourceText = new WeakMap();
 
 function translateUi(locale, root = document) {

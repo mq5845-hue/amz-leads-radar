@@ -75,7 +75,35 @@ const uiCopy = {
   'zh-CN': { '今日回覆額度:': '今日回复额度：', '今日即時數據已同步 • 5 篇高潛力站外商機': '实时数据已同步 • 5 个高潜力商机', '所有 Subreddits': '所有 Subreddits', '所有品類': '所有品类', '匹配度:': '匹配度：', '不限': '不限', '店鋪設定': '店铺设置', '登入': '登录', '升級 Pro 專業版': '升级 Pro 专业版', '重設所有篩選': '重置所有筛选' },
   ja: { '今日回覆額度:': '本日の返信枠:', '所有 Subreddits': 'すべてのSubreddit', '所有品類': 'すべてのカテゴリ', '匹配度:': '一致度:', '不限': '指定なし', '店鋪設定': '店舗設定', '登入': 'ログイン', '升級 Pro 專業版': 'Proにアップグレード', '重設所有篩選': 'すべてのフィルターをリセット' },
   ko: { '今日回覆額度:': '오늘 답변 한도:', '所有 Subreddits': '모든 Subreddit', '所有品類': '모든 카테고리', '匹配度:': '일치도:', '不限': '제한 없음', '店鋪設定': '스토어 설정', '登入': '로그인', '升級 Pro 專業版': 'Pro로 업그레이드', '重設所有篩選': '모든 필터 초기화' },
-  ms: { '今日回覆額度:': 'Kuota balasan harian:', '所有 Subreddits': 'Semua Subreddit', '所有品類': 'Semua kategori', '匹配度:': 'Padanan:', '不限': 'Semua', '店鋪設定': 'Tetapan kedai', '登入': 'Log masuk', '升級 Pro 專業版': 'Naik taraf ke Pro', '重設所有篩選': 'Tetapkan semula semua penapis' },
+  ms: {
+    '今日回覆額度:': 'Kuota balasan harian:', '所有 Subreddits': 'Semua Subreddit', '所有品類': 'Semua kategori', '匹配度:': 'Padanan:', '不限': 'Semua',
+    '店鋪設定': 'Tetapan kedai', '登入': 'Log masuk', '升級 Pro 專業版': 'Naik taraf ke Pro', '重設所有篩選': 'Tetapkan semula semua penapis',
+    '今日即時數據已同步 • 5 篇高潛力站外商機': 'Data langsung disegerakkan • 5 peluang berpotensi tinggi',
+    '從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶': 'Tukar masalah Reddit kepada pelanggan Amazon',
+    '全天候監控海外社群尋求推薦與競品負評。': 'Pantau komuniti luar negara untuk cadangan dan aduan pesaing.',
+    '並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！': 'Laraskan nada dan isi balasan dengan satu klik melalui sambungan Chrome!',
+    '今日偵測商機 Leads': 'Petunjuk dikesan hari ini', '篇潛在貼文': 'siaran berpotensi', '平均關鍵字匹配度': 'Padanan kata kunci purata',
+    'AI 高相關性': 'Relevan AI tinggi', '原帖社群熱度 (Upvotes)': 'Aktiviti komuniti asal (Undian)', '潛在關注買家': 'pembeli berpotensi',
+    '社群互動討論量 (Comments)': 'Komen komuniti', '則已觸及評論': 'komen dicapai', '所有線索': 'Semua petunjuk',
+    '新商機': 'Peluang baharu', '處理中': 'Sedang diproses', '已回覆': 'Dibalas', '已忽略': 'Diabaikan',
+    '🟢 最新未處理': '🟢 Baharu', '🟡 跟進中': '🟡 Sedang diproses', '🔵 已回覆': '🔵 Dibalas', '⚪ 已忽略': '⚪ Diabaikan',
+    '掃描最新線索': 'Imbas petunjuk terkini', 'Supabase 登入': 'Log masuk Supabase', 'SaaS 看板': 'Papan pemuka SaaS',
+    '匹配': 'padanan', '極高': 'sangat tinggi', '≥ 90% (極高)': '≥ 90% (sangat tinggi)', '2 小時前': '2 jam lalu',
+    'AI 提煉買家痛點 / 差評關鍵：': 'Titik masalah pembeli / isyarat ulasan AI:', '作者:': 'Pengarang:',
+    'Reddit 貼文讚數': 'Undian siaran Reddit', 'Reddit 討論留言數': 'Komen perbincangan Reddit', '電子產品': 'Elektronik',
+    '店鋪與品牌設定': 'Tetapan kedai dan jenama', '品牌與店鋪設定': 'Tetapan jenama dan kedai', '目前方案': 'Pelan semasa',
+    '當前方案': 'Pelan semasa', '永久免費': 'Percuma selamanya', '最受歡迎': 'Paling popular', 'Free 體驗方案': 'Pelan percuma',
+    'Pro 專業方案': 'Pelan Pro', '立即開通 Pro 專業版 (串接 Stripe)': 'Aktifkan Pro sekarang (melalui Stripe)', '已在使用中': 'Sedang digunakan',
+    '每日最新 5 條商機線索': '5 petunjuk baharu setiap hari', '每日 3 次外掛一鍵填入輔助': '3 balasan bantuan sambungan setiap hari',
+    '預設社群品類監控': 'Pemantauan kategori komuniti lalai', '無上限': 'Tanpa had', '無限': 'Tanpa had', '無限次數': 'Penggunaan tanpa had',
+    '線索全天候即時監控': 'Pemantauan petunjuk 24/7', 'Chrome 外掛輔助填入': 'Balasan bantuan sambungan Chrome',
+    '3 種專業話術語氣 + 自訂 Prompt': '3 nada profesional + gesaan tersuai', '支援自訂 15 組品類與競品關鍵字庫': 'Sehingga 15 kategori dan kata kunci pesaing tersuai',
+    'Telegram / Discord 實時商機通報': 'Makluman peluang Telegram / Discord', '7 天無條件全額退款保證 • SSL 256 位元加密安全付款': 'Jaminan bayaran balik penuh 7 hari • Pembayaran disulitkan SSL 256-bit',
+    '賣家品牌與店鋪設定': 'Tetapan jenama dan kedai penjual', '您的品牌名稱 (Brand Name)': 'Nama jenama anda', '介面語言': 'Bahasa antara muka',
+    '時區': 'Zon waktu', '取消': 'Batal', '儲存設定': 'Simpan tetapan', '防封號提示：': 'Petua keselamatan akaun:', '選填': 'Pilihan',
+    '建議使用 Amazon Attribution 連結追蹤站外引流紅利與轉化率！': 'Gunakan pautan Amazon Attribution untuk menjejak trafik luar dan penukaran.',
+    '品牌與自訂店鋪連結設定': 'Tetapan jenama dan pautan kedai tersuai', '複製草稿': 'Copy draft'
+  },
   id: { '今日回覆額度:': 'Kuota balasan hari ini:', '所有 Subreddits': 'Semua Subreddit', '所有品類': 'Semua kategori', '匹配度:': 'Kecocokan:', '不限': 'Semua', '店鋪設定': 'Pengaturan toko', '登入': 'Masuk', '升級 Pro 專業版': 'Tingkatkan ke Pro', '重設所有篩選': 'Atur ulang semua filter' },
   vi: { '今日回覆額度:': 'Hạn mức trả lời hôm nay:', '所有 Subreddits': 'Tất cả Subreddit', '所有品類': 'Tất cả danh mục', '匹配度:': 'Độ khớp:', '不限': 'Tất cả', '店鋪設定': 'Cài đặt cửa hàng', '登入': 'Đăng nhập', '升級 Pro 專業版': 'Nâng cấp Pro', '重設所有篩選': 'Đặt lại tất cả bộ lọc' },
   'zh-TW': {
@@ -120,6 +148,7 @@ const pageTitles = {
   ms: 'AMZ Leads Radar - Radar Peluang Trafik Luar Amazon', id: 'AMZ Leads Radar - Radar Peluang Trafik di Luar Amazon',
   vi: 'AMZ Leads Radar - Radar cơ hội lưu lượng ngoài Amazon'
 };
+const matchLabels = { en: 'match', 'zh-TW': '匹配', 'zh-CN': '匹配', ja: '一致', ko: '일치', ms: 'padanan', id: 'cocok', vi: 'khớp' };
 for (const locale of Object.keys(sharedLocaleUi)) uiCopy[locale] = { ...(uiCopy[locale] || {}), ...sharedLocaleUi[locale] };
 const sourceText = new WeakMap();
 
@@ -186,6 +215,7 @@ export function bootstrapLegacyI18n(root = document) {
     if (value) element.textContent = value;
   }
   translateUi(locale, root);
+  window.amzI18n.matchLabel = matchLabels[locale] || matchLabels.en;
   setupLocaleSelector(locale);
   return locale;
 }
@@ -205,6 +235,7 @@ export function setAccountLocale(locale, root = document) {
     if (value) element.textContent = value;
   }
   translateUi(normalized, root);
+  window.amzI18n.matchLabel = matchLabels[normalized] || matchLabels.en;
   setupLocaleSelector(normalized);
   return normalized;
 }

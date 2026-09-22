@@ -655,7 +655,23 @@
     const SUPABASE_ANON_KEY = '%VITE_SUPABASE_ANON_KEY%'.startsWith('%VITE_') ? '' : '%VITE_SUPABASE_ANON_KEY%';
     let authSession = null;
     let liveProfileLoaded = false;
+    const JA_PAINPOINTS = [
+      '頻繁に旅行する購入者は、数か月でバッテリーが膨張しUSB-Cポートが緩むと報告しています。過熱や膨張を防ぐ65W PD対応の耐久性の高いモバイルバッテリーを求めています。',
+      'リモートワーカーは、低価格のAmazonチェアでランバーサポートが壊れクッションがへたると報告しています。3Dアームレストと通気性メッシュを備えた400～600ドルの耐久チェアを求めています。',
+      'コーヒー愛好家は、安価なグラインダーが高密度の浅煎り豆で詰まり、モーターが焼けると報告しています。ハンドドリップとエスプレッソ向けの高トルク・低残留の耐久グラインダーを求めています。',
+      'オンライン会議の多いユーザーは、屋外や微風でBluetoothイヤホンの音声が水中のようにこもると不満を述べています。風切り音を抑え、声を明瞭に収音できるイヤホンを求めています。',
+      'バックパッカーは、超軽量マットがポテトチップス袋のように音を立て、夜間に空気が漏れると報告しています。R値4以上、18オンス未満で静かで漏れにくいマットを求めています。'
+    ];
+    const JA_TITLES = [
+      '長期旅行で6か月後に膨張しない携帯充電器・モバイルバッテリーは？',
+      'エルゴノミクスチェアはなぜ安物か1600ドル級ばかり？ちょうどよい価格帯は？',
+      '密度の高い浅煎りエチオピア豆でも詰まらないコーヒーグラインダーは？',
+      '水中のような音にならない、マイク性能の高いワイヤレスイヤホンは？',
+      '動くたびに袋のような音がしない超軽量バックパッキング用マットは？'
+    ];
+    INITIAL_LEADS.forEach((lead, index) => { lead.painpoint_summary_ja = JA_PAINPOINTS[index]; lead.title_ja = JA_TITLES[index]; });
     let leads = JSON.parse(localStorage.getItem('amz_radar_leads')) || INITIAL_LEADS;
+    leads.forEach((lead, index) => { if (!lead.painpoint_summary_ja) lead.painpoint_summary_ja = JA_PAINPOINTS[index]; if (!lead.title_ja) lead.title_ja = JA_TITLES[index]; });
     let profile = JSON.parse(localStorage.getItem('amz_radar_profile')) || {
       brand_name: 'ApexGear Pro',
       store_url: 'https://amazon.com/dp/B08EXAMPLE',
@@ -877,7 +893,7 @@
               </div>
 
               <h3 class="text-base font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 mb-3">
-                ${lead.title}
+                ${document.documentElement.lang === 'ja' ? (lead.title_ja || lead.title) : lead.title}
               </h3>
 
               <div class="bg-amber-950/20 border border-amber-800/40 rounded-lg p-3 mb-3.5">
@@ -885,7 +901,7 @@
                   <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
                   <span>AI 提煉買家痛點 / 差評關鍵：</span>
                 </div>
-          <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${document.documentElement.lang === 'en' ? (lead.painpoint_summary_en || lead.painpoint_summary) : document.documentElement.lang === 'ms' ? (lead.painpoint_summary_ms || lead.painpoint_summary) : document.documentElement.lang === 'id' ? (lead.painpoint_summary_id || lead.painpoint_summary) : lead.painpoint_summary}</p>
+          <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${document.documentElement.lang === 'en' ? (lead.painpoint_summary_en || lead.painpoint_summary) : document.documentElement.lang === 'ms' ? (lead.painpoint_summary_ms || lead.painpoint_summary) : document.documentElement.lang === 'id' ? (lead.painpoint_summary_id || lead.painpoint_summary) : document.documentElement.lang === 'ja' ? (lead.painpoint_summary_ja || lead.painpoint_summary) : lead.painpoint_summary}</p>
               </div>
 
               <div class="flex flex-wrap gap-1.5 mb-4">
@@ -976,7 +992,9 @@
           ? (currentLead.painpoint_summary_ms || currentLead.painpoint_summary)
           : document.documentElement.lang === 'id'
             ? (currentLead.painpoint_summary_id || currentLead.painpoint_summary)
-            : currentLead.painpoint_summary;
+            : document.documentElement.lang === 'ja'
+              ? (currentLead.painpoint_summary_ja || currentLead.painpoint_summary)
+              : currentLead.painpoint_summary;
       document.getElementById('modal-raw-content').textContent = currentLead.content_raw;
       document.getElementById('modal-brand-tag').textContent = profile.brand_name || '預設品牌';
 

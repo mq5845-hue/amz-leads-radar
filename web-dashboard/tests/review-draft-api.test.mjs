@@ -33,6 +33,18 @@ test('production API rejects an OpenAI request without a bearer session', async 
   assert.equal(res.payload.error, 'authentication-required');
 });
 
+test('production API fails closed when the provider is not configured', async () => {
+  const handler = createReviewDraftHandler({
+    env: { NODE_ENV: 'production' },
+  });
+  const res = makeResponse();
+
+  await handler(makeRequest({ stars: 2, reviewText: 'The zipper broke.' }), res);
+
+  assert.equal(res.statusCode, 503);
+  assert.equal(res.payload.error, 'review-draft-provider-not-configured');
+});
+
 test('authenticated API generates first, then records the draft through the atomic RPC', async () => {
   const rpcCalls = [];
   const supabase = {

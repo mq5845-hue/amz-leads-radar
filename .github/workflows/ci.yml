@@ -45,6 +45,7 @@ jobs:
             ../supabase/ingest-contract.test.mjs \
             ../supabase/sql-contract.test.mjs \
             tests/auth-contract.test.mjs \
+            tests/health-api.test.mjs \
             tests/live-auth-smoke-contract.test.mjs \
             tests/react-source-contract.test.mjs \
             tests/review-draft-api.test.mjs \

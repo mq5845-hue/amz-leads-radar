@@ -89,6 +89,10 @@ export function createReviewDraftHandler({
     const model = env.OPENAI_MODEL || 'gpt-5-mini';
 
     if (!openAiKey) {
+      const productionRuntime = env.NODE_ENV === 'production' || env.VERCEL === '1';
+      if (productionRuntime && env.ALLOW_LOCAL_DEMO !== '1') {
+        return responseJson(res, 503, { error: 'review-draft-provider-not-configured' });
+      }
       return responseJson(res, 200, {
         draft: fallbackDraft(text),
         analysis: 'Local demo analysis: the review describes a product experience requiring acknowledgement and support follow-up.',

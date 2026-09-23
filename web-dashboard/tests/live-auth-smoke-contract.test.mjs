@@ -96,6 +96,52 @@ test('live smoke does not spend quota or call production API by default', async 
   assert.notEqual(rpcCalls[0].args.p_user_id, 'user-1');
 });
 
+test('live smoke rejects a production API that only returns local demo output', async () => {
+  const fakeClient = {
+    auth: {
+      signInWithPassword: async () => ({
+        data: { user: { id: 'user-1' }, session: { access_token: 'in-memory-token' } },
+        error: null,
+      }),
+      signOut: async () => ({ error: null }),
+    },
+    from: () => ({
+      select: () => ({
+        eq: (_column, value) => value === 'user-1'
+          ? { single: async () => ({ data: { id: 'user-1' }, error: null }) }
+          : Promise.resolve({ data: [], error: null }),
+      }),
+    }),
+    rpc: async (_name, args) => args.p_user_id === 'user-1'
+      ? { data: { success: true }, error: null }
+      : { data: null, error: { code: '42501' } },
+  };
+
+  const result = await runLiveAuthSmoke({
+    env: {
+      AMZ_SMOKE_SUPABASE_URL: 'https://example.supabase.co',
+      AMZ_SMOKE_SUPABASE_ANON_KEY: 'publishable-key',
+      AMZ_SMOKE_EMAIL: 'smoke@example.com',
+      AMZ_SMOKE_PASSWORD: 'local-only-password',
+      AMZ_SMOKE_ALLOW_QUOTA_DECREMENT: '1',
+      AMZ_SMOKE_RUN_PRODUCTION_API: '1',
+    },
+    createSupabaseClient: () => fakeClient,
+    fetchImpl: async () => new Response(JSON.stringify({
+      draft: 'Local demo draft',
+      warnings: ['local-demo-not-ai-generated'],
+      usageEventId: 'local-123',
+      modelVersion: 'local-demo',
+    }), { status: 200 }),
+  });
+
+  assert.deepEqual(result, {
+    ok: false,
+    code: 1,
+    message: 'production API returned local demo output',
+  });
+});
+
 test('live smoke does not treat an unrelated RPC error as RLS proof', async () => {
   const fakeClient = {
     auth: {

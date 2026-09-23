@@ -115,7 +115,16 @@ export async function runLiveAuthSmoke({ env = process.env, createSupabaseClient
         }),
       });
       const payload = await readJson(response);
-      if (!response.ok || !payload?.draft || !payload?.usageEventId) throw new Error(`production API failed with status ${response.status}`);
+      if (!response.ok || !payload?.draft || !payload?.usageEventId) {
+        return { ok: false, code: 1, message: `production API failed with status ${response.status}` };
+      }
+      if (
+        payload.modelVersion === 'local-demo'
+        || (Array.isArray(payload.warnings) && payload.warnings.includes('local-demo-not-ai-generated'))
+        || String(payload.usageEventId).startsWith('local-')
+      ) {
+        return { ok: false, code: 1, message: 'production API returned local demo output' };
+      }
     }
   } finally {
     await supabase.auth.signOut({ scope: 'local' }).catch(() => {});

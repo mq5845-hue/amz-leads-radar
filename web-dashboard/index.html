@@ -62,6 +62,13 @@
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .locale-menu { position: relative; }
+    .locale-menu-panel { visibility: hidden; opacity: 0; transform: translateY(-4px); pointer-events: none; position: absolute; right: 0; top: calc(100% + .45rem); z-index: 60; min-width: 170px; padding: .35rem; border: 1px solid rgba(129, 140, 248, .72); border-radius: .75rem; background: rgba(15, 23, 42, .98); box-shadow: 0 0 24px 8px rgba(99, 102, 241, .38); transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
+    .locale-menu-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -.55rem; height: .55rem; }
+    .locale-menu:hover .locale-menu-panel, .locale-menu:focus-within .locale-menu-panel, .locale-menu.is-open .locale-menu-panel, .locale-menu.is-pinned .locale-menu-panel { visibility: visible; opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .locale-menu.is-collapsed .locale-menu-panel { visibility: hidden; opacity: 0; transform: translateY(-4px); pointer-events: none; }
+    .locale-menu-option { display: block; width: 100%; padding: .55rem .7rem; border-radius: .5rem; color: rgb(226 232 240); font-size: .8rem; font-weight: 600; text-align: left; transition: color .12s ease, background-color .12s ease, filter .12s ease, box-shadow .12s ease; }
+    .locale-menu-option:hover, .locale-menu-option:focus-visible { color: #fff; background: rgba(99, 102, 241, .32); filter: brightness(1.5); box-shadow: 0 0 14px 3px rgba(129, 140, 248, .5); outline: none; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white flex flex-col font-sans">
@@ -89,6 +96,24 @@
 
       <!-- Right Action Area -->
       <div class="amz-header-actions flex items-center space-x-3 sm:space-x-4">
+        <!-- Multilingual navigation -->
+        <div id="locale-menu" class="locale-menu flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs" title="Language">
+          <button id="locale-globe-toggle" type="button" class="p-0.5 rounded text-indigo-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400/70" aria-label="切換語言選單" aria-pressed="false">
+            <i data-lucide="globe-2" class="w-4 h-4"></i>
+          </button>
+          <span class="sr-only">Language</span>
+          <button id="locale-menu-trigger" type="button" class="bg-transparent text-slate-100 font-semibold outline-none cursor-pointer" aria-haspopup="listbox" aria-expanded="false">繁體中文</button>
+          <div id="locale-menu-panel" class="locale-menu-panel" role="listbox" aria-label="Language">
+            <button type="button" class="locale-menu-option" data-locale="en" role="option">English</button>
+            <button type="button" class="locale-menu-option" data-locale="zh-TW" role="option">繁體中文</button>
+            <button type="button" class="locale-menu-option" data-locale="zh-CN" role="option">简体中文</button>
+            <button type="button" class="locale-menu-option" data-locale="ja" role="option">日本語</button>
+            <button type="button" class="locale-menu-option" data-locale="ko" role="option">한국어</button>
+            <button type="button" class="locale-menu-option" data-locale="ms" role="option">Bahasa Melayu</button>
+            <button type="button" class="locale-menu-option" data-locale="id" role="option">Bahasa Indonesia</button>
+            <button type="button" class="locale-menu-option" data-locale="vi" role="option">Tiếng Việt</button>
+          </div>
+        </div>
         <!-- Scan Button -->
         <button onclick="refreshLeads()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="掃描最新線索">
           <i data-lucide="refresh-cw" id="refresh-icon" class="w-4 h-4"></i>
@@ -1280,6 +1305,7 @@
       localStorage.setItem('amz_radar_profile', JSON.stringify(profile));
     }
   </script>
+  <script type="module" src="/i18n/nav-locale.mjs"></script>
   <script type="module" src="/src/legacy-auth.ts"></script>
 </body>
 </html>

@@ -152,7 +152,7 @@ test('copy draft actions pulse twice per second after a draft appears', () => {
   const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
   assert.match(sharedStyles, /@keyframes copy-draft-pulse/);
   assert.match(sharedStyles, /\.copy-draft-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite/s);
-  assert.match(sharedStyles, /\.copy-draft-attention\s*\{[^}]*animation:\s*none/s);
+  assert.match(sharedStyles, /\.copy-draft-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite\s*!important/s);
   assert.match(indexHtml, /function setCopyDraftAttention\(active\)/);
   assert.match(indexHtml, /setCopyDraftAttention\(Boolean\(draft\.trim\(\)\)\)/);
   assert.match(indexHtml, /setCopyDraftAttention\(false\)/);

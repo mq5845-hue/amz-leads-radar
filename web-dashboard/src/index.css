@@ -93,7 +93,9 @@
 }
 
 .copy-draft-attention {
-  animation: copy-draft-pulse .5s ease-in-out infinite;
+  /* This is an explicit seller action reminder; keep it visible even when
+     the browser's reduced-motion preference is enabled. */
+  animation: copy-draft-pulse .5s ease-in-out infinite !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -102,10 +104,6 @@
   .brand-name-hover,
   .copy-action-glow {
     transition: none;
-  }
-
-  .copy-draft-attention {
-    animation: none;
   }
 
   .hover-glow-card:hover,

@@ -191,12 +191,17 @@ test('draft preview card actions keep pulsing until the draft is copied', () => 
 });
 
 test('draft preview actions include the warm assistant avatar beside the button', () => {
+  const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
   const reactCard = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadCard.tsx'), 'utf8');
+  assert.match(sharedStyles, /\.draft-helper-avatar-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite\s*!important/s);
   assert.match(indexHtml, /draft-helper-avatar/);
   assert.match(indexHtml, /favicon-head-transparent\.png/);
+  assert.match(indexHtml, /draft-helper-avatar-attention/);
   assert.match(indexHtml, /draft-action-attention[^>]*px-3/);
+  assert.match(indexHtml, /function setDraftCardAttention\(leadId, active\)[\s\S]*?draft-helper-avatar-attention/);
   assert.match(reactCard, /draft-helper-avatar/);
   assert.match(reactCard, /src="\/favicon-head-transparent\.png"/);
+  assert.match(reactCard, /draft-helper-avatar-attention/);
   assert.match(reactCard, /draft-action-attention/);
 });
 

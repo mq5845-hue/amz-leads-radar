@@ -123,7 +123,7 @@ export const LeadCard: React.FC<LeadCardProps> = ({
               src="/favicon-head-transparent.png"
               alt=""
               aria-hidden="true"
-              className="draft-helper-avatar h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25"
+              className={`draft-helper-avatar ${draftReminderActive ? 'draft-helper-avatar-attention' : ''} h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25`}
             />
             <button
               onClick={() => onOpenDetail(lead)}

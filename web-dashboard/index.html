@@ -1161,7 +1161,7 @@
 
               <div class="flex items-center space-x-2">
                 <div class="flex items-center space-x-1.5">
-                  <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" class="draft-helper-avatar h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+                  <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" id="avatar-draft-reply-${encodedLeadId}" class="draft-helper-avatar ${draftReminderSuppressed.has(String(lead.id)) ? '' : 'draft-helper-avatar-attention'} h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
                   <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" id="btn-draft-reply-${encodedLeadId}" class="copy-action-glow ${draftReminderSuppressed.has(String(lead.id)) ? '' : 'draft-action-attention'} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
                     <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
                     <span>${escapeHtml(uiText('預擬回覆'))}</span>
@@ -1306,8 +1306,10 @@
       else draftReminderSuppressed.add(key);
       const buttonId = `btn-draft-reply-${encodeURIComponent(key).replace(/'/g, '%27')}`;
       const button = document.getElementById(buttonId);
-      if (!button) return;
-      button.classList.toggle('draft-action-attention', Boolean(active));
+      const avatarId = `avatar-draft-reply-${encodeURIComponent(key).replace(/'/g, '%27')}`;
+      const avatar = document.getElementById(avatarId);
+      button?.classList.toggle('draft-action-attention', Boolean(active));
+      avatar?.classList.toggle('draft-helper-avatar-attention', Boolean(active));
     }
 
     function setCopyDraftAttention(active) {

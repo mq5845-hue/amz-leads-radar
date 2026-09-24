@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { Lead, ToneKey, UserProfile } from '../types';
 
 interface LeadDetailModalProps {
@@ -37,6 +37,11 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
     navigator.clipboard.writeText(currentDraft);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleReturnHome = () => {
+    onClose();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const tones: { key: ToneKey; title: string; desc: string; icon: string }[] = [
@@ -171,7 +176,16 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
           </div>
 
-          <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
+          <div className="flex flex-wrap items-center space-x-3 w-full sm:w-auto justify-end">
+            <button
+              onClick={handleReturnHome}
+              aria-label="回到首頁"
+              title="回到首頁"
+              className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center space-x-1.5"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>回到首頁</span>
+            </button>
             <button
               onClick={() => {
                 onStatusChange(lead.id, 'replied');

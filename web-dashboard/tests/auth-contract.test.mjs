@@ -88,3 +88,9 @@ test('authenticated Reddit navigation reserves a user-initiated tab before await
 test('legacy footer does not expose dead hash links', () => {
   assert.doesNotMatch(dashboardHtml, /href="#"/);
 });
+
+test('draft modal exposes a return-home action beside mark replied', () => {
+  assert.match(dashboardHtml, /function returnToHome\(\)[\s\S]*?closeDetailModal\(\)[\s\S]*?window\.scrollTo/);
+  assert.match(dashboardHtml, /data-i18n="回到首頁"[\s\S]*?data-lucide="arrow-left"/);
+  assert.match(dashboardHtml, /returnToHome\(\)[\s\S]*?標記為已回覆/);
+});

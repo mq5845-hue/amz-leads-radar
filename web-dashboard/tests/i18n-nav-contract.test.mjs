@@ -172,6 +172,24 @@ test('copy completion hands the seller reminder to the Reddit action', () => {
   assert.match(reactModal, /setRedditAttention\(false\)/);
 });
 
+test('draft preview card actions keep pulsing until the draft is copied', () => {
+  const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
+  const reactCard = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadCard.tsx'), 'utf8');
+  const reactApp = fs.readFileSync(path.join(dashboardRoot, 'src', 'App.tsx'), 'utf8');
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(sharedStyles, /\.draft-action-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite\s*!important/s);
+  assert.match(indexHtml, /id="btn-draft-reply-\$\{encodedLeadId\}"[^>]*draft-action-attention/);
+  assert.match(indexHtml, /function setDraftCardAttention\(leadId, active\)/);
+  assert.match(indexHtml, /function openDetailModal\(leadId\)[\s\S]*?setDraftCardAttention\(leadId, false\)/);
+  assert.match(indexHtml, /function closeDetailModal\(\)[\s\S]*?currentLeadDraftCopied[\s\S]*?setDraftCardAttention\(currentLead\.id, true\)/);
+  assert.match(indexHtml, /currentLeadDraftCopied = true/);
+  assert.match(reactCard, /draft-action-attention/);
+  assert.match(reactApp, /draftReminderSuppressed/);
+  assert.match(reactApp, /onDraftDismissed/);
+  assert.match(reactModal, /onDraftDismissed/);
+  assert.match(reactModal, /hasCopiedDraft/);
+});
+
 test('copy feedback is localized in every supported locale', () => {
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const translated of ['Copied!', '已複製！', '已复制！', 'コピーしました！', '복사됨!', 'Disalin!', 'Tersalin!', 'Đã sao chép!']) {

@@ -102,6 +102,10 @@
   animation: copy-draft-pulse .5s ease-in-out infinite !important;
 }
 
+.draft-action-attention {
+  animation: copy-draft-pulse .5s ease-in-out infinite !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hover-glow-card,
   .review-card,

@@ -711,6 +711,8 @@
     };
 
     let currentLead = null;
+    let currentLeadDraftCopied = false;
+    const draftReminderSuppressed = new Set();
     let currentTone = 'helpful_enthusiast';
 
     function renderRadarPoints() {
@@ -1158,7 +1160,7 @@
               </div>
 
               <div class="flex items-center space-x-2">
-                <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" class="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
+                <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" id="btn-draft-reply-${encodedLeadId}" class="copy-action-glow ${draftReminderSuppressed.has(String(lead.id)) ? '' : 'draft-action-attention'} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
                   <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
                   <span>${escapeHtml(uiText('預擬回覆'))}</span>
                 </button>
@@ -1215,6 +1217,8 @@
       currentLead = leads.find(l => l.id === leadId);
       if (!currentLead) return;
 
+      currentLeadDraftCopied = draftReminderSuppressed.has(String(leadId));
+      setDraftCardAttention(leadId, false);
       leadReturnFocus = document.activeElement;
       currentTone = 'helpful_enthusiast';
       document.getElementById('modal-meta').innerHTML = `
@@ -1238,6 +1242,7 @@
     }
 
     function closeDetailModal() {
+      if (currentLead && !currentLeadDraftCopied) setDraftCardAttention(currentLead.id, true);
       document.getElementById('lead-modal').classList.add('hidden');
       if (leadReturnFocus && typeof leadReturnFocus.focus === 'function') leadReturnFocus.focus();
       leadReturnFocus = null;
@@ -1286,8 +1291,20 @@
 
     function setTone(toneKey) {
       currentTone = toneKey;
+      currentLeadDraftCopied = false;
+      if (currentLead) setDraftCardAttention(currentLead.id, false);
       renderToneButtons();
       updateModalDraft();
+    }
+
+    function setDraftCardAttention(leadId, active) {
+      const key = String(leadId);
+      if (active) draftReminderSuppressed.delete(key);
+      else draftReminderSuppressed.add(key);
+      const buttonId = `btn-draft-reply-${encodeURIComponent(key).replace(/'/g, '%27')}`;
+      const button = document.getElementById(buttonId);
+      if (!button) return;
+      button.classList.toggle('draft-action-attention', Boolean(active));
     }
 
     function setCopyDraftAttention(active) {
@@ -1355,6 +1372,8 @@
       try {
         await navigator.clipboard.writeText(text);
         buttonText.textContent = uiText('已複製！');
+        currentLeadDraftCopied = true;
+        if (currentLead) setDraftCardAttention(currentLead.id, false);
         setRedditActionAttention(true);
       } catch {
         buttonText.textContent = uiText('複製失敗，請手動複製。');

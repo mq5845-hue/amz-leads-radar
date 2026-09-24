@@ -8,6 +8,8 @@ interface LeadDetailModalProps {
   onClose: () => void;
   onJumpToReddit: (lead: Lead) => boolean;
   onStatusChange: (id: string, status: any) => void;
+  onDraftCopied: (id: string) => void;
+  onDraftDismissed: (id: string) => void;
 }
 
 export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
@@ -15,15 +17,19 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
   profile,
   onClose,
   onJumpToReddit,
-  onStatusChange
+  onStatusChange,
+  onDraftCopied,
+  onDraftDismissed
 }) => {
   const [activeTone, setActiveTone] = useState<ToneKey>('helpful_enthusiast');
   const [copied, setCopied] = useState(false);
+  const [hasCopiedDraft, setHasCopiedDraft] = useState(false);
   const [redditAttention, setRedditAttention] = useState(false);
 
   useEffect(() => {
     setActiveTone('helpful_enthusiast');
     setCopied(false);
+    setHasCopiedDraft(false);
     setRedditAttention(false);
   }, [lead?.id]);
 
@@ -44,11 +50,18 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
     try {
       await navigator.clipboard.writeText(currentDraft);
       setCopied(true);
+      setHasCopiedDraft(true);
+      onDraftCopied(lead.id);
       setRedditAttention(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       setCopied(false);
     }
+  };
+
+  const handleClose = () => {
+    if (!hasCopiedDraft) onDraftDismissed(lead.id);
+    onClose();
   };
 
   const tones: { key: ToneKey; title: string; desc: string; icon: string }[] = [
@@ -88,7 +101,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             <h2 id="lead-detail-title" className="text-lg font-bold text-white leading-snug">{lead.title}</h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="關閉線索詳情"
             className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
           >
@@ -138,6 +151,8 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
                   onClick={() => {
                     setActiveTone(tone.key);
                     setCopied(false);
+                    setHasCopiedDraft(false);
+                    onDraftDismissed(lead.id);
                     setRedditAttention(false);
                   }}
                   className={`text-left p-3 rounded-xl border text-xs transition-all ${
@@ -191,7 +206,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             <button
               onClick={() => {
                 onStatusChange(lead.id, 'replied');
-                onClose();
+                handleClose();
               }}
               className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700"
             >
@@ -201,7 +216,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
               onClick={() => {
                 if (onJumpToReddit(lead)) {
                   setRedditAttention(false);
-                  onClose();
+                  handleClose();
                 }
               }}
               id="btn-jump-reddit"

@@ -14,6 +14,7 @@ export function App() {
   const [leads, setLeads] = useState<Lead[]>(MOCK_LEADS);
   const [profile, setProfile] = useState<UserProfile>(INITIAL_PROFILE);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [draftReminderSuppressed, setDraftReminderSuppressed] = useState<Set<string>>(new Set());
   const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -75,6 +76,23 @@ export function App() {
     setLeads((prev) =>
       prev.map((l) => (l.id === id ? { ...l, status } : l))
     );
+  };
+
+  const handleOpenDetail = (lead: Lead) => {
+    setDraftReminderSuppressed((previous) => new Set(previous).add(lead.id));
+    setSelectedLead(lead);
+  };
+
+  const suppressDraftReminder = (id: string) => {
+    setDraftReminderSuppressed((previous) => new Set(previous).add(id));
+  };
+
+  const restoreDraftReminder = (id: string) => {
+    setDraftReminderSuppressed((previous) => {
+      const next = new Set(previous);
+      next.delete(id);
+      return next;
+    });
   };
 
   const handleJumpToReddit = (lead: Lead): boolean => {
@@ -192,8 +210,9 @@ export function App() {
               <LeadCard
                 key={lead.id}
                 lead={lead}
-                onOpenDetail={setSelectedLead}
+                onOpenDetail={handleOpenDetail}
                 onJumpToReddit={handleJumpToReddit}
+                draftReminderActive={!draftReminderSuppressed.has(lead.id)}
               />
             ))}
           </div>
@@ -239,6 +258,8 @@ export function App() {
         onClose={() => setSelectedLead(null)}
         onJumpToReddit={handleJumpToReddit}
         onStatusChange={handleStatusChange}
+        onDraftCopied={suppressDraftReminder}
+        onDraftDismissed={restoreDraftReminder}
       />
 
       <UpgradeModal

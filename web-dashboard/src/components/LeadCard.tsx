@@ -6,12 +6,14 @@ interface LeadCardProps {
   lead: Lead;
   onOpenDetail: (lead: Lead) => void;
   onJumpToReddit: (lead: Lead) => void;
+  draftReminderActive: boolean;
 }
 
 export const LeadCard: React.FC<LeadCardProps> = ({
   lead,
   onOpenDetail,
-  onJumpToReddit
+  onJumpToReddit,
+  draftReminderActive
 }) => {
   const getScoreBadge = (score: number) => {
     if (score >= 90) {
@@ -118,7 +120,8 @@ export const LeadCard: React.FC<LeadCardProps> = ({
           {/* Quick Preview */}
           <button
             onClick={() => onOpenDetail(lead)}
-            className="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1"
+            id={`btn-draft-reply-${lead.id}`}
+            className={`copy-action-glow ${draftReminderActive ? 'draft-action-attention' : ''} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1`}
           >
             <Bot className="w-3.5 h-3.5 text-indigo-400" />
             <span>預擬回覆</span>

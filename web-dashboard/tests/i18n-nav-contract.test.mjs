@@ -159,6 +159,19 @@ test('copy draft actions pulse twice per second after a draft appears', () => {
   assert.match(reactModal, /copy-draft-attention/);
 });
 
+test('copy completion hands the seller reminder to the Reddit action', () => {
+  const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(sharedStyles, /\.reddit-action-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite\s*!important/s);
+  assert.match(indexHtml, /id="btn-jump-reddit"/);
+  assert.match(indexHtml, /function setRedditActionAttention\(active\)/);
+  assert.match(indexHtml, /await navigator\.clipboard\.writeText\(text\);[\s\S]*setRedditActionAttention\(true\)/);
+  assert.match(indexHtml, /function jumpFromModal\(\)[\s\S]*setRedditActionAttention\(false\)/);
+  assert.match(reactModal, /reddit-action-attention/);
+  assert.match(reactModal, /setRedditAttention\(true\)/);
+  assert.match(reactModal, /setRedditAttention\(false\)/);
+});
+
 test('copy feedback is localized in every supported locale', () => {
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const translated of ['Copied!', '已複製！', '已复制！', 'コピーしました！', '복사됨!', 'Disalin!', 'Tersalin!', 'Đã sao chép!']) {

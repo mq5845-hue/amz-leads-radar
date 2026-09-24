@@ -89,7 +89,7 @@ test('authenticated Reddit navigation reserves a user-initiated tab before await
   assert.match(jumpToReddit, /url\.protocol !== ['"]https:['"]/);
   assert.match(jumpToReddit, /hostname\.endsWith\(['"]\.reddit\.com['"]\)/);
   assert.match(jumpToReddit, /return false/);
-  assert.match(dashboardHtml, /const didOpen = await jumpToReddit\(currentLead\.id\);[\s\S]*?if \(didOpen\) closeDetailModal\(\)/);
+  assert.match(dashboardHtml, /const didOpen = await jumpToReddit\(currentLead\.id\);[\s\S]*?if \(didOpen\) \{[\s\S]*?closeDetailModal\(\)/);
 });
 
 test('legacy footer does not expose dead hash links', () => {

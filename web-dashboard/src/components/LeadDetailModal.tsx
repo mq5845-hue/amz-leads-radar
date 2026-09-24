@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Copy, Check, ExternalLink, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
 import { Lead, ToneKey, UserProfile } from '../types';
 
@@ -19,6 +19,13 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
 }) => {
   const [activeTone, setActiveTone] = useState<ToneKey>('helpful_enthusiast');
   const [copied, setCopied] = useState(false);
+  const [redditAttention, setRedditAttention] = useState(false);
+
+  useEffect(() => {
+    setActiveTone('helpful_enthusiast');
+    setCopied(false);
+    setRedditAttention(false);
+  }, [lead?.id]);
 
   if (!lead) return null;
 
@@ -33,10 +40,15 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
 
   const currentDraft = getDraftWithVariables(lead.replies[activeTone] || lead.suggested_reply);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(currentDraft);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(currentDraft);
+      setCopied(true);
+      setRedditAttention(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   const tones: { key: ToneKey; title: string; desc: string; icon: string }[] = [
@@ -126,6 +138,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
                   onClick={() => {
                     setActiveTone(tone.key);
                     setCopied(false);
+                    setRedditAttention(false);
                   }}
                   className={`text-left p-3 rounded-xl border text-xs transition-all ${
                     activeTone === tone.key
@@ -186,9 +199,13 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             </button>
             <button
               onClick={() => {
-                if (onJumpToReddit(lead)) onClose();
+                if (onJumpToReddit(lead)) {
+                  setRedditAttention(false);
+                  onClose();
+                }
               }}
-              className="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30"
+              id="btn-jump-reddit"
+              className={`copy-action-glow ${redditAttention ? 'reddit-action-attention' : ''} px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30`}
             >
               <span>前往 Reddit 並喚醒 Copilot</span>
               <ExternalLink className="w-4 h-4" />

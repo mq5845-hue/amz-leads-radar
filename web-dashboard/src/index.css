@@ -76,12 +76,36 @@
   transform: translateY(0);
 }
 
+/* Prompt sellers to copy the newly generated draft without moving the layout. */
+@keyframes copy-draft-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, .16);
+  }
+
+  50% {
+    filter: brightness(1.34);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, .62),
+      0 0 18px 5px rgba(99, 102, 241, .38),
+      0 0 32px 9px rgba(56, 189, 248, .18);
+  }
+}
+
+.copy-draft-attention {
+  animation: copy-draft-pulse .5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hover-glow-card,
   .review-card,
   .brand-name-hover,
   .copy-action-glow {
     transition: none;
+  }
+
+  .copy-draft-attention {
+    animation: none;
   }
 
   .hover-glow-card:hover,

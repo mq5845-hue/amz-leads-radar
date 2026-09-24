@@ -123,7 +123,10 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
               {tones.map((tone) => (
                 <button
                   key={tone.key}
-                  onClick={() => setActiveTone(tone.key)}
+                  onClick={() => {
+                    setActiveTone(tone.key);
+                    setCopied(false);
+                  }}
                   className={`text-left p-3 rounded-xl border text-xs transition-all ${
                     activeTone === tone.key
                       ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-sm shadow-indigo-500/20'
@@ -146,7 +149,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
               />
               <button
                 onClick={handleCopy}
-                className="copy-action-glow absolute right-3 bottom-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all"
+                className={`copy-action-glow ${!copied && currentDraft.trim() ? 'copy-draft-attention' : ''} absolute right-3 bottom-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all`}
               >
                 {copied ? (
                   <>

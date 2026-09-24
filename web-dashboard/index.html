@@ -1290,6 +1290,12 @@
       updateModalDraft();
     }
 
+    function setCopyDraftAttention(active) {
+      const button = document.getElementById('btn-copy-draft');
+      if (!button) return;
+      button.classList.toggle('copy-draft-attention', Boolean(active));
+    }
+
     function updateModalDraft() {
       if (!currentLead) return;
       // The API returns one generic draft. Keep the three local tone variants
@@ -1300,6 +1306,7 @@
         : `[${profile.brand_name || 'Brand'}]`;
       const draft = raw.replace(/\[Your Brand \/ Link\]/g, linkText);
       document.getElementById('modal-draft-area').value = draft;
+      setCopyDraftAttention(Boolean(draft.trim()));
     }
 
     async function generateRemoteDraft(lead) {
@@ -1337,6 +1344,7 @@
     async function copyDraftText() {
       const text = document.getElementById('modal-draft-area').value;
       const buttonText = document.getElementById('copy-btn-text');
+      setCopyDraftAttention(false);
       try {
         await navigator.clipboard.writeText(text);
         buttonText.textContent = uiText('已複製！');

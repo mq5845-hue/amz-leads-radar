@@ -139,12 +139,24 @@ test('copy actions share the visible hover and keyboard focus glow', () => {
   assert.match(indexHtml, /id="btn-copy-draft"[^>]*class="[^"]*copy-action-glow/);
   assert.match(indexHtml, /id="modal-draft-area"[^>]*class="[^"]*pb-14/);
   assert.match(indexHtml, /id="btn-copy-draft"[^>]*class="[^"]*absolute right-3 bottom-3/);
-  assert.match(reactModal, /className="[^"]*copy-action-glow/);
+  assert.match(reactModal, /className=\{`copy-action-glow/);
   assert.match(reactModal, /className="[^"]*pb-14/);
-  assert.match(reactModal, /className="[^"]*copy-action-glow[^\"]*absolute right-3 bottom-3/);
+  assert.match(reactModal, /className=\{`copy-action-glow[\s\S]*absolute right-3 bottom-3/);
   assert.match(sharedStyles, /\.copy-action-glow:hover,\s*\.copy-action-glow:focus-visible/);
   assert.match(sharedStyles, /\.copy-action-glow:hover,\s*\.copy-action-glow:focus-visible[^}]*box-shadow:/s);
   assert.match(sharedStyles, /\.copy-action-glow:active[^}]*transform:/s);
+});
+
+test('copy draft actions pulse twice per second after a draft appears', () => {
+  const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(sharedStyles, /@keyframes copy-draft-pulse/);
+  assert.match(sharedStyles, /\.copy-draft-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite/s);
+  assert.match(sharedStyles, /\.copy-draft-attention\s*\{[^}]*animation:\s*none/s);
+  assert.match(indexHtml, /function setCopyDraftAttention\(active\)/);
+  assert.match(indexHtml, /setCopyDraftAttention\(Boolean\(draft\.trim\(\)\)\)/);
+  assert.match(indexHtml, /setCopyDraftAttention\(false\)/);
+  assert.match(reactModal, /copy-draft-attention/);
 });
 
 test('copy feedback is localized in every supported locale', () => {

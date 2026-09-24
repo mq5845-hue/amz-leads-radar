@@ -289,6 +289,17 @@ test('toolbar tooltip labels are translated in every supported locale', () => {
   }
 });
 
+test('mobile locale menu keeps the trigger and all language options visible', () => {
+  const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
+  assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu \{[^}]*min-width: max-content/s);
+  assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-trigger \{[^}]*white-space: nowrap/s);
+  assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-panel \{[^}]*left: 0; right: auto;[^}]*overflow-y: auto/s);
+  assert.match(sharedStyles, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-panel \{[^}]*left: 0;[\s\S]*?overflow-y: auto/s);
+  for (const locale of ['en', 'zh-TW', 'zh-CN', 'ja', 'ko', 'ms', 'id', 'vi']) {
+    assert.match(indexHtml, new RegExp(`data-locale="${locale}"`));
+  }
+});
+
 test('dynamic Reddit metric tooltips are translated in every supported locale', () => {
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const [upvotesLabel, commentsLabel] of [

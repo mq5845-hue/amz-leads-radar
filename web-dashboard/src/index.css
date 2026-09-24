@@ -39,6 +39,27 @@
   outline: none;
 }
 
+@media (max-width: 700px) {
+  #locale-menu {
+    flex: 0 0 auto;
+    min-width: max-content;
+  }
+
+  #locale-menu-trigger {
+    white-space: nowrap;
+  }
+
+  #locale-menu-panel {
+    left: 0;
+    right: auto;
+    width: min(220px, calc(100vw - 1rem));
+    min-width: 0;
+    max-height: min(24rem, calc(100dvh - 7rem));
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+}
+
 .brand-name-hover {
   display: inline-block;
   transition: filter .18s ease, text-shadow .18s ease, transform .18s ease;

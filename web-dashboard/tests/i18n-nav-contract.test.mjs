@@ -248,6 +248,20 @@ test('interactive dialogs share Escape, backdrop close, and focus restoration be
   assert.match(indexHtml, /function closeSettingsModal\(\)[\s\S]*?settingsReturnFocus/);
 });
 
+test('draft modal exposes a localized return-home action beside mark replied', () => {
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(indexHtml, /function returnToHome\(\)[\s\S]*?closeDetailModal\(\)[\s\S]*?window\.scrollTo/);
+  assert.match(indexHtml, /<button onclick="returnToHome\(\)"[\s\S]*?data-lucide="arrow-left"[\s\S]*?data-i18n="回到首頁"/);
+  assert.match(indexHtml, /returnToHome\(\)[\s\S]*?標記為已回覆/);
+  assert.match(reactModal, /ArrowLeft/);
+  assert.match(reactModal, /window\.scrollTo/);
+  const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
+  for (const [locale, translated] of [['en', 'Back to home'], ['zh-TW', '回到首頁'], ['zh-CN', '返回首页'], ['ja', 'ホームに戻る'], ['ko', '홈으로 돌아가기'], ['ms', 'Kembali ke halaman utama'], ['id', 'Kembali ke beranda'], ['vi', 'Về trang chủ']]) {
+    const localeKey = locale.includes('-') ? `'${locale}'` : locale;
+    assert.match(runtimeSource, new RegExp(`${localeKey}: '${translated.replace(/[.*+?^${}()|[\\]\\]/g, '\\\\$&')}'`));
+  }
+});
+
 test('common badges, filters, and auth fields do not retain mixed-language UI copy', () => {
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   assert.match(indexHtml, /<label for="auth-email"[^>]*data-i18n="Email"/);

@@ -484,6 +484,17 @@ const staticLocaleUi = {
     '找不到符合條件的商機線索': 'Không tìm thấy cơ hội phù hợp', '請嘗試放寬關鍵字搜尋、調整 Subreddit 篩選或重設匹配度門檻。': 'Hãy mở rộng từ khóa, điều chỉnh bộ lọc Subreddit hoặc đặt lại ngưỡng khớp.', 'AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS': 'AMZ Leads Radar © 2026 • SaaS thu hút khách hàng thương mại điện tử đa kênh', 'Supabase 登入': 'Đăng nhập Supabase', 'Email / Password • session 僅保留在目前頁面記憶體': 'Email / Password • phiên chỉ được giữ trong bộ nhớ trang này', '取消': 'Hủy', '登入並讀取額度': 'Đăng nhập và tải hạn mức', 'AI 核心痛點拆解：': 'Phân tích nỗi đau cốt lõi bằng AI:', 'Reddit 原文內容預覽': 'Xem trước nội dung Reddit', 'AI 預擬回覆話術（語氣切換）': 'Bản nháp trả lời AI (giọng điệu)', '已自動代入您的品牌：': 'Đã tự động thêm thương hiệu:', '複製草稿': 'Sao chép bản nháp', '真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號': 'Cần người kiểm duyệt; tiện ích hỗ trợ điền và bạn tự bấm đăng.', '標記為已回覆': 'Đánh dấu đã trả lời', '前往 Reddit 並喚醒 Copilot': 'Mở Reddit và đánh thức Copilot', '升級 AMZ Leads Radar Pro 專業版': 'Nâng cấp lên AMZ Leads Radar Pro', '賣家品牌與店鋪設定': 'Cài đặt thương hiệu và cửa hàng người bán', '您的品牌名稱 (Brand Name)': 'Tên thương hiệu', '當 AI 產生回覆草稿時，會自動以此品牌名稱置換 [Your Brand]。': 'Bản nháp AI thay [Your Brand] bằng tên thương hiệu này.', 'Amazon 商品超連結或店鋪首頁 URL': 'Liên kết sản phẩm Amazon hoặc URL cửa hàng', '防封號提示：': 'Mẹo bảo vệ tài khoản:', '取消': 'Hủy', '儲存設定': 'Lưu cài đặt',
   },
 };
+const returnHomeCopy = {
+  en: 'Back to home',
+  'zh-TW': '回到首頁',
+  'zh-CN': '返回首页',
+  ja: 'ホームに戻る',
+  ko: '홈으로 돌아가기',
+  ms: 'Kembali ke halaman utama',
+  id: 'Kembali ke beranda',
+  vi: 'Về trang chủ',
+};
+for (const [locale, label] of Object.entries(returnHomeCopy)) staticLocaleUi[locale]['回到首頁'] = label;
 for (const [locale, entries] of Object.entries(staticLocaleUi)) uiCopy[locale] = { ...(uiCopy[locale] || {}), ...entries };
 
 const missingStaticLocaleUi = {

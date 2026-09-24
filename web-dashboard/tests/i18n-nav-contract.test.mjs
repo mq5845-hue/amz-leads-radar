@@ -253,8 +253,10 @@ test('draft modal exposes a localized return-home action beside mark replied', (
   assert.match(indexHtml, /function returnToHome\(\)[\s\S]*?closeDetailModal\(\)[\s\S]*?window\.scrollTo/);
   assert.match(indexHtml, /<button onclick="returnToHome\(\)"[\s\S]*?data-lucide="arrow-left"[\s\S]*?data-i18n="回到首頁"/);
   assert.match(indexHtml, /returnToHome\(\)[\s\S]*?標記為已回覆/);
+  assert.match(indexHtml, /<div class="flex flex-wrap items-center gap-x-3 gap-y-0\.5 w-full sm:w-auto justify-end">/);
   assert.match(reactModal, /ArrowLeft/);
   assert.match(reactModal, /window\.scrollTo/);
+  assert.match(reactModal, /flex flex-wrap items-center gap-x-3 gap-y-0\.5/);
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const [locale, translated] of [['en', 'Back to home'], ['zh-TW', '回到首頁'], ['zh-CN', '返回首页'], ['ja', 'ホームに戻る'], ['ko', '홈으로 돌아가기'], ['ms', 'Kembali ke halaman utama'], ['id', 'Kembali ke beranda'], ['vi', 'Về trang chủ']]) {
     const localeKey = locale.includes('-') ? `'${locale}'` : locale;

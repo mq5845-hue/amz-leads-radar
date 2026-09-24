@@ -216,7 +216,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
             <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
           </div>
 
-          <div className="flex flex-wrap items-center space-x-3 w-full sm:w-auto justify-end">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 w-full sm:w-auto justify-end">
             <button
               onClick={handleReturnHome}
               aria-label="回到首頁"

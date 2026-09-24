@@ -138,10 +138,10 @@ test('copy actions share the visible hover and keyboard focus glow', () => {
   const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
   assert.match(indexHtml, /id="btn-copy-draft"[^>]*class="[^"]*copy-action-glow/);
   assert.match(indexHtml, /id="modal-draft-area"[^>]*class="[^"]*pb-14/);
-  assert.match(indexHtml, /id="btn-copy-draft"[^>]*class="[^"]*absolute right-3 bottom-3/);
+  assert.match(indexHtml, /class="absolute right-3 bottom-3 flex items-center space-x-1\.5"[\s\S]*?id="btn-copy-draft"/);
   assert.match(reactModal, /className=\{`copy-action-glow/);
   assert.match(reactModal, /className="[^"]*pb-14/);
-  assert.match(reactModal, /className=\{`copy-action-glow[\s\S]*absolute right-3 bottom-3/);
+  assert.match(reactModal, /className="absolute right-3 bottom-3 flex items-center space-x-1\.5"/);
   assert.match(sharedStyles, /\.copy-action-glow:hover,\s*\.copy-action-glow:focus-visible/);
   assert.match(sharedStyles, /\.copy-action-glow:hover,\s*\.copy-action-glow:focus-visible[^}]*box-shadow:/s);
   assert.match(sharedStyles, /\.copy-action-glow:active[^}]*transform:/s);
@@ -157,6 +157,15 @@ test('copy draft actions pulse twice per second after a draft appears', () => {
   assert.match(indexHtml, /setCopyDraftAttention\(Boolean\(draft\.trim\(\)\)\)/);
   assert.match(indexHtml, /setCopyDraftAttention\(false\)/);
   assert.match(reactModal, /copy-draft-attention/);
+});
+
+test('copy draft reminders include a synchronized assistant avatar', () => {
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(indexHtml, /id="avatar-copy-draft"[^>]*draft-helper-avatar/);
+  assert.match(indexHtml, /function setCopyDraftAttention\(active\)[\s\S]*?draft-helper-avatar-attention/);
+  assert.match(reactModal, /src="\/favicon-head-transparent\.png"/);
+  assert.match(reactModal, /draft-helper-avatar-attention/);
+  assert.match(reactModal, /id="btn-copy-draft"/);
 });
 
 test('copy completion hands the seller reminder to the Reddit action', () => {

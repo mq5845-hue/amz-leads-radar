@@ -369,10 +369,13 @@
 
           <div class="relative">
             <textarea id="modal-draft-area" rows="5" readonly class="w-full p-4 pb-14 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"></textarea>
-            <button onclick="copyDraftText()" id="btn-copy-draft" class="copy-action-glow absolute right-3 bottom-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-               <span id="copy-btn-text" data-i18n="複製草稿">複製草稿</span>
-            </button>
+            <div class="absolute right-3 bottom-3 flex items-center space-x-1.5">
+              <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" id="avatar-copy-draft" class="draft-helper-avatar h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+              <button onclick="copyDraftText()" id="btn-copy-draft" class="copy-action-glow px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                 <span id="copy-btn-text" data-i18n="複製草稿">複製草稿</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -1314,8 +1317,9 @@
 
     function setCopyDraftAttention(active) {
       const button = document.getElementById('btn-copy-draft');
-      if (!button) return;
-      button.classList.toggle('copy-draft-attention', Boolean(active));
+      const avatar = document.getElementById('avatar-copy-draft');
+      button?.classList.toggle('copy-draft-attention', Boolean(active));
+      avatar?.classList.toggle('draft-helper-avatar-attention', Boolean(active));
     }
 
     function setRedditActionAttention(active) {

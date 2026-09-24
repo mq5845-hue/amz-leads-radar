@@ -175,22 +175,31 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
                 rows={5}
                 className="w-full p-4 pb-14 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"
               />
-              <button
-                onClick={handleCopy}
-                className={`copy-action-glow ${!copied && currentDraft.trim() ? 'copy-draft-attention' : ''} absolute right-3 bottom-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all`}
-              >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">已複製</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>複製草稿</span>
-                  </>
-                )}
-              </button>
+              <div className="absolute right-3 bottom-3 flex items-center space-x-1.5">
+                <img
+                  src="/favicon-head-transparent.png"
+                  alt=""
+                  aria-hidden="true"
+                  className={`draft-helper-avatar ${!copied && currentDraft.trim() ? 'draft-helper-avatar-attention' : ''} h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25`}
+                />
+                <button
+                  onClick={handleCopy}
+                  id="btn-copy-draft"
+                  className={`copy-action-glow ${!copied && currentDraft.trim() ? 'copy-draft-attention' : ''} px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all`}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">已複製</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>複製草稿</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

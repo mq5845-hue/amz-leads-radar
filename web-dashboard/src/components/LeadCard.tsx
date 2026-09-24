@@ -118,14 +118,22 @@ export const LeadCard: React.FC<LeadCardProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center space-x-2">
           {/* Quick Preview */}
-          <button
-            onClick={() => onOpenDetail(lead)}
-            id={`btn-draft-reply-${lead.id}`}
-            className={`copy-action-glow ${draftReminderActive ? 'draft-action-attention' : ''} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1`}
-          >
-            <Bot className="w-3.5 h-3.5 text-indigo-400" />
-            <span>預擬回覆</span>
-          </button>
+          <div className="flex items-center space-x-1.5">
+            <img
+              src="/favicon-head-transparent.png"
+              alt=""
+              aria-hidden="true"
+              className="draft-helper-avatar h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25"
+            />
+            <button
+              onClick={() => onOpenDetail(lead)}
+              id={`btn-draft-reply-${lead.id}`}
+              className={`copy-action-glow ${draftReminderActive ? 'draft-action-attention' : ''} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1`}
+            >
+              <Bot className="w-3.5 h-3.5 text-indigo-400" />
+              <span>預擬回覆</span>
+            </button>
+          </div>
 
           {/* Jump to Reddit & Open Copilot */}
           <button

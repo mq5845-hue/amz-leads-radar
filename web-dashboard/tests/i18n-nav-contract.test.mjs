@@ -190,6 +190,16 @@ test('draft preview card actions keep pulsing until the draft is copied', () => 
   assert.match(reactModal, /hasCopiedDraft/);
 });
 
+test('draft preview actions include the warm assistant avatar beside the button', () => {
+  const reactCard = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadCard.tsx'), 'utf8');
+  assert.match(indexHtml, /draft-helper-avatar/);
+  assert.match(indexHtml, /favicon-head-transparent\.png/);
+  assert.match(indexHtml, /draft-action-attention[^>]*px-3/);
+  assert.match(reactCard, /draft-helper-avatar/);
+  assert.match(reactCard, /src="\/favicon-head-transparent\.png"/);
+  assert.match(reactCard, /draft-action-attention/);
+});
+
 test('copy feedback is localized in every supported locale', () => {
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const translated of ['Copied!', '已複製！', '已复制！', 'コピーしました！', '복사됨!', 'Disalin!', 'Tersalin!', 'Đã sao chép!']) {

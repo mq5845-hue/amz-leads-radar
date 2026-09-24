@@ -39,6 +39,19 @@
   outline: none;
 }
 
+.amz-brand-logo-frame {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.amz-brand-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 @media (max-width: 700px) {
   #locale-menu {
     flex: 0 0 auto;
@@ -52,7 +65,7 @@
   #locale-menu-panel {
     left: 0;
     right: auto;
-    width: min(220px, calc(100vw - 1rem));
+    width: min(180px, calc(100vw - 1rem));
     min-width: 0;
     max-height: min(24rem, calc(100dvh - 7rem));
     overflow-y: auto;

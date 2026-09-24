@@ -73,6 +73,43 @@
   }
 }
 
+/* Keep the header breathing room and let its controls wrap before they can
+   widen the page on tablet and phone viewports. */
+.amz-header-inner {
+  min-height: 5rem;
+}
+
+@media (max-width: 900px) {
+  .amz-header-inner {
+    height: auto;
+    min-height: 4rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: .5rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+
+  .amz-brand-lockup {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .amz-header-actions {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: .375rem;
+  }
+
+  .amz-header-actions > * {
+    min-width: 0;
+    margin-left: 0 !important;
+  }
+}
+
 .brand-name-hover {
   display: inline-block;
   transition: filter .18s ease, text-shadow .18s ease, transform .18s ease;

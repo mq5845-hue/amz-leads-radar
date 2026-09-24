@@ -168,15 +168,27 @@ test('copy draft reminders include a synchronized assistant avatar', () => {
   assert.match(reactModal, /id="btn-copy-draft"/);
 });
 
+test('tone selector cards place the assistant avatar beside each tone title', () => {
+  const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
+  assert.match(indexHtml, /class="tone-title-row[^"]*"[\s\S]*?class="tone-helper-avatar[^"]*"/);
+  assert.match(indexHtml, /class="tone-helper-avatar[^"]*h-5 w-5/);
+  assert.match(reactModal, /className="tone-title-row[^"]*"[\s\S]*?className="tone-helper-avatar[^"]*h-5 w-5/);
+  assert.match(reactModal, /src="\/favicon-head-transparent\.png"[\s\S]*?tone-helper-avatar/);
+});
+
 test('copy completion hands the seller reminder to the Reddit action', () => {
   const sharedStyles = fs.readFileSync(path.join(dashboardRoot, 'src', 'index.css'), 'utf8');
   const reactModal = fs.readFileSync(path.join(dashboardRoot, 'src', 'components', 'LeadDetailModal.tsx'), 'utf8');
   assert.match(sharedStyles, /\.reddit-action-attention\s*\{[^}]*animation:\s*copy-draft-pulse\s+\.5s\s+ease-in-out\s+infinite\s*!important/s);
   assert.match(indexHtml, /id="btn-jump-reddit"/);
   assert.match(indexHtml, /function setRedditActionAttention\(active\)/);
+  assert.match(indexHtml, /id="avatar-jump-reddit"[^>]*draft-helper-avatar/);
+  assert.match(indexHtml, /function setRedditActionAttention\(active\)[\s\S]*?avatar\?\.classList\.toggle\('draft-helper-avatar-attention'/);
   assert.match(indexHtml, /await navigator\.clipboard\.writeText\(text\);[\s\S]*setRedditActionAttention\(true\)/);
   assert.match(indexHtml, /function jumpFromModal\(\)[\s\S]*setRedditActionAttention\(false\)/);
   assert.match(reactModal, /reddit-action-attention/);
+  assert.match(reactModal, /reddit-action-cluster/);
+  assert.match(reactModal, /redditAttention \? 'draft-helper-avatar-attention'/);
   assert.match(reactModal, /setRedditAttention\(true\)/);
   assert.match(reactModal, /setRedditAttention\(false\)/);
 });
@@ -253,10 +265,24 @@ test('draft modal exposes a localized return-home action beside mark replied', (
   assert.match(indexHtml, /function returnToHome\(\)[\s\S]*?closeDetailModal\(\)[\s\S]*?window\.scrollTo/);
   assert.match(indexHtml, /<button onclick="returnToHome\(\)"[\s\S]*?data-lucide="arrow-left"[\s\S]*?data-i18n="回到首頁"/);
   assert.match(indexHtml, /returnToHome\(\)[\s\S]*?標記為已回覆/);
-  assert.match(indexHtml, /<div class="flex flex-wrap items-center gap-x-3 gap-y-0\.5 w-full sm:w-auto justify-end">/);
+  assert.match(indexHtml, /<div class="flex flex-wrap items-center gap-x-3 gap-y-\[clamp\(3px,0\.9vw,6px\)\] min-w-0 w-full sm:w-auto justify-end">/);
+  assert.match(indexHtml, /id="reddit-action-cluster" class="[^\"]*order-first sm:order-none/);
+  assert.match(indexHtml, /id="modal-secondary-actions" class="[^\"]*order-last sm:order-none/);
+  assert.match(indexHtml, /id="reddit-action-cluster"[\s\S]*?id="modal-secondary-actions"/);
+  assert.match(indexHtml, /id="btn-jump-reddit" class="[^\"]*flex-1 sm:flex-none/);
+  assert.match(indexHtml, /w-full max-w-3xl[^\"]*min-w-0/);
+  assert.match(indexHtml, /class="flex flex-wrap gap-x-2 gap-y-1[^\"]*" id="modal-meta"/);
+  assert.match(indexHtml, /gap-x-3 gap-y-\[clamp\(3px,0\.9vw,6px\)\] min-w-0 w-full sm:w-auto/);
   assert.match(reactModal, /ArrowLeft/);
   assert.match(reactModal, /window\.scrollTo/);
-  assert.match(reactModal, /flex flex-wrap items-center gap-x-3 gap-y-0\.5/);
+  assert.match(reactModal, /flex flex-wrap items-center gap-x-3 gap-y-\[clamp\(3px,0\.9vw,6px\)\]/);
+  assert.match(reactModal, /id="reddit-action-cluster" className="[^\"]*order-first sm:order-none/);
+  assert.match(reactModal, /id="modal-secondary-actions" className="[^\"]*order-last sm:order-none/);
+  assert.match(reactModal, /id="reddit-action-cluster"[\s\S]*?id="modal-secondary-actions"/);
+  assert.match(reactModal, /id="btn-jump-reddit"[\s\S]*?flex-1 sm:flex-none/);
+  assert.match(reactModal, /max-w-3xl[^\"]*min-w-0/);
+  assert.match(reactModal, /flex flex-wrap items-center gap-x-2 gap-y-1 mb-1\.5 min-w-0/);
+  assert.match(reactModal, /gap-x-3 gap-y-\[clamp\(3px,0\.9vw,6px\)\] min-w-0 w-full sm:w-auto/);
   const runtimeSource = fs.readFileSync(path.join(dashboardRoot, 'public', 'i18n', 'legacy-i18n.mjs'), 'utf8');
   for (const [locale, translated] of [['en', 'Back to home'], ['zh-TW', '回到首頁'], ['zh-CN', '返回首页'], ['ja', 'ホームに戻る'], ['ko', '홈으로 돌아가기'], ['ms', 'Kembali ke halaman utama'], ['id', 'Kembali ke beranda'], ['vi', 'Về trang chủ']]) {
     const localeKey = locale.includes('-') ? `'${locale}'` : locale;
@@ -310,10 +336,17 @@ test('mobile locale menu keeps the trigger and all language options visible', ()
   assert.match(indexHtml, /id="amz-brand-logo"[^>]*width="40"[^>]*height="40"[^>]*fetchpriority="high"/);
   assert.match(sharedStyles, /\.amz-brand-logo-frame\s*\{[^}]*flex:\s*0 0 40px/);
   assert.match(sharedStyles, /\.amz-brand-logo\s*\{[^}]*display:\s*block/);
+  assert.match(indexHtml, /amz-header-inner[^\"]*min-h-20[^\"]*py-3/);
+  assert.match(sharedStyles, /\.amz-header-inner\s*\{[^}]*min-height: 5rem/);
+  assert.match(sharedStyles, /@media \(max-width: 900px\)[\s\S]*?\.amz-header-actions \{[^}]*flex-wrap: wrap/s);
   assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu \{[^}]*min-width: max-content/s);
   assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-trigger \{[^}]*white-space: nowrap/s);
   assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-panel \{[^}]*left: 0; right: auto; width: min\(180px/s);
   assert.match(sharedStyles, /@media \(max-width: 700px\)[\s\S]*?#locale-menu-panel \{[^}]*left: 0;[\s\S]*?overflow-y: auto/s);
+  assert.match(indexHtml, /@media \(max-width: 700px\)[\s\S]*?\.amz-header-actions \{[^}]*flex-wrap: wrap/s);
+  assert.match(indexHtml, /\.amz-header-actions > \* \{ min-width: 0; margin-left: 0 !important; \}/);
+  assert.match(indexHtml, /@media \(min-width: 701px\) and \(max-width: 900px\)[\s\S]*?\.amz-header-actions \{[^}]*flex-wrap: wrap/s);
+  assert.match(indexHtml, /<main class="flex-1 max-w-7xl w-full min-w-0[^\"]*overflow-x-clip">/);
   for (const locale of ['en', 'zh-TW', 'zh-CN', 'ja', 'ko', 'ms', 'id', 'vi']) {
     assert.match(indexHtml, new RegExp(`data-locale="${locale}"`));
   }

@@ -92,18 +92,18 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="lead-detail-title">
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl min-w-0 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
-        <div className="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90">
-          <div>
-            <div className="flex items-center space-x-2 mb-1.5">
+        <div className="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90 min-w-0">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1.5 min-w-0">
               <span className="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">
                 {lead.subreddit}
               </span>
               <span className="text-xs text-slate-400">作者: u/{lead.author}</span>
               <span className="text-xs text-emerald-400 font-bold">🎯 {lead.match_score}% 匹配</span>
             </div>
-            <h2 id="lead-detail-title" className="text-lg font-bold text-white leading-snug">{lead.title}</h2>
+            <h2 id="lead-detail-title" className="text-lg font-bold text-white leading-snug break-words">{lead.title}</h2>
           </div>
           <button
             onClick={handleClose}
@@ -115,7 +115,7 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto min-w-0">
           {/* AI Pain Point Section */}
           <div className="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4">
             <div className="flex items-center space-x-2 text-xs font-semibold text-amber-400 mb-1.5">
@@ -166,7 +166,15 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
                       : 'bg-slate-800/50 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                   }`}
                 >
-                  <div className="font-semibold text-slate-200 mb-1">{tone.title}</div>
+                  <div className="tone-title-row flex items-center gap-1.5 mb-1 min-w-0">
+                    <span className="font-semibold text-slate-200 break-words min-w-0">{tone.title}</span>
+                    <img
+                      src="/favicon-head-transparent.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="tone-helper-avatar h-5 w-5 shrink-0 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25"
+                    />
+                  </div>
                   <div className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">{tone.desc}</div>
                 </button>
               ))}
@@ -210,44 +218,54 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center space-x-2 text-xs text-slate-400">
+        <div className="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3 min-w-0">
+          <div className="flex items-center space-x-2 text-xs text-slate-400 min-w-0">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 w-full sm:w-auto justify-end">
-            <button
-              onClick={handleReturnHome}
-              aria-label="回到首頁"
-              title="回到首頁"
-              className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center space-x-1.5"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>回到首頁</span>
-            </button>
-            <button
-              onClick={() => {
-                onStatusChange(lead.id, 'replied');
-                handleClose();
-              }}
-              className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700"
-            >
-              標記為已回覆
-            </button>
-            <button
-              onClick={() => {
-                if (onJumpToReddit(lead)) {
-                  setRedditAttention(false);
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-[clamp(3px,0.9vw,6px)] min-w-0 w-full sm:w-auto justify-end">
+            <div id="reddit-action-cluster" className="order-first sm:order-none flex items-center gap-1.5 w-full sm:w-auto min-w-0">
+              <img
+                src="/favicon-head-transparent.png"
+                alt=""
+                aria-hidden="true"
+                className={`draft-helper-avatar ${redditAttention ? 'draft-helper-avatar-attention' : ''} h-7 w-7 shrink-0 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25`}
+              />
+              <button
+                onClick={() => {
+                  if (onJumpToReddit(lead)) {
+                    setRedditAttention(false);
+                    handleClose();
+                  }
+                }}
+                id="btn-jump-reddit"
+                className={`flex-1 sm:flex-none copy-action-glow ${redditAttention ? 'reddit-action-attention' : ''} px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30`}
+              >
+                <span>前往 Reddit 並喚醒 Copilot</span>
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            </div>
+            <div id="modal-secondary-actions" className="order-last sm:order-none flex items-center gap-x-3 gap-y-[clamp(3px,0.9vw,6px)] w-full sm:w-auto justify-end">
+              <button
+                onClick={handleReturnHome}
+                aria-label="回到首頁"
+                title="回到首頁"
+                className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center space-x-1.5"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>回到首頁</span>
+              </button>
+              <button
+                onClick={() => {
+                  onStatusChange(lead.id, 'replied');
                   handleClose();
-                }
-              }}
-              id="btn-jump-reddit"
-              className={`copy-action-glow ${redditAttention ? 'reddit-action-attention' : ''} px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30`}
-            >
-              <span>前往 Reddit 並喚醒 Copilot</span>
-              <ExternalLink className="w-4 h-4" />
-            </button>
+                }}
+                className="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700"
+              >
+                標記為已回覆
+              </button>
+            </div>
           </div>
         </div>
       </div>

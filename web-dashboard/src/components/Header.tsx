@@ -20,9 +20,9 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="amz-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-20 py-3 flex items-center justify-between">
         {/* Brand Logo & Name */}
-        <div className="flex items-center space-x-3">
+        <div className="amz-brand-lockup flex items-center space-x-3 min-w-0">
           <div className="h-10 w-10 rounded-xl bg-slate-950/60 flex items-center justify-center shadow-lg shadow-indigo-500/20 overflow-hidden">
             <img src={logoUrl} alt="AMZ Leads Radar" className="h-full w-full object-contain" />
           </div>
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Right Action & Status Area */}
-        <div className="flex items-center space-x-3 sm:space-x-4">
+        <div className="amz-header-actions flex items-center space-x-3 sm:space-x-4 min-w-0">
           {/* Refresh Button */}
           <button
             onClick={onRefresh}

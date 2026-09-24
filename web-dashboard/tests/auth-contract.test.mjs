@@ -22,8 +22,10 @@ test('legacy dashboard exposes an email/password auth panel and auth bridge', ()
 });
 
 test('legacy filter options can be initialized repeatedly without duplicating choices', () => {
-  assert.match(dashboardHtml, /subSelect\.innerHTML\s*=\s*['"]<option value="all">所有 Subreddits<\/option>['"]/);
-  assert.match(dashboardHtml, /catSelect\.innerHTML\s*=\s*['"]<option value="all">所有品類<\/option>['"]/);
+  assert.match(dashboardHtml, /function initOptions\(\)[\s\S]*?subSelect\.innerHTML\s*=\s*`<option value="all">\$\{escapeHtml\(uiText\('所有 Subreddits'\)\)\}<\/option>`/);
+  assert.match(dashboardHtml, /function initOptions\(\)[\s\S]*?catSelect\.innerHTML\s*=\s*`<option value="all">\$\{escapeHtml\(uiText\('所有品類'\)\)\}<\/option>`/);
+  assert.match(dashboardHtml, /function initOptions\(\)[\s\S]*?subSelect\.appendChild\(opt\)/);
+  assert.match(dashboardHtml, /function initOptions\(\)[\s\S]*?catSelect\.appendChild\(opt\)/);
 });
 
 test('auth modal exposes dialog semantics and mobile header safeguards', () => {
@@ -52,10 +54,15 @@ test('opening the same lead does not regenerate and charge a cached review draft
   assert.match(generateDraft, /if \(lead\.api_draft\) return;/);
 });
 
+test('tone selection keeps tone-specific replies ahead of a generic cached API draft', () => {
+  const updateDraft = dashboardHtml.match(/function updateModalDraft\(\) \{[\s\S]*?\n    \}/)?.[0] || '';
+  assert.match(updateDraft, /currentLead\.replies\?\.\[currentTone\]\s*\|\|\s*currentLead\.api_draft/);
+});
+
 test('legacy dashboard escapes persisted lead content before innerHTML rendering', () => {
   assert.match(dashboardHtml, /function escapeHtml\(value\)/);
   assert.match(dashboardHtml, /escapeHtml\(lead\.title\)/);
-  assert.match(dashboardHtml, /escapeHtml\(lead\.painpoint_summary\)/);
+  assert.match(dashboardHtml, /escapeHtml\(uiText\(lead\.painpoint_summary, lead\.painpoint_summary\)\)/);
   assert.match(dashboardHtml, /safeLeadId/);
 });
 

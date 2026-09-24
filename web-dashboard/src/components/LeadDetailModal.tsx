@@ -142,11 +142,11 @@ export const LeadDetailModal: React.FC<LeadDetailModalProps> = ({
                 readOnly
                 value={currentDraft}
                 rows={5}
-                className="w-full p-4 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"
+                className="w-full p-4 pb-14 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"
               />
               <button
                 onClick={handleCopy}
-                className="absolute right-3 top-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all"
+                className="copy-action-glow absolute right-3 bottom-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1 transition-all"
               >
                 {copied ? (
                   <>

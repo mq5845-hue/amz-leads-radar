@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'Noto Sans TC', 'system-ui', 'sans-serif'],
+      },
       colors: {
         brand: {
           50: '#eef2ff',

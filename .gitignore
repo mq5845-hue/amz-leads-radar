@@ -22,6 +22,10 @@ dist/
 # Local demo artifacts
 coverage/
 
+# Browser interaction artifacts
+.playwright-cli/
+**/.playwright-cli/
+
 .vercel
 .env*
 !.env.example

@@ -8,7 +8,98 @@
   }
 }
 
-/* Custom subtle scrollbar */
+/* Shared hover/glow contract for the legacy dashboard and React components. */
+.hover-glow-card,
+.review-card {
+  transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease,
+    transform .18s ease;
+}
+
+.hover-glow-card:hover,
+.review-card:hover {
+  filter: brightness(1.25);
+  border-color: rgba(129, 140, 248, .475) !important;
+  box-shadow: 0 0 0 1px rgba(129, 140, 248, .4),
+    0 0 20px 6px rgba(99, 102, 241, .29),
+    0 0 40px 12px rgba(56, 189, 248, .13) !important;
+  transform: translateY(-1px);
+}
+
+.locale-menu-option {
+  transition: color .12s ease, background-color .12s ease, filter .12s ease,
+    box-shadow .12s ease;
+}
+
+.locale-menu-option:hover,
+.locale-menu-option:focus-visible {
+  color: #fff;
+  background: rgba(99, 102, 241, .32);
+  filter: brightness(1.5);
+  box-shadow: 0 0 14px 3px rgba(129, 140, 248, .5);
+  outline: none;
+}
+
+.brand-name-hover {
+  display: inline-block;
+  transition: filter .18s ease, text-shadow .18s ease, transform .18s ease;
+}
+
+.brand-name-hover:hover {
+  filter: brightness(2.25);
+  text-shadow: 0 0 12px rgba(224, 231, 255, 1),
+    0 0 28px rgba(129, 140, 248, .95),
+    0 0 46px rgba(99, 102, 241, .78);
+  transform: translateY(-1px);
+}
+
+/* Shared copy action feedback for legacy and React modal implementations. */
+.copy-action-glow {
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease,
+    box-shadow .18s ease, filter .18s ease, transform .18s ease;
+}
+
+.copy-action-glow:hover,
+.copy-action-glow:focus-visible {
+  color: #e0e7ff;
+  background-color: rgba(51, 65, 85, .88);
+  border-color: rgba(129, 140, 248, .72) !important;
+  filter: brightness(1.25);
+  box-shadow: 0 0 0 1px rgba(129, 140, 248, .24),
+    0 0 16px 4px rgba(99, 102, 241, .29),
+    0 0 28px 8px rgba(56, 189, 248, .13);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.copy-action-glow:active {
+  filter: brightness(1.1);
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-glow-card,
+  .review-card,
+  .brand-name-hover,
+  .copy-action-glow {
+    transition: none;
+  }
+
+  .hover-glow-card:hover,
+  .review-card:hover,
+  .brand-name-hover:hover,
+  .copy-action-glow:hover,
+  .copy-action-glow:focus-visible,
+  .copy-action-glow:active {
+    transform: none;
+  }
+}
+
+/* Custom subtle scrollbar with standards-based fallbacks. */
+html {
+  scrollbar-color: #334155 #0f172a;
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

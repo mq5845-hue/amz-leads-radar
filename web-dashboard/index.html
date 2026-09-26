@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AMZ Leads Radar - 跨境電商站外引流商機看板</title>
+  <title data-i18n="pageTitle">AMZ Leads Radar - 跨境電商站外引流商機看板</title>
   <link rel="icon" type="image/png" href="/favicon-head-transparent.png" />
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,45 +14,41 @@
   <script>
     // Configure at deployment time; never mark a profile Pro in the browser.
     window.__LEMON_SQUEEZY_CHECKOUT_URL__ = '';
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'Noto Sans TC', 'system-ui', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-            }
-          }
-        }
-      }
-    }
   </script>
   <style>
-    .amz-radar-hero { isolation: isolate; min-height: 190px; display: flex; align-items: center; }
-    .amz-radar-visual { position: absolute; right: 3.5rem; top: 50%; width: 138px; height: 138px; transform: translateY(-50%); border: 1px solid rgba(56,189,248,.58); border-radius: 50%; opacity: 1; pointer-events: none; overflow: visible; background: repeating-conic-gradient(from 0deg, rgba(56,189,248,.34) 0deg 1deg, transparent 1deg 15deg), radial-gradient(circle, rgba(14,165,233,.24) 0 2%, transparent 2.6% 24%, rgba(14,165,233,.24) 24.5% 25%, transparent 25.5% 49%, rgba(14,165,233,.3) 49.5% 50.2%, transparent 50.8% 74%, rgba(14,165,233,.38) 74.5% 75.2%, transparent 75.8%), linear-gradient(rgba(56,189,248,.26) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,.26) 1px, transparent 1px); background-size: auto, auto, 100% 25%, 25% 100%; box-shadow: 0 0 38px rgba(14,165,233,.56), 0 0 72px rgba(34,211,238,.2), inset 0 0 27px rgba(14,165,233,.36); }
+    .amz-radar-hero { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; margin-inline: auto; isolation: isolate; min-height: 200px; display: flex; align-items: center; }
+    .amz-live-clock { position: absolute; z-index: 7; right: 3.5rem; top: .55rem; width: 138px; height: 42px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 0; padding: .05rem .08rem; border: 1px solid rgba(125, 211, 252, .5); border-radius: .55rem; background: rgba(8, 22, 48, .72); box-shadow: 0 0 18px rgba(14, 165, 233, .28), inset 0 0 12px rgba(56, 189, 248, .1); color: #e0f2fe; text-align: center; font-variant-numeric: tabular-nums; backdrop-filter: blur(5px); }
+    .amz-live-clock-label { display: block; margin-bottom: 0; color: #67e8f9; font-size: clamp(.36rem, .7vw, .48rem); font-weight: 800; letter-spacing: .05em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+    .amz-live-clock-value { display: block; font-size: clamp(.58rem, 1vw, .76rem); font-weight: 700; letter-spacing: .005em; line-height: 1.18; text-shadow: 0 0 10px rgba(125, 211, 252, .72); white-space: nowrap; }
+    .amz-live-clock-dot { display: inline-block; width: .35rem; height: .35rem; margin-right: .28rem; border-radius: 999px; background: #22d3ee; box-shadow: 0 0 8px 2px rgba(34, 211, 238, .85); animation: amz-clock-pulse 1.4s ease-in-out infinite; vertical-align: .08em; }
+    .amz-radar-visual { position: absolute; right: 3.5rem; top: 65%; width: 138px; height: 138px; transform: translateY(-50%); border: 1px solid rgba(56,189,248,.58); border-radius: 50%; opacity: 1; pointer-events: none; overflow: visible; background: repeating-conic-gradient(from 0deg, rgba(56,189,248,.34) 0deg 1deg, transparent 1deg 15deg), radial-gradient(circle, rgba(14,165,233,.24) 0 2%, transparent 2.6% 24%, rgba(14,165,233,.24) 24.5% 25%, transparent 25.5% 49%, rgba(14,165,233,.3) 49.5% 50.2%, transparent 50.8% 74%, rgba(14,165,233,.38) 74.5% 75.2%, transparent 75.8%), linear-gradient(rgba(56,189,248,.26) 1px, transparent 1px), linear-gradient(90deg, rgba(56,189,248,.26) 1px, transparent 1px); background-size: auto, auto, 100% 25%, 25% 100%; box-shadow: 0 0 38px rgba(14,165,233,.56), 0 0 72px rgba(34,211,238,.2), inset 0 0 27px rgba(14,165,233,.36); }
     .amz-radar-sweep-beam { position: absolute; z-index: 3; inset: 0; border-radius: 50%; transform: rotate(0deg); transform-origin: center center; opacity: .78; background: conic-gradient(from 0deg, transparent 0deg 300deg, rgba(14,165,233,.05) 315deg, rgba(34,211,238,.12) 333deg, rgba(34,211,238,.32) 350deg, rgba(103,232,249,.82) 357deg, rgba(224,242,254,1) 359deg, transparent 360deg); filter: drop-shadow(0 0 7px rgba(34,211,238,.95)); will-change: transform; }
     .amz-radar-sweep-beam::after { content: none; }
     .amz-radar-center { position: absolute; z-index: 5; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; transform: translate(-50%, -50%); opacity: .9; background: #e0f2fe; box-shadow: 0 0 0 2px rgba(34,211,238,.24), 0 0 13px 4px rgba(34,211,238,.95); }
     .amz-radar-visual::after { content: ""; position: absolute; width: 7px; height: 7px; left: 58%; top: 29%; border-radius: 50%; background: #67e8f9; box-shadow: 0 0 0 4px rgba(103,232,249,.18), 0 0 30px 9px rgba(34,211,238,1), -70px 92px 0 -1px #22d3ee, -70px 92px 18px 3px rgba(34,211,238,.8), 38px 58px 0 -2px #38bdf8; animation: amz-radar-pulse 4.8s ease-in-out infinite; }
     .amz-radar-points { position: absolute; inset: 0; border-radius: 50%; }
     .amz-radar-point { position: absolute; border-radius: 50%; background: #a5f3fc; animation: amz-point-blink 3.2s ease-in-out infinite; }
+    .amz-brand-logo-frame { flex: 0 0 40px; width: 40px; height: 40px; }
+    .amz-brand-logo { display: block; width: 100%; height: 100%; -o-object-fit: contain; object-fit: contain; }
     @keyframes amz-point-blink { 0%, 100% { opacity: .25; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.45); } }
     @keyframes amz-radar-sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes amz-radar-pulse { 0%, 18%, 100% { opacity: .25; } 28%, 42% { opacity: 1; } 55%, 100% { opacity: .35; } }
-    @media (max-width: 700px) { .amz-radar-hero { min-height: 210px; } .amz-radar-visual { right: -35px; opacity: .35; transform: translateY(-50%) scale(.8); } }
-    @media (max-width: 700px) {
+    @keyframes amz-clock-pulse { 0%, 100% { opacity: .45; transform: scale(.82); } 50% { opacity: 1; transform: scale(1); } }
+    @media (max-width: 700px) { .amz-radar-hero { width: calc(100% - .5rem); min-height: 200px; } .amz-live-clock { right: -35px; top: 1rem; width: 138px; height: 42px; transform: scale(.8); transform-origin: center center; } .amz-radar-visual { right: -35px; top: 70%; opacity: .35; transform: translateY(-50%) scale(.8); }
       .amz-header-inner { height: auto !important; min-height: 64px; flex-wrap: wrap; align-items: flex-start; gap: .5rem; padding-top: .75rem; padding-bottom: .75rem; }
       .amz-brand-lockup { flex: 1 1 100%; min-width: 0; }
-      .amz-header-actions { flex: 1 1 100%; width: 100%; flex-wrap: nowrap; justify-content: space-between; gap: .375rem; }
-      .amz-header-actions > :not(:last-child) { margin-left: 0 !important; }
+      .amz-header-actions { flex: 1 1 100%; width: 100%; min-width: 0; flex-wrap: wrap; justify-content: flex-start; gap: .375rem; }
+      .amz-header-actions > * { min-width: 0; margin-left: 0 !important; }
+      #locale-menu { flex: 0 0 auto; min-width: -moz-max-content; min-width: max-content; }
+      #locale-menu-trigger { white-space: nowrap; }
+      #locale-menu-panel { left: 0; right: auto; width: min(180px, calc(100vw - 1rem)); min-width: 0; max-height: min(24rem, calc(100dvh - 7rem)); overflow-y: auto; box-sizing: border-box; }
       #btn-upgrade-top span { display: none; }
-      #btn-upgrade-top { padding: .5rem; }
+      #btn-upgrade-top { padding: .5rem; } }
+    @media (min-width: 701px) and (max-width: 900px) {
+      .amz-header-inner { height: auto !important; min-height: 64px; flex-wrap: wrap; align-items: flex-start; gap: .5rem; padding-top: .75rem; padding-bottom: .75rem; }
+      .amz-brand-lockup { flex: 1 1 100%; min-width: 0; }
+      .amz-header-actions { flex: 1 1 100%; width: 100%; min-width: 0; flex-wrap: wrap; justify-content: flex-start; gap: .375rem; }
+      .amz-header-actions > * { min-width: 0; margin-left: 0 !important; }
     }
     @media (prefers-reduced-motion: reduce) { .amz-radar-visual::after, .amz-radar-point { animation: none; } }
     /* Custom subtle scrollbar */
@@ -66,29 +60,38 @@
     .locale-menu-panel { visibility: hidden; opacity: 0; transform: translateY(-4px); pointer-events: none; position: absolute; right: 0; top: calc(100% + .45rem); z-index: 60; min-width: 170px; padding: .35rem; border: 1px solid rgba(129, 140, 248, .72); border-radius: .75rem; background: rgba(15, 23, 42, .98); box-shadow: 0 0 24px 8px rgba(99, 102, 241, .38); transition: opacity .15s ease, transform .15s ease, visibility .15s ease; }
     .locale-menu-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -.55rem; height: .55rem; }
     .locale-menu:hover .locale-menu-panel, .locale-menu:focus-within .locale-menu-panel, .locale-menu.is-open .locale-menu-panel, .locale-menu.is-pinned .locale-menu-panel { visibility: visible; opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .locale-menu.is-collapsed .locale-menu-panel { visibility: hidden; opacity: 0; transform: translateY(-4px); pointer-events: none; }
+    .locale-menu.is-collapsed .locale-menu-panel { visibility: hidden !important; opacity: 0 !important; transform: translateY(-4px); pointer-events: none !important; transition: none !important; }
     .locale-menu-option { display: block; width: 100%; padding: .55rem .7rem; border-radius: .5rem; color: rgb(226 232 240); font-size: .8rem; font-weight: 600; text-align: left; transition: color .12s ease, background-color .12s ease, filter .12s ease, box-shadow .12s ease; }
     .locale-menu-option:hover, .locale-menu-option:focus-visible { color: #fff; background: rgba(99, 102, 241, .32); filter: brightness(1.5); box-shadow: 0 0 14px 3px rgba(129, 140, 248, .5); outline: none; }
+    .hover-glow-card { transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease; }
+    /* Card and rounded-label glow: 50% of the previous hover intensity. */
+    .hover-glow-card:hover { filter: brightness(1.25); border-color: rgba(129, 140, 248, .475) !important; box-shadow: 0 0 0 1px rgba(129, 140, 248, .4), 0 0 20px 6px rgba(99, 102, 241, .29), 0 0 40px 12px rgba(56, 189, 248, .13) !important; transform: translateY(-1px); }
+    .review-card { transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .18s ease; }
+    .review-card:hover { filter: brightness(1.25); border-color: rgba(129, 140, 248, .475) !important; box-shadow: 0 0 0 1px rgba(129, 140, 248, .36), 0 0 20px 6px rgba(99, 102, 241, .29), 0 0 40px 12px rgba(56, 189, 248, .13) !important; transform: translateY(-1px); }
+    .brand-name-hover { display: inline-block; transition: filter .18s ease, text-shadow .18s ease, transform .18s ease; }
+    .brand-name-hover:hover { filter: brightness(2.25); text-shadow: 0 0 12px rgba(224, 231, 255, 1), 0 0 28px rgba(129, 140, 248, .95), 0 0 46px rgba(99, 102, 241, .78); transform: translateY(-1px); }
   </style>
+  <script type="module" crossorigin src="/assets/index-3PLG5gkl.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-C0kZT4zB.css">
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-indigo-500 selection:text-white flex flex-col font-sans">
 
   <!-- ==================== TOP NAVIGATION ==================== -->
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
-    <div class="amz-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="amz-header-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-20 py-3 flex items-center justify-between">
       <!-- Logo & Subtitle -->
       <div class="amz-brand-lockup flex items-center space-x-3">
-        <div class="h-10 w-10 rounded-xl bg-slate-950/60 flex items-center justify-center shadow-lg shadow-indigo-500/20 overflow-hidden">
-          <img src="/favicon-head-transparent.png" alt="AMZ Leads Radar" class="h-full w-full object-contain">
+        <div class="amz-brand-logo-frame h-10 w-10 rounded-xl bg-slate-950/60 flex items-center justify-center shadow-lg shadow-indigo-500/20 overflow-hidden">
+          <img id="amz-brand-logo" src="/favicon-head-transparent.png" alt="AMZ Leads Radar" width="40" height="40" decoding="async" fetchpriority="high" class="amz-brand-logo h-full w-full object-contain">
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <h1 class="font-bold text-lg text-white tracking-tight">AMZ Leads Radar</h1>
-            <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+            <h1 class="brand-name-hover font-bold text-lg text-white tracking-tight">AMZ Leads Radar</h1>
+            <span data-i18n="SaaS 看板" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
               SaaS 看板
             </span>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">
+           <p data-i18n="跨境電商站外引流 (Off-Amazon Traffic) 智能商機雷達" class="text-xs text-slate-400 hidden sm:block">
             跨境電商站外引流 (Off-Amazon Traffic) 智能商機雷達
           </p>
         </div>
@@ -97,13 +100,13 @@
       <!-- Right Action Area -->
       <div class="amz-header-actions flex items-center space-x-3 sm:space-x-4">
         <!-- Multilingual navigation -->
-        <div id="locale-menu" class="locale-menu flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs" title="Language">
-          <button id="locale-globe-toggle" type="button" class="p-0.5 rounded text-indigo-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400/70" aria-label="切換語言選單" aria-pressed="false">
-            <i data-lucide="globe-2" class="w-4 h-4"></i>
+        <div id="locale-menu" class="locale-menu flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-xs" data-i18n-title="Language" title="Language">
+          <button id="locale-globe-toggle" type="button" class="p-0.5 rounded text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400/70" data-i18n-aria-label="切換語言選單" aria-label="切換語言選單" aria-pressed="false">
+            <i data-lucide="globe" class="w-4 h-4"></i>
           </button>
-          <span class="sr-only">Language</span>
+          <span class="sr-only" data-i18n="Language">Language</span>
           <button id="locale-menu-trigger" type="button" class="bg-transparent text-slate-100 font-semibold outline-none cursor-pointer" aria-haspopup="listbox" aria-expanded="false">繁體中文</button>
-          <div id="locale-menu-panel" class="locale-menu-panel" role="listbox" aria-label="Language">
+          <div id="locale-menu-panel" class="locale-menu-panel" role="listbox" data-i18n-aria-label="Language" aria-label="Language">
             <button type="button" class="locale-menu-option" data-locale="en" role="option">English</button>
             <button type="button" class="locale-menu-option" data-locale="zh-TW" role="option">繁體中文</button>
             <button type="button" class="locale-menu-option" data-locale="zh-CN" role="option">简体中文</button>
@@ -113,28 +116,38 @@
             <button type="button" class="locale-menu-option" data-locale="id" role="option">Bahasa Indonesia</button>
             <button type="button" class="locale-menu-option" data-locale="vi" role="option">Tiếng Việt</button>
           </div>
+          <select id="nav-locale-select" class="sr-only" tabindex="-1" aria-hidden="true">
+            <option value="en">English</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="ms">Bahasa Melayu</option>
+            <option value="id">Bahasa Indonesia</option>
+            <option value="vi">Tiếng Việt</option>
+          </select>
         </div>
         <!-- Scan Button -->
-        <button onclick="refreshLeads()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="掃描最新線索">
+        <button onclick="refreshLeads()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" data-i18n-title="掃描最新線索" title="掃描最新線索">
           <i data-lucide="refresh-cw" id="refresh-icon" class="w-4 h-4"></i>
-          <span class="hidden md:inline">掃描線索</span>
+          <span class="hidden md:inline" data-i18n="scan">掃描線索</span>
         </button>
 
         <!-- Daily Quota Counter -->
         <div class="flex items-center space-x-2 bg-slate-800/90 border border-slate-700 px-3 py-1.5 rounded-lg text-xs">
           <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
-          <span class="text-slate-400 hidden sm:inline">今日回覆額度:</span>
+          <span data-i18n="今日回覆額度:" class="text-slate-400 hidden sm:inline">今日回覆額度:</span>
           <span class="font-bold text-amber-300" id="quota-display">3 / 3 次</span>
         </div>
 
         <!-- Upgrade Button -->
-        <button onclick="openUpgradeModal()" id="btn-upgrade-top" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 shadow-md shadow-amber-500/20 transition-all active:scale-95">
+        <button onclick="openUpgradeModal()" id="btn-upgrade-top" data-i18n-aria-label="升級 Pro 專業版" aria-label="升級 Pro 專業版" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center space-x-1.5 shadow-md shadow-amber-500/20 transition-all active:scale-95">
           <i data-lucide="crown" class="w-4 h-4 text-slate-950"></i>
-          <span>升級 Pro 專業版</span>
+          <span data-i18n="upgrade">升級 Pro 專業版</span>
         </button>
 
         <!-- Brand Config Button -->
-        <button onclick="openSettingsModal()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" title="店鋪與品牌設定">
+        <button onclick="openSettingsModal()" class="p-2 text-slate-400 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-lg transition-all text-xs flex items-center space-x-1.5" data-i18n-title="店鋪與品牌設定" title="店鋪與品牌設定">
           <i data-lucide="settings" class="w-4 h-4"></i>
           <span class="hidden md:inline" id="nav-brand-name">店鋪設定</span>
         </button>
@@ -142,29 +155,30 @@
         <!-- Supabase Auth / Demo Mode -->
         <div class="flex items-center space-x-2">
           <span id="auth-mode-badge" class="hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold whitespace-nowrap">Demo mode</span>
-          <button onclick="handleAuthAction()" id="auth-action" class="px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap">登入</button>
+          <button onclick="handleAuthAction()" id="auth-action" data-i18n="登入" class="px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap">登入</button>
         </div>
       </div>
     </div>
   </header>
 
   <!-- ==================== MAIN CONTENT ==================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <main class="flex-1 max-w-7xl w-full min-w-0 mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-x-clip">
     <!-- Hero Banner -->
     <div class="amz-radar-hero bg-gradient-to-r from-indigo-950/60 via-slate-900 to-amber-950/40 border border-slate-800 rounded-2xl p-6 mb-6 relative overflow-hidden shadow-lg">
       <div class="relative z-10 max-w-3xl">
         <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-semibold mb-3">
           <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-          <span>今日即時數據已同步 • 5 篇高潛力站外商機</span>
+           <span data-i18n="今日即時數據已同步 • 5 篇高潛力站外商機">今日即時數據已同步 • 5 篇高潛力站外商機</span>
         </div>
         <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug">
-          從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶
+           <span data-i18n="從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶">從 Reddit 痛點差評，精準攔截屬於您的 Amazon 購買客戶</span>
         </h2>
         <p class="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-          全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可<strong>一鍵跳轉至 Reddit</strong>，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！
+           <span data-i18n="全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可">全天候監控海外社群尋求推薦與競品負評。點擊任一商機即可</span><strong data-i18n="一鍵跳轉至 Reddit">一鍵跳轉至 Reddit</strong><span data-i18n="，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！">，並透過 Chrome 外掛在側邊欄秒速微調語氣、一鍵填入留言！</span>
         </p>
       </div>
-      <div class="amz-radar-visual" aria-label="Radar scanning animation" role="img"><div class="amz-radar-sweep-beam" id="amz-radar-sweep-beam"></div><div class="amz-radar-center"></div><div class="amz-radar-points" id="amz-radar-points"></div></div>
+      <div class="amz-live-clock" role="status" aria-live="off" aria-label="Live USA utc and local time"><span id="amz-live-clock-label" class="amz-live-clock-label"><span class="amz-live-clock-dot"></span>LIVE USA utc · LOCAL</span><time id="amz-live-clock-utc" class="amz-live-clock-value">USA utc 00:00:00</time><time id="amz-live-clock-local" class="amz-live-clock-value">LOCAL 00:00:00</time></div>
+      <div class="amz-radar-visual" data-i18n-aria-label="Radar scanning animation" aria-label="Radar scanning animation" role="img"><div class="amz-radar-sweep-beam" id="amz-radar-sweep-beam"></div><div class="amz-radar-center"></div><div class="amz-radar-points" id="amz-radar-points"></div></div>
       <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
     </div>
 
@@ -173,11 +187,11 @@
       <div class="flex items-start space-x-2.5">
         <i data-lucide="flask-conical" class="w-4 h-4 text-amber-300 mt-0.5 shrink-0"></i>
         <div>
-          <p id="auth-status-title" class="text-xs font-bold text-amber-200">Demo mode • 尚未登入</p>
-          <p id="auth-status-message" class="text-[11px] text-amber-100/70 mt-0.5">目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。</p>
+           <p id="auth-status-title" data-i18n="Demo mode • 尚未登入" class="text-xs font-bold text-amber-200">Demo mode • 尚未登入</p>
+           <p id="auth-status-message" data-i18n="目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。" class="text-[11px] text-amber-100/70 mt-0.5">目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。</p>
         </div>
       </div>
-      <button onclick="handleAuthAction()" id="auth-status-action" class="self-start sm:self-auto px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入以同步額度</button>
+       <button onclick="handleAuthAction()" id="auth-status-action" data-i18n="登入以同步額度" class="self-start sm:self-auto px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入以同步額度</button>
     </section>
 
     <!-- Stats Bar -->
@@ -195,7 +209,7 @@
             type="text"
             id="search-input"
             oninput="handleSearchChange(this.value)"
-            placeholder="搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)..."
+             data-i18n-placeholder="搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)..." placeholder="搜尋標題、痛點摘要或關鍵字 (例如: battery, coffee, chair)..."
             class="w-full pl-9 pr-4 py-2 bg-slate-800/80 border border-slate-700/80 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500"
           />
         </div>
@@ -211,11 +225,11 @@
           </select>
 
           <div class="hidden sm:flex items-center space-x-1.5 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-400">
-            <span>匹配度:</span>
+             <span data-i18n="匹配度:">匹配度:</span>
             <select id="select-min-score" onchange="handleMinScoreChange(this.value)" class="bg-transparent text-emerald-400 font-semibold focus:outline-none cursor-pointer">
-              <option value="0" class="bg-slate-800 text-slate-200">不限</option>
+               <option value="0" class="bg-slate-800 text-slate-200" data-i18n="不限">不限</option>
               <option value="85" class="bg-slate-800 text-slate-200">&ge; 85%</option>
-              <option value="90" class="bg-slate-800 text-slate-200">&ge; 90% (極高)</option>
+               <option value="90" class="bg-slate-800 text-slate-200" data-i18n="≥ 90% (極高)">&ge; 90% (極高)</option>
             </select>
           </div>
         </div>
@@ -235,88 +249,124 @@
     <!-- Empty State -->
     <div id="empty-state" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center my-8">
       <i data-lucide="inbox" class="w-12 h-12 text-slate-600 mx-auto mb-3"></i>
-      <h3 class="text-base font-bold text-white mb-1">找不到符合條件的商機線索</h3>
+       <h3 data-i18n="找不到符合條件的商機線索" class="text-base font-bold text-white mb-1">找不到符合條件的商機線索</h3>
       <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">
-        請嘗試放寬關鍵字搜尋、調整 Subreddit 篩選或重設匹配度門檻。
+         <span data-i18n="請嘗試放寬關鍵字搜尋、調整 Subreddit 篩選或重設匹配度門檻。">請嘗試放寬關鍵字搜尋、調整 Subreddit 篩選或重設匹配度門檻。</span>
       </p>
       <button onclick="resetFilters()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold">
-        重設所有篩選
+         <span data-i18n="重設所有篩選">重設所有篩選</span>
       </button>
     </div>
   </main>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="border-t border-slate-800/80 bg-slate-950 py-6 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span>AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
-      <div class="flex items-center space-x-4">
-            <span class="text-slate-600 cursor-not-allowed" title="目前尚未公開">Chrome Web Store 外掛（即將推出）</span>
-            <span class="text-slate-600 cursor-not-allowed" title="文件頁面建置中">API 文檔（建置中）</span>
-            <span class="text-slate-600 cursor-not-allowed" title="法律文件建置中">使用條款與隱私權（建置中）</span>
+    <div class="max-w-7xl mx-auto px-4 flex flex-col gap-3">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span data-i18n="AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS">AMZ Leads Radar © 2026 • 跨境電商站外拓客雙軌制 SaaS</span>
+        <div id="footer-policy-links" class="flex flex-wrap items-center justify-center sm:justify-end gap-x-3 gap-y-1">
+            <span data-i18n="Chrome Web Store 外掛（即將推出）" data-i18n-title="目前尚未公開" class="text-slate-600 cursor-not-allowed" title="目前尚未公開">Chrome Web Store 外掛（即將推出）</span>
+            <span data-i18n="API 文檔（建置中）" data-i18n-title="文件頁面建置中" class="text-slate-600 cursor-not-allowed" title="文件頁面建置中">API 文檔（建置中）</span>
+            <button type="button" data-policy-key="cookie" onclick="openPolicyModal('cookie')" data-i18n="Cookie Policy" data-i18n-title="開啟 Cookie Policy" data-i18n-aria-label="開啟 Cookie Policy" aria-label="開啟 Cookie Policy" title="開啟 Cookie Policy" class="bg-transparent border-0 p-0 text-slate-400 hover:text-white hover-glow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70 rounded underline decoration-dotted underline-offset-4 transition-colors cursor-pointer">Cookie Policy</button>
+            <button type="button" data-policy-key="privacy" onclick="openPolicyModal('privacy')" data-i18n="Privacy Policy" data-i18n-title="開啟 Privacy Policy" data-i18n-aria-label="開啟 Privacy Policy" aria-label="開啟 Privacy Policy" title="開啟 Privacy Policy" class="bg-transparent border-0 p-0 text-slate-400 hover:text-white hover-glow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70 rounded underline decoration-dotted underline-offset-4 transition-colors cursor-pointer">Privacy Policy</button>
+            <button type="button" data-policy-key="refund" onclick="openPolicyModal('refund')" data-i18n="Refund and Cancellation Policy" data-i18n-title="開啟 Refund and Cancellation Policy" data-i18n-aria-label="開啟 Refund and Cancellation Policy" aria-label="開啟 Refund and Cancellation Policy" title="開啟 Refund and Cancellation Policy" class="bg-transparent border-0 p-0 text-slate-400 hover:text-white hover-glow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70 rounded underline decoration-dotted underline-offset-4 transition-colors cursor-pointer">Refund and Cancellation Policy</button>
+            <button type="button" data-policy-key="terms" onclick="openPolicyModal('terms')" data-i18n="Terms of Service / Terms and Conditions" data-i18n-title="開啟 Terms of Service / Terms and Conditions" data-i18n-aria-label="開啟 Terms of Service / Terms and Conditions" aria-label="開啟 Terms of Service / Terms and Conditions" title="開啟 Terms of Service / Terms and Conditions" class="bg-transparent border-0 p-0 text-slate-400 hover:text-white hover-glow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70 rounded underline decoration-dotted underline-offset-4 transition-colors cursor-pointer">Terms of Service / Terms and Conditions</button>
+        </div>
       </div>
+      <button id="footer-statement-trigger" type="button" onclick="openStatementModal()" data-i18n="網站聲明" data-i18n-aria-label="開啟網站聲明" aria-label="開啟網站聲明" class="max-w-5xl mx-auto text-[11px] leading-relaxed text-slate-400 hover:text-white hover-glow-card underline decoration-dotted underline-offset-4 transition-colors">網站聲明：AMZ Leads Radar 為獨立第三方工具，與 Amazon、Reddit 或其他平台無隸屬關係。公開內容僅供研究與工作流程輔助，使用者仍應自行確認資訊並遵守各平台規範。</button>
     </div>
   </footer>
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- 0. Supabase Email/Password Auth Panel -->
+  <!-- 0. Website statement -->
+  <div id="statement-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="statement-modal-title" tabindex="-1" onclick="handleStatementBackdrop(event)" onkeydown="handleStatementKeydown(event)">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <h2 id="statement-modal-title" data-i18n="網站聲明標題" class="text-base font-bold text-white">網站聲明</h2>
+        <button type="button" onclick="closeStatementModal()" data-i18n-aria-label="關閉網站聲明" aria-label="關閉網站聲明" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <p data-i18n="網站聲明" class="text-sm text-slate-300 leading-relaxed">網站聲明：AMZ Leads Radar 為獨立第三方工具，與 Amazon、Reddit 或其他平台無隸屬關係。公開內容僅供研究與工作流程輔助，使用者仍應自行確認資訊並遵守各平台規範。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Policy placeholders: legal copy must be supplied and reviewed before public launch. -->
+  <div id="policy-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="policy-modal-title" aria-describedby="policy-modal-description" tabindex="-1" onclick="handlePolicyBackdrop(event)" onkeydown="handlePolicyKeydown(event)">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <h2 id="policy-modal-title" class="text-base font-bold text-white">Cookie Policy</h2>
+        <button type="button" onclick="closePolicyModal()" data-i18n-aria-label="關閉政策視窗" aria-label="關閉政策視窗" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <p id="policy-modal-description" class="text-sm text-slate-300 leading-relaxed">完整政策內容將於正式發布前在此公開。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Supabase Email/Password Auth Panel -->
   <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-describedby="auth-modal-description" tabindex="-1" onclick="handleAuthBackdrop(event)" onkeydown="handleAuthKeydown(event)">
     <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
       <div class="p-5 border-b border-slate-800 flex items-start justify-between">
         <div>
           <div class="flex items-center space-x-2">
             <i data-lucide="shield-check" class="w-5 h-5 text-indigo-400"></i>
-            <h2 id="auth-modal-title" class="text-base font-bold text-white">Supabase 登入</h2>
+            <h2 id="auth-modal-title" data-i18n="Supabase 登入" class="text-base font-bold text-white">Supabase 登入</h2>
           </div>
-          <p id="auth-modal-description" class="text-[11px] text-slate-500 mt-1">Email / Password • session 僅保留在目前頁面記憶體</p>
+          <p id="auth-modal-description" data-i18n="Email / Password • session 僅保留在目前頁面記憶體" class="text-[11px] text-slate-500 mt-1">Email / Password • session 僅保留在目前頁面記憶體</p>
         </div>
-        <button onclick="closeAuthModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" aria-label="關閉登入面板">
+        <button onclick="closeAuthModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" data-i18n-aria-label="關閉登入面板" aria-label="關閉登入面板">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <form id="auth-form" onsubmit="submitAuth(event)" class="p-6 space-y-4">
         <div>
-          <label for="auth-email" class="text-xs font-semibold text-slate-300 block mb-1.5">Email</label>
+          <label for="auth-email" data-i18n="Email" class="text-xs font-semibold text-slate-300 block mb-1.5">Email</label>
           <input id="auth-email" name="email" type="email" autocomplete="email" required placeholder="seller@example.com" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
         </div>
         <div>
-          <label for="auth-password" class="text-xs font-semibold text-slate-300 block mb-1.5">Password</label>
-          <input id="auth-password" name="password" type="password" autocomplete="current-password" required placeholder="Supabase Auth password" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
+          <label for="auth-password" data-i18n="Password" class="text-xs font-semibold text-slate-300 block mb-1.5">Password</label>
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" required data-i18n-placeholder="Supabase Auth password" placeholder="Supabase Auth password" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500" />
         </div>
         <p id="auth-feedback" class="hidden text-xs rounded-lg px-3 py-2" role="status"></p>
         <div class="flex items-center justify-end space-x-2 pt-1">
-          <button type="button" id="auth-cancel" onclick="closeAuthModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">取消</button>
-          <button type="submit" id="auth-submit" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入並讀取額度</button>
+          <button type="button" id="auth-cancel" data-i18n="取消" onclick="closeAuthModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">取消</button>
+          <button type="submit" id="auth-submit" data-i18n="登入並讀取額度" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold">登入並讀取額度</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- 1. Lead Detail Modal -->
-  <div id="lead-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden my-8">
-      <div class="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90">
-        <div>
-          <div class="flex items-center space-x-2 mb-1.5" id="modal-meta"></div>
-          <h2 class="text-lg font-bold text-white leading-snug" id="modal-title"></h2>
+  <!-- 2. Lead Detail Modal -->
+  <div id="lead-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1" onclick="handleDetailBackdrop(event)" onkeydown="handleDetailKeydown(event)">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-3xl min-w-0 shadow-2xl overflow-hidden my-8">
+      <div class="p-5 border-b border-slate-800 flex items-start justify-between bg-slate-900/90 min-w-0">
+        <div class="min-w-0">
+          <div class="flex flex-wrap gap-x-2 gap-y-1 mb-1.5 min-w-0" id="modal-meta"></div>
+          <h2 class="text-lg font-bold text-white leading-snug break-words" id="modal-title"></h2>
         </div>
-        <button onclick="closeDetailModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+        <button onclick="closeDetailModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" data-i18n-aria-label="關閉商機詳情" aria-label="關閉商機詳情">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+      <div class="p-6 space-y-6 max-h-[75vh] overflow-y-auto min-w-0">
         <div class="bg-amber-950/20 border border-amber-800/40 rounded-xl p-4">
           <div class="flex items-center space-x-2 text-xs font-semibold text-amber-400 mb-1.5">
             <i data-lucide="alert-circle" class="w-4 h-4"></i>
-            <span>AI 核心痛點拆解：</span>
+             <span data-i18n="AI 核心痛點拆解：">AI 核心痛點拆解：</span>
           </div>
           <p class="text-sm text-amber-200 leading-relaxed" id="modal-painpoint"></p>
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Reddit 原文內容預覽</label>
+           <label data-i18n="Reddit 原文內容預覽" class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Reddit 原文內容預覽</label>
           <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 leading-relaxed max-h-40 overflow-y-auto font-mono" id="modal-raw-content"></div>
         </div>
 
@@ -324,9 +374,9 @@
           <div class="flex items-center justify-between mb-2.5">
             <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
               <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
-              <span>AI 預擬回覆話術（語氣切換）</span>
+               <span data-i18n="AI 預擬回覆話術（語氣切換）">AI 預擬回覆話術（語氣切換）</span>
             </label>
-            <span class="text-[11px] text-slate-500">已自動代入您的品牌：<strong class="text-slate-300" id="modal-brand-tag"></strong></span>
+             <span class="text-[11px] text-slate-500"><span data-i18n="已自動代入您的品牌：">已自動代入您的品牌：</span><strong class="text-slate-300" id="modal-brand-tag"></strong></span>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-3" id="modal-tone-buttons">
@@ -334,45 +384,57 @@
           </div>
 
           <div class="relative">
-            <textarea id="modal-draft-area" rows="5" readonly class="w-full p-4 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"></textarea>
-            <button onclick="copyDraftText()" id="btn-copy-draft" class="absolute right-3 top-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span id="copy-btn-text">複製草稿</span>
-            </button>
+            <textarea id="modal-draft-area" rows="5" readonly class="w-full p-4 pb-14 rounded-xl bg-slate-950 border border-slate-700/80 text-xs sm:text-sm text-slate-200 leading-relaxed font-sans focus:outline-none resize-none"></textarea>
+            <div class="absolute right-3 bottom-3 flex items-center space-x-1.5">
+              <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" id="avatar-copy-draft" class="draft-helper-avatar h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+              <button onclick="copyDraftText()" id="btn-copy-draft" class="copy-action-glow px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs text-slate-200 flex items-center space-x-1">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                 <span id="copy-btn-text" data-i18n="複製草稿">複製草稿</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div class="flex items-center space-x-2 text-xs text-slate-400">
+      <div class="p-5 border-t border-slate-800 bg-slate-900/90 flex flex-col sm:flex-row items-center justify-between gap-3 min-w-0">
+        <div class="flex items-center space-x-2 text-xs text-slate-400 min-w-0">
           <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-          <span>真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
+           <span data-i18n="真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號">真人審核機制：外掛輔助填入，手動點擊發布，100% 避免封號</span>
         </div>
-        <div class="flex items-center space-x-3 w-full sm:w-auto justify-end">
-          <button onclick="markCurrentReplied()" class="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
-            標記為已回覆
-          </button>
-          <button onclick="jumpFromModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center space-x-2 shadow-lg shadow-indigo-600/30">
-            <span>前往 Reddit 並喚醒 Copilot</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </button>
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-[clamp(3px,0.9vw,6px)] min-w-0 w-full sm:w-auto justify-end">
+          <div id="reddit-action-cluster" class="order-first sm:order-none flex items-center gap-1.5 w-full sm:w-auto min-w-0">
+            <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" id="avatar-jump-reddit" class="draft-helper-avatar h-7 w-7 shrink-0 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+            <button onclick="jumpFromModal()" id="btn-jump-reddit" class="flex-1 sm:flex-none copy-action-glow px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30">
+               <span data-i18n="前往 Reddit 並喚醒 Copilot">前往 Reddit 並喚醒 Copilot</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div id="modal-secondary-actions" class="order-last sm:order-none flex items-center gap-x-3 gap-y-[clamp(3px,0.9vw,6px)] w-full sm:w-auto justify-end">
+            <button onclick="returnToHome()" data-i18n-aria-label="回到首頁" data-i18n-title="回到首頁" aria-label="回到首頁" title="回到首頁" class="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center space-x-1.5">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              <span data-i18n="回到首頁">回到首頁</span>
+            </button>
+            <button onclick="markCurrentReplied()" class="px-3.5 py-2 rounded-xl text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700">
+               <span data-i18n="標記為已回覆">標記為已回覆</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. Upgrade Pro Modal -->
-  <div id="upgrade-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+  <!-- 3. Upgrade Pro Modal -->
+  <div id="upgrade-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="upgrade-modal-title" tabindex="-1" onclick="handleUpgradeBackdrop(event)" onkeydown="handleUpgradeKeydown(event)">
     <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden my-8">
       <div class="p-6 text-center border-b border-slate-800 relative bg-gradient-to-b from-indigo-950/40 to-slate-900">
-        <button onclick="closeUpgradeModal()" class="absolute right-4 top-4 p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+        <button onclick="closeUpgradeModal()" class="absolute right-4 top-4 p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" data-i18n-aria-label="關閉升級視窗" aria-label="關閉升級視窗">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
         <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 mb-3">
           <i data-lucide="crown" class="w-6 h-6"></i>
         </div>
-        <h2 class="text-2xl font-extrabold text-white">升級 AMZ Leads Radar Pro 專業版</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-md mx-auto">
+        <h2 id="upgrade-modal-title" class="text-2xl font-extrabold text-white" data-i18n="升級 AMZ Leads Radar Pro 專業版">升級 AMZ Leads Radar Pro 專業版</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-md mx-auto" data-i18n="為跨境賣家解鎖全天候無上限社群商機監控、高轉化 AI 話術與 Chrome 一鍵填入輔助！">
           為跨境賣家解鎖全天候無上限社群商機監控、高轉化 AI 話術與 Chrome 一鍵填入輔助！
         </p>
       </div>
@@ -381,92 +443,92 @@
         <div class="bg-slate-800/40 border border-slate-700/60 rounded-xl p-5 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <h3 class="font-bold text-slate-200 text-sm">Free 體驗方案</h3>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-semibold">當前方案</span>
+              <h3 class="font-bold text-slate-200 text-sm" data-i18n="Free 體驗方案">Free 體驗方案</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-semibold" data-i18n="當前方案">當前方案</span>
             </div>
-            <div class="text-2xl font-bold text-white mb-4">$0 <span class="text-xs text-slate-500 font-normal">/ 永久免費</span></div>
+            <div class="text-2xl font-bold text-white mb-4">$0 <span class="text-xs text-slate-500 font-normal" data-i18n="/ 永久免費">/ 永久免費</span></div>
             <ul class="space-y-2.5 text-xs text-slate-400 mb-6">
-              <li class="flex items-center space-x-2"><span>✔ 每日最新 5 條商機線索</span></li>
-              <li class="flex items-center space-x-2"><span>✔ 每日 3 次外掛一鍵填入輔助</span></li>
-              <li class="flex items-center space-x-2"><span>✔ 預設社群品類監控</span></li>
+              <li class="flex items-center space-x-2"><span data-i18n="✔ 每日最新 5 條商機線索">✔ 每日最新 5 條商機線索</span></li>
+              <li class="flex items-center space-x-2"><span data-i18n="✔ 每日 3 次外掛一鍵填入輔助">✔ 每日 3 次外掛一鍵填入輔助</span></li>
+              <li class="flex items-center space-x-2"><span data-i18n="✔ 預設社群品類監控">✔ 預設社群品類監控</span></li>
             </ul>
           </div>
           <button disabled class="w-full py-2 rounded-lg bg-slate-800 text-slate-500 text-xs font-semibold cursor-not-allowed">
-            已在使用中
+             <span data-i18n="已在使用中">已在使用中</span>
           </button>
         </div>
 
         <div class="bg-gradient-to-b from-indigo-900/30 to-slate-800/80 border-2 border-indigo-500 rounded-xl p-5 flex flex-col justify-between relative shadow-xl shadow-indigo-500/10">
           <div class="absolute -top-3 right-4 px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-wider">
-            最受歡迎
+             <span data-i18n="最受歡迎">最受歡迎</span>
           </div>
           <div>
             <div class="flex items-center justify-between mb-2">
-              <h3 class="font-bold text-indigo-300 text-sm">Pro 專業方案</h3>
+              <h3 class="font-bold text-indigo-300 text-sm" data-i18n="Pro 專業方案">Pro 專業方案</h3>
               <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
             </div>
             <div class="text-2xl font-extrabold text-white mb-4">
-              $29 <span class="text-xs text-slate-400 font-normal">/ 月 (隨時可取消)</span>
+              $29 <span class="text-xs text-slate-400 font-normal" data-i18n="/ 月 (隨時可取消)">/ 月 (隨時可取消)</span>
             </div>
             <ul class="space-y-2.5 text-xs text-slate-200 mb-6">
-              <li class="flex items-center space-x-2"><span>✔ <strong>無上限</strong> 線索全天候即時監控</span></li>
-              <li class="flex items-center space-x-2"><span>✔ <strong>無上限</strong> Chrome 外掛輔助填入</span></li>
-              <li class="flex items-center space-x-2"><span>✔ 3 種專業話術語氣 + 自訂 Prompt</span></li>
-              <li class="flex items-center space-x-2"><span>✔ 支援自訂 15 組品類與競品關鍵字庫</span></li>
-              <li class="flex items-center space-x-2"><span>✔ Telegram / Discord 實時商機通報</span></li>
+               <li class="flex items-center space-x-2"><span>✔ <strong data-i18n="無上限">無上限</strong> <span data-i18n="線索全天候即時監控">線索全天候即時監控</span></span></li>
+               <li class="flex items-center space-x-2"><span>✔ <strong data-i18n="無上限">無上限</strong> <span data-i18n="Chrome 外掛輔助填入">Chrome 外掛輔助填入</span></span></li>
+               <li class="flex items-center space-x-2"><span data-i18n="✔ 3 種專業話術語氣 + 自訂 Prompt">✔ 3 種專業話術語氣 + 自訂 Prompt</span></li>
+               <li class="flex items-center space-x-2"><span data-i18n="✔ 支援自訂 15 組品類與競品關鍵字庫">✔ 支援自訂 15 組品類與競品關鍵字庫</span></li>
+               <li class="flex items-center space-x-2"><span data-i18n="✔ Telegram / Discord 實時商機通報">✔ Telegram / Discord 實時商機通報</span></li>
             </ul>
           </div>
           <button onclick="upgradeToProMock()" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all">
-            立即開通 Pro 專業版 (Lemon Squeezy)
+             <span data-i18n="立即開通 Pro 專業版 (Lemon Squeezy)">立即開通 Pro 專業版 (Lemon Squeezy)</span>
           </button>
         </div>
       </div>
 
       <div class="p-4 bg-slate-950/60 border-t border-slate-800 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
         <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i>
-        <span>7 天無條件全額退款保證 • SSL 256 位元加密安全付款</span>
+         <span data-i18n="7 天無條件全額退款保證 • SSL 256 位元加密安全付款">7 天無條件全額退款保證 • SSL 256 位元加密安全付款</span>
       </div>
     </div>
   </div>
 
-  <!-- 3. Settings Modal -->
-  <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+  <!-- 4. Settings Modal -->
+  <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" tabindex="-1" onclick="handleSettingsBackdrop(event)" onkeydown="handleSettingsKeydown(event)">
     <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
       <div class="p-5 border-b border-slate-800 flex items-center justify-between">
         <div class="flex items-center space-x-2">
           <i data-lucide="store" class="w-5 h-5 text-indigo-400"></i>
-          <h2 class="text-base font-bold text-white">賣家品牌與店鋪設定</h2>
+           <h2 id="settings-modal-title" class="text-base font-bold text-white" data-i18n="賣家品牌與店鋪設定">賣家品牌與店鋪設定</h2>
         </div>
-        <button onclick="closeSettingsModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+        <button onclick="closeSettingsModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" data-i18n-aria-label="關閉設定視窗" aria-label="關閉設定視窗">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <form onsubmit="saveSettings(event)" class="p-6 space-y-4">
         <div>
-          <label class="text-xs font-semibold text-slate-300 block mb-1.5">您的品牌名稱 (Brand Name)</label>
-          <input type="text" id="setting-brand" placeholder="例如: ApexGear, VoltMaster..." required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
-          <p class="text-[11px] text-slate-500 mt-1">當 AI 產生回覆草稿時，會自動以此品牌名稱置換 [Your Brand]。</p>
+           <label class="text-xs font-semibold text-slate-300 block mb-1.5" data-i18n="您的品牌名稱 (Brand Name)">您的品牌名稱 (Brand Name)</label>
+          <input type="text" id="setting-brand" data-i18n-placeholder="例如: ApexGear, VoltMaster..." placeholder="例如: ApexGear, VoltMaster..." required class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+           <p class="text-[11px] text-slate-500 mt-1" data-i18n="當 AI 產生回覆草稿時，會自動以此品牌名稱置換 [Your Brand]。">當 AI 產生回覆草稿時，會自動以此品牌名稱置換 [Your Brand]。</p>
         </div>
 
         <div>
-          <label class="text-xs font-semibold text-slate-300 block mb-1.5">Amazon 商品超連結或店鋪首頁 URL</label>
+           <label class="text-xs font-semibold text-slate-300 block mb-1.5" data-i18n="Amazon 商品超連結或店鋪首頁 URL">Amazon 商品超連結或店鋪首頁 URL</label>
           <input type="url" id="setting-url" placeholder="https://www.amazon.com/dp/B0XXXXXXX" class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
-          <p class="text-[11px] text-slate-500 mt-1">（選填）建議使用 Amazon Attribution 連結追蹤站外引流紅利與轉化率！</p>
+           <p class="text-[11px] text-slate-500 mt-1" data-i18n="（選填）建議使用 Amazon Attribution 連結追蹤站外引流紅利與轉化率！">（選填）建議使用 Amazon Attribution 連結追蹤站外引流紅利與轉化率！</p>
         </div>
 
         <div class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-3.5 flex items-start space-x-2.5">
           <i data-lucide="shield-alert" class="w-4 h-4 text-indigo-400 shrink-0 mt-0.5"></i>
           <p class="text-xs text-indigo-200/90 leading-relaxed">
-            <strong>防封號提示：</strong>在 Reddit 回覆時，建議優先以「解決買家痛點」為主。若太過直白貼廣告連結容易被版主刪文，Copilot 會自動引導採取軟性自然植入策略。
+             <strong data-i18n="防封號提示：">防封號提示：</strong><span data-i18n="在 Reddit 回覆時，建議優先以「解決買家痛點」為主。若太過直白貼廣告連結容易被版主刪文，Copilot 會自動引導採取軟性自然植入策略。">在 Reddit 回覆時，建議優先以「解決買家痛點」為主。若太過直白貼廣告連結容易被版主刪文，Copilot 會自動引導採取軟性自然植入策略。</span>
           </p>
         </div>
 
         <div class="pt-2 flex items-center justify-end space-x-2">
-          <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">取消</button>
+           <button type="button" onclick="closeSettingsModal()" class="px-4 py-2 text-xs text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" data-i18n="取消">取消</button>
           <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-lg flex items-center space-x-1.5 shadow-md shadow-indigo-600/30">
             <i data-lucide="save" class="w-4 h-4"></i>
-            <span>儲存設定</span>
+             <span data-i18n="儲存設定">儲存設定</span>
           </button>
         </div>
       </form>
@@ -636,6 +698,24 @@
     let isDemoMode = true;
     let authState = { configured: false, ready: false, email: '' };
 
+    function uiText(key, fallback = key) {
+      return window.amzI18n?.t ? window.amzI18n.t(key, fallback) : fallback;
+    }
+
+    window.addEventListener('amz-locale-change', () => {
+      initOptions();
+      renderStats();
+      renderStatusTabs();
+      renderLeads();
+      renderRadarPoints();
+      updateAuthUI();
+      updateQuotaUI();
+      if (currentLead) {
+        renderToneButtons();
+        updateModalDraft();
+      }
+    });
+
     window.addEventListener('amz-auth-change', (event) => {
       const state = event.detail || {};
       authState = state;
@@ -659,6 +739,8 @@
     };
 
     let currentLead = null;
+    let currentLeadDraftCopied = false;
+    const draftReminderSuppressed = new Set();
     let currentTone = 'helpful_enthusiast';
 
     function renderRadarPoints() {
@@ -691,6 +773,34 @@
       requestAnimationFrame(tick);
     }
 
+    function startLiveClock() {
+      const utcClock = document.getElementById('amz-live-clock-utc');
+      const localClock = document.getElementById('amz-live-clock-local');
+      const label = document.getElementById('amz-live-clock-label');
+      if (!utcClock || !localClock || utcClock.dataset.running === 'true') return;
+      utcClock.dataset.running = 'true';
+      const labels = {
+        en: ['LIVE USA utc · LOCAL', 'USA utc', 'LOCAL'], 'zh-TW': ['即時 USA utc · 當地時間', 'USA utc', '當地'], 'zh-CN': ['实时 USA utc · 当地时间', 'USA utc', '当地'],
+        ja: ['LIVE USA utc · 現地時間', 'USA utc', '現地'], ko: ['실시간 USA utc · 현지 시간', 'USA utc', '현지'], ms: ['LIVE USA utc · WAKTU TEMPATAN', 'USA utc', 'TEMPATAN'],
+        id: ['LIVE USA utc · WAKTU LOKAL', 'USA utc', 'LOKAL'], vi: ['LIVE USA utc · GIỜ ĐỊA PHƯƠNG', 'USA utc', 'ĐỊA PHƯƠNG']
+      };
+      const render = () => {
+        const now = new Date();
+        const pad = (value) => String(value).padStart(2, '0');
+        const locale = document.documentElement.lang || 'en';
+        const [liveText, utcText, localText] = labels[locale] || labels.en;
+        const utc = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}`;
+        const local = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+        if (label) label.childNodes[label.childNodes.length - 1].textContent = liveText;
+        utcClock.textContent = `${utcText} ${utc}`;
+        localClock.textContent = `${localText} ${local}`;
+        utcClock.dateTime = now.toISOString();
+        localClock.dateTime = now.toISOString();
+      };
+      render();
+      window.setInterval(render, 1000);
+    }
+
     // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
       initOptions();
@@ -699,6 +809,7 @@
       renderLeads();
       renderRadarPoints();
       startRadarSweep();
+      startLiveClock();
       updateQuotaUI();
       lucide.createIcons();
     });
@@ -708,7 +819,7 @@
       const subreddits = Array.from(new Set(leads.map(l => l.subreddit)));
       const subSelect = document.getElementById('select-subreddit');
       const selectedSubreddit = filters.subreddit;
-      subSelect.innerHTML = '<option value="all">所有 Subreddits</option>';
+      subSelect.innerHTML = `<option value="all">${escapeHtml(uiText('所有 Subreddits'))}</option>`;
       subreddits.forEach(sub => {
         const opt = document.createElement('option');
         opt.value = sub;
@@ -721,17 +832,17 @@
       const categories = Array.from(new Set(leads.map(l => l.category)));
       const catSelect = document.getElementById('select-category');
       const selectedCategory = filters.category;
-      catSelect.innerHTML = '<option value="all">所有品類</option>';
+      catSelect.innerHTML = `<option value="all">${escapeHtml(uiText('所有品類'))}</option>`;
       categories.forEach(cat => {
         const opt = document.createElement('option');
         opt.value = cat;
-        opt.textContent = cat;
+        opt.textContent = uiText(cat);
         catSelect.appendChild(opt);
       });
       catSelect.value = categories.includes(selectedCategory) ? selectedCategory : 'all';
 
       // Brand setting
-      document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
+      document.getElementById('nav-brand-name').textContent = profile.brand_name || uiText('店鋪設定');
       document.getElementById('setting-brand').value = profile.brand_name || '';
       document.getElementById('setting-url').value = profile.store_url || '';
       updateAuthUI(authState);
@@ -747,24 +858,24 @@
 
       const authenticated = state.mode === 'authenticated' && Boolean(state.profile);
       if (authenticated) {
-        badge.textContent = `已登入 • ${state.email || profile.email}`;
+        badge.textContent = `${uiText('已登入 •')} ${state.email || profile.email}`;
         badge.className = 'hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] font-bold whitespace-nowrap';
-        action.textContent = '登出';
+        action.textContent = uiText('登出');
         action.className = 'px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap';
-        title.textContent = `已登入 • ${state.email || profile.email} • server quota`;
+        title.textContent = `${uiText('已登入 •')} ${state.email || profile.email} • server quota`;
         title.className = 'text-xs font-bold text-emerald-200';
-        message.textContent = '線索仍保留為既有 Reddit mock；額度來自 public.profiles，跳轉操作會由 server RPC 扣除。';
-        statusAction.textContent = '登出';
+        message.textContent = uiText('線索仍保留為既有 Reddit mock；額度來自 public.profiles，跳轉操作會由 server RPC 扣除。');
+        statusAction.textContent = uiText('登出');
         statusAction.className = 'self-start sm:self-auto px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold';
       } else {
-        badge.textContent = 'Demo mode';
+        badge.textContent = uiText('Demo mode');
         badge.className = 'hidden sm:inline-flex items-center px-2 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] font-bold whitespace-nowrap';
-        action.textContent = '登入';
+        action.textContent = uiText('登入');
         action.className = 'px-3 py-1.5 text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg transition-all whitespace-nowrap';
-        title.textContent = state.error ? 'Demo mode • Supabase 尚未完成同步' : 'Demo mode • 尚未登入';
+        title.textContent = state.error ? uiText('Demo mode • Supabase 尚未完成同步') : uiText('Demo mode • 尚未登入');
         title.className = 'text-xs font-bold text-amber-200';
-        message.textContent = state.error || (state.configured ? '目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。' : '尚未設定 Supabase 環境變數；目前使用本地 Reddit mock 與示範額度。');
-        statusAction.textContent = '登入以同步額度';
+        message.textContent = state.error || (state.configured ? uiText('目前使用本地 Reddit mock 與示範額度；登入後才會讀取 server-side quota。') : uiText('尚未設定 Supabase 環境變數；目前使用本地 Reddit mock 與示範額度。'));
+        statusAction.textContent = uiText('登入以同步額度');
         statusAction.className = 'self-start sm:self-auto px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold';
       }
       document.getElementById('auth-status-panel').className = authenticated
@@ -775,6 +886,102 @@
     function handleAuthAction() {
       if (isDemoMode) openAuthModal();
       else void signOutAuth();
+    }
+
+    let statementReturnFocus = null;
+
+    function openStatementModal() {
+      statementReturnFocus = document.activeElement;
+      const modal = document.getElementById('statement-modal');
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+      window.setTimeout(() => modal.querySelector('button')?.focus(), 0);
+    }
+
+    function closeStatementModal() {
+      document.getElementById('statement-modal').classList.add('hidden');
+      if (statementReturnFocus && typeof statementReturnFocus.focus === 'function') statementReturnFocus.focus();
+      statementReturnFocus = null;
+    }
+
+    function handleStatementBackdrop(event) {
+      if (event.target.id === 'statement-modal') closeStatementModal();
+    }
+
+    function handleStatementKeydown(event) {
+      const modal = document.getElementById('statement-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeStatementModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    const policyDefinitions = {
+      cookie: { titleKey: 'Cookie Policy' },
+      privacy: { titleKey: 'Privacy Policy' },
+      refund: { titleKey: 'Refund and Cancellation Policy' },
+      terms: { titleKey: 'Terms of Service / Terms and Conditions' }
+    };
+
+    let policyReturnFocus = null;
+
+    function policyText(key) {
+      return window.amzI18n?.t?.(key, key) || key;
+    }
+
+    function openPolicyModal(policyKey) {
+      const policy = policyDefinitions[policyKey] || policyDefinitions.cookie;
+      policyReturnFocus = document.activeElement;
+      const modal = document.getElementById('policy-modal');
+      document.getElementById('policy-modal-title').textContent = policyText(policy.titleKey);
+      document.getElementById('policy-modal-description').textContent = policyText('法律文件建置中說明');
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+      window.setTimeout(() => modal.querySelector('button')?.focus(), 0);
+    }
+
+    function closePolicyModal() {
+      document.getElementById('policy-modal').classList.add('hidden');
+      if (policyReturnFocus && typeof policyReturnFocus.focus === 'function') policyReturnFocus.focus();
+      policyReturnFocus = null;
+    }
+
+    function handlePolicyBackdrop(event) {
+      if (event.target.id === 'policy-modal') closePolicyModal();
+    }
+
+    function handlePolicyKeydown(event) {
+      const modal = document.getElementById('policy-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closePolicyModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     let authReturnFocus = null;
@@ -832,22 +1039,22 @@
       const email = document.getElementById('auth-email').value;
       const password = document.getElementById('auth-password').value;
       button.disabled = true;
-      button.textContent = '登入中…';
+      button.textContent = uiText('登入中…');
       const result = await window.amzAuth?.signIn(email, password);
       button.disabled = false;
-      button.textContent = '登入並讀取額度';
+      button.textContent = uiText('登入並讀取額度');
       if (!result?.success) {
-        setAuthFeedback(result?.error || '登入失敗。');
+        setAuthFeedback(result?.error || uiText('登入失敗。'));
         return;
       }
       document.getElementById('auth-password').value = '';
-      setAuthFeedback('登入成功，正在載入 server-side quota…', 'success');
+      setAuthFeedback(uiText('登入成功，正在載入 server-side quota…'), 'success');
       setTimeout(closeAuthModal, 500);
     }
 
     async function signOutAuth() {
       const result = await window.amzAuth?.signOut();
-      if (!result?.success) alert(result?.error || '登出失敗。');
+      if (!result?.success) alert(result?.error || uiText('登出失敗。'));
     }
 
     function renderStats() {
@@ -858,47 +1065,47 @@
 
       const container = document.getElementById('stats-container');
       container.innerHTML = `
-        <div class="p-4 rounded-xl border bg-amber-500/10 border-amber-500/20 bg-slate-900/50 backdrop-blur">
+        <div class="hover-glow-card p-4 rounded-xl border bg-amber-500/10 border-amber-500/20 bg-slate-900/50 backdrop-blur">
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-medium">今日偵測商機 Leads</span>
+            <span class="text-xs text-slate-400 font-medium">${escapeHtml(uiText('今日偵測商機 Leads'))}</span>
             <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
           </div>
           <div class="mt-2 flex items-baseline space-x-2">
             <span class="text-2xl font-bold text-white tracking-tight">${total}</span>
-            <span class="text-[11px] text-slate-500">篇潛在貼文</span>
+            <span class="text-[11px] text-slate-500">${escapeHtml(uiText('篇潛在貼文'))}</span>
           </div>
         </div>
 
         <div class="p-4 rounded-xl border bg-emerald-500/10 border-emerald-500/20 bg-slate-900/50 backdrop-blur">
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-medium">平均關鍵字匹配度</span>
+            <span class="text-xs text-slate-400 font-medium">${escapeHtml(uiText('平均關鍵字匹配度'))}</span>
             <i data-lucide="target" class="w-4 h-4 text-emerald-400"></i>
           </div>
           <div class="mt-2 flex items-baseline space-x-2">
             <span class="text-2xl font-bold text-white tracking-tight">${avgScore}%</span>
-            <span class="text-[11px] text-slate-500">AI 高相關性</span>
+            <span class="text-[11px] text-slate-500">${escapeHtml(uiText('AI 高相關性'))}</span>
           </div>
         </div>
 
         <div class="p-4 rounded-xl border bg-blue-500/10 border-blue-500/20 bg-slate-900/50 backdrop-blur">
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-medium">原帖社群熱度 (Upvotes)</span>
+            <span class="text-xs text-slate-400 font-medium">${escapeHtml(uiText('原帖社群熱度 (Upvotes)'))}</span>
             <i data-lucide="thumbs-up" class="w-4 h-4 text-blue-400"></i>
           </div>
           <div class="mt-2 flex items-baseline space-x-2">
             <span class="text-2xl font-bold text-white tracking-tight">${totalUpvotes.toLocaleString()}</span>
-            <span class="text-[11px] text-slate-500">潛在關注買家</span>
+            <span class="text-[11px] text-slate-500">${escapeHtml(uiText('潛在關注買家'))}</span>
           </div>
         </div>
 
         <div class="p-4 rounded-xl border bg-purple-500/10 border-purple-500/20 bg-slate-900/50 backdrop-blur">
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-400 font-medium">社群互動討論量 (Comments)</span>
+            <span class="text-xs text-slate-400 font-medium">${escapeHtml(uiText('社群互動討論量 (Comments)'))}</span>
             <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i>
           </div>
           <div class="mt-2 flex items-baseline space-x-2">
             <span class="text-2xl font-bold text-white tracking-tight">${totalComments.toLocaleString()}</span>
-            <span class="text-[11px] text-slate-500">則已觸及評論</span>
+            <span class="text-[11px] text-slate-500">${escapeHtml(uiText('則已觸及評論'))}</span>
           </div>
         </div>
       `;
@@ -906,11 +1113,11 @@
 
     function renderStatusTabs() {
       const tabs = [
-        { id: 'all', label: '全部線索' },
-        { id: 'new', label: '🟢 最新未處理' },
-        { id: 'in_progress', label: '🟡 跟進中' },
-        { id: 'replied', label: '🔵 已回覆' },
-        { id: 'ignored', label: '⚪ 已忽略' }
+        { id: 'all', label: uiText('全部線索') },
+        { id: 'new', label: uiText('🟢 最新未處理') },
+        { id: 'in_progress', label: uiText('🟡 跟進中') },
+        { id: 'replied', label: uiText('🔵 已回覆') },
+        { id: 'ignored', label: uiText('⚪ 已忽略') }
       ];
 
       const container = document.getElementById('status-tabs-container');
@@ -955,68 +1162,71 @@
         const keywords = Array.isArray(lead.keyword_matches) ? lead.keyword_matches : [];
         const encodedLeadId = safeLeadId(lead);
         const scoreBadge = matchScore >= 90
-          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${matchScore}% 匹配</span>`
-          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${matchScore}% 匹配</span>`;
+          ? `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">🎯 ${matchScore}% ${escapeHtml(uiText('匹配'))}</span>`
+          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">🎯 ${matchScore}% ${escapeHtml(uiText('匹配'))}</span>`;
 
         let statusBadge = '';
-        if (lead.status === 'new') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">新商機</span>';
-        else if (lead.status === 'in_progress') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">處理中</span>';
-        else if (lead.status === 'replied') statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">已回覆</span>';
-        else statusBadge = '<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-500 border border-slate-700 font-medium">已忽略</span>';
+        if (lead.status === 'new') statusBadge = `<span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">${escapeHtml(uiText('新商機'))}</span>`;
+        else if (lead.status === 'in_progress') statusBadge = `<span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">${escapeHtml(uiText('處理中'))}</span>`;
+        else if (lead.status === 'replied') statusBadge = `<span class="text-[11px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">${escapeHtml(uiText('已回覆'))}</span>`;
+        else statusBadge = `<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-500 border border-slate-700 font-medium">${escapeHtml(uiText('已忽略'))}</span>`;
 
         return `
-          <div class="bg-slate-900 border border-slate-800 hover:border-slate-700/80 rounded-xl p-5 shadow-sm transition-all hover:shadow-lg hover:shadow-black/40 flex flex-col justify-between group">
+        <div class="review-card bg-slate-900 border border-slate-800 hover:border-slate-700/80 rounded-xl p-5 shadow-sm transition-all hover:shadow-lg hover:shadow-black/40 flex flex-col justify-between group">
             <div>
               <div class="flex items-center justify-between mb-2.5 flex-wrap gap-2">
                 <div class="flex items-center space-x-2">
                   <span class="px-2.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${escapeHtml(lead.subreddit)}</span>
                   <span class="text-xs text-slate-500 flex items-center space-x-1">
                     <i data-lucide="clock" class="w-3 h-3"></i>
-                    <span>2 小時前</span>
+                    <span>${escapeHtml(uiText('2 小時前'))}</span>
                   </span>
                   ${statusBadge}
                 </div>
                 ${scoreBadge}
               </div>
 
-              <h3 class="text-base font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 mb-3">
+              <h3 class="lead-original-content text-base font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-2 mb-3">
                 ${escapeHtml(lead.title)}
               </h3>
 
               <div class="bg-amber-950/20 border border-amber-800/40 rounded-lg p-3 mb-3.5">
                 <div class="flex items-center space-x-1.5 text-xs font-semibold text-amber-400 mb-1">
                   <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                  <span>AI 提煉買家痛點 / 差評關鍵：</span>
+                  <span>${escapeHtml(uiText('AI 提煉買家痛點 / 差評關鍵：'))}</span>
                 </div>
-                <p class="text-xs text-amber-200/90 leading-relaxed font-normal">${escapeHtml(lead.painpoint_summary)}</p>
+                <p class="lead-original-content text-xs text-amber-200/90 leading-relaxed font-normal">${escapeHtml(uiText(lead.painpoint_summary, lead.painpoint_summary))}</p>
               </div>
 
               <div class="flex flex-wrap gap-1.5 mb-4">
-                ${keywords.map(kw => `<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60">#${escapeHtml(kw)}</span>`).join('')}
+                ${keywords.map(kw => `<span class="lead-original-content text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700/60">#${escapeHtml(kw)}</span>`).join('')}
               </div>
             </div>
 
             <div class="border-t border-slate-800/80 pt-3.5 mt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="flex items-center space-x-4 text-xs text-slate-400">
-                <span class="flex items-center space-x-1" title="Reddit 貼文讚數">
+                <span class="flex items-center space-x-1" title="${escapeHtml(uiText('Reddit 貼文讚數'))}">
                   <i data-lucide="thumbs-up" class="w-3.5 h-3.5 text-blue-400"></i>
                   <span class="font-semibold text-slate-200">${escapeHtml(lead.upvotes)}</span>
                 </span>
-                <span class="flex items-center space-x-1" title="Reddit 討論留言數">
+                <span class="flex items-center space-x-1" title="${escapeHtml(uiText('Reddit 討論留言數'))}">
                   <i data-lucide="message-square" class="w-3.5 h-3.5 text-purple-400"></i>
                   <span class="font-semibold text-slate-200">${escapeHtml(lead.comments_count)}</span>
                 </span>
-                <span class="text-[11px] text-slate-500">${escapeHtml(lead.category)}</span>
+                <span class="text-[11px] text-slate-500">${escapeHtml(uiText(lead.category))}</span>
               </div>
 
               <div class="flex items-center space-x-2">
-                <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" class="px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
-                  <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
-                  <span>預擬回覆</span>
-                </button>
-                <button onclick="jumpToReddit(decodeURIComponent('${encodedLeadId}'))" class="px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 rounded-lg shadow-sm shadow-indigo-600/30 transition-all flex items-center space-x-1.5 active:scale-95" title="跳轉至 Reddit 原文並啟動瀏覽器 Copilot">
+                <div class="flex items-center space-x-1.5">
+                  <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" id="avatar-draft-reply-${encodedLeadId}" class="draft-helper-avatar ${draftReminderSuppressed.has(String(lead.id)) ? '' : 'draft-helper-avatar-attention'} h-7 w-7 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+                  <button onclick="openDetailModal(decodeURIComponent('${encodedLeadId}'))" id="btn-draft-reply-${encodedLeadId}" class="copy-action-glow ${draftReminderSuppressed.has(String(lead.id)) ? '' : 'draft-action-attention'} px-3 py-1.5 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700/80 border border-slate-700 rounded-lg transition-all flex items-center space-x-1">
+                    <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>${escapeHtml(uiText('預擬回覆'))}</span>
+                  </button>
+                </div>
+                <button onclick="jumpToReddit(decodeURIComponent('${encodedLeadId}'))" class="px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 rounded-lg shadow-sm shadow-indigo-600/30 transition-all flex items-center space-x-1.5 active:scale-95" data-i18n-title="跳轉至 Reddit 原文並啟動瀏覽器 Copilot" title="${escapeHtml(uiText('跳轉至 Reddit 原文並啟動瀏覽器 Copilot'))}">
                   <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i>
-                  <span>前往 Reddit 回覆</span>
+                  <span>${escapeHtml(uiText('前往 Reddit 回覆'))}</span>
                   <i data-lucide="external-link" class="w-3 h-3 text-white/70"></i>
                 </button>
               </div>
@@ -1061,69 +1271,144 @@
     }
 
     // Modal Actions
+    let leadReturnFocus = null;
+
     function openDetailModal(leadId) {
       currentLead = leads.find(l => l.id === leadId);
       if (!currentLead) return;
 
+      currentLeadDraftCopied = draftReminderSuppressed.has(String(leadId));
+      setDraftCardAttention(leadId, false);
+      leadReturnFocus = document.activeElement;
       currentTone = 'helpful_enthusiast';
       document.getElementById('modal-meta').innerHTML = `
         <span class="px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 text-xs font-semibold">${escapeHtml(currentLead.subreddit)}</span>
-        <span class="text-xs text-slate-400">作者: u/${escapeHtml(currentLead.author)}</span>
-        <span class="text-xs text-emerald-400 font-bold">🎯 ${escapeHtml(currentLead.match_score)}% 匹配</span>
+        <span class="text-xs text-slate-400">${escapeHtml(uiText('作者:'))} u/${escapeHtml(currentLead.author)}</span>
+        <span class="text-xs text-emerald-400 font-bold">🎯 ${escapeHtml(currentLead.match_score)}% ${escapeHtml(uiText('匹配'))}</span>
       `;
       document.getElementById('modal-title').textContent = currentLead.title;
-      document.getElementById('modal-painpoint').textContent = currentLead.painpoint_summary;
+      document.getElementById('modal-painpoint').textContent = uiText(currentLead.painpoint_summary, currentLead.painpoint_summary);
       document.getElementById('modal-raw-content').textContent = currentLead.content_raw;
-      document.getElementById('modal-brand-tag').textContent = profile.brand_name || '預設品牌';
+      document.getElementById('modal-brand-tag').textContent = profile.brand_name || uiText('預設品牌');
 
       renderToneButtons();
       updateModalDraft();
 
-      document.getElementById('lead-modal').classList.remove('hidden');
+      const modal = document.getElementById('lead-modal');
+      modal.classList.remove('hidden');
       lucide.createIcons();
+      window.setTimeout(() => modal.querySelector('button:not([disabled])')?.focus(), 0);
       generateRemoteDraft(currentLead);
     }
 
     function closeDetailModal() {
+      if (currentLead && !currentLeadDraftCopied) setDraftCardAttention(currentLead.id, true);
       document.getElementById('lead-modal').classList.add('hidden');
+      if (leadReturnFocus && typeof leadReturnFocus.focus === 'function') leadReturnFocus.focus();
+      leadReturnFocus = null;
+    }
+
+    function returnToHome() {
+      closeDetailModal();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleDetailBackdrop(event) {
+      if (event.target.id === 'lead-modal') closeDetailModal();
+    }
+
+    function handleDetailKeydown(event) {
+      const modal = document.getElementById('lead-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeDetailModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled]), textarea:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     function renderToneButtons() {
       const tones = [
-        { key: 'helpful_enthusiast', title: '💡 客觀熱心網友', desc: '以第三方視角科普產品規格與避坑點，軟性植入推薦' },
-        { key: 'fellow_sufferer', title: '🤝 同病相憐買家', desc: '共鳴原帖差評痛點，真誠分享更換品牌後的親身體驗' },
-        { key: 'tech_pro_solution', title: '🛠 技術專家解方', desc: '從材料或電路工程角度剖析問題，建立專業信任度' }
+        { key: 'helpful_enthusiast', title: `💡 ${uiText('客觀熱心網友')}`, desc: uiText('以第三方視角科普產品規格與避坑點，軟性植入推薦') },
+        { key: 'fellow_sufferer', title: `🤝 ${uiText('同病相憐買家')}`, desc: uiText('共鳴原帖差評痛點，真誠分享更換品牌後的親身體驗') },
+        { key: 'tech_pro_solution', title: `🛠 ${uiText('技術專家解方')}`, desc: uiText('從材料或電路工程角度剖析問題，建立專業信任度') }
       ];
 
       const container = document.getElementById('modal-tone-buttons');
       container.innerHTML = tones.map(t => `
-        <button onclick="setTone('${t.key}')" class="text-left p-3 rounded-xl border text-xs transition-all ${currentTone === t.key ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-sm shadow-indigo-500/20' : 'bg-slate-800/50 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800'}">
-          <div class="font-semibold text-slate-200 mb-1">${t.title}</div>
-          <div class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${t.desc}</div>
-        </button>
+            <button onclick="setTone('${t.key}')" class="text-left p-3 rounded-xl border text-xs transition-all ${currentTone === t.key ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-sm shadow-indigo-500/20' : 'bg-slate-800/50 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:bg-slate-800'}">
+              <div class="tone-title-row flex items-center gap-1.5 mb-1 min-w-0">
+                <span class="font-semibold text-slate-200 break-words min-w-0">${t.title}</span>
+                <img src="/favicon-head-transparent.png" alt="" aria-hidden="true" class="tone-helper-avatar h-5 w-5 shrink-0 rounded-full bg-slate-950/70 border border-indigo-400/30 p-0.5 object-contain shadow-sm shadow-indigo-400/25">
+              </div>
+              <div class="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">${t.desc}</div>
+            </button>
       `).join('');
     }
 
     function setTone(toneKey) {
       currentTone = toneKey;
+      currentLeadDraftCopied = false;
+      if (currentLead) setDraftCardAttention(currentLead.id, false);
       renderToneButtons();
       updateModalDraft();
     }
 
+    function setDraftCardAttention(leadId, active) {
+      const key = String(leadId);
+      if (active) draftReminderSuppressed.delete(key);
+      else draftReminderSuppressed.add(key);
+      const buttonId = `btn-draft-reply-${encodeURIComponent(key).replace(/'/g, '%27')}`;
+      const button = document.getElementById(buttonId);
+      const avatarId = `avatar-draft-reply-${encodeURIComponent(key).replace(/'/g, '%27')}`;
+      const avatar = document.getElementById(avatarId);
+      button?.classList.toggle('draft-action-attention', Boolean(active));
+      avatar?.classList.toggle('draft-helper-avatar-attention', Boolean(active));
+    }
+
+    function setCopyDraftAttention(active) {
+      const button = document.getElementById('btn-copy-draft');
+      const avatar = document.getElementById('avatar-copy-draft');
+      button?.classList.toggle('copy-draft-attention', Boolean(active));
+      avatar?.classList.toggle('draft-helper-avatar-attention', Boolean(active));
+    }
+
+    function setRedditActionAttention(active) {
+      const button = document.getElementById('btn-jump-reddit');
+      const avatar = document.getElementById('avatar-jump-reddit');
+      button?.classList.toggle('reddit-action-attention', Boolean(active));
+      avatar?.classList.toggle('draft-helper-avatar-attention', Boolean(active));
+    }
+
     function updateModalDraft() {
       if (!currentLead) return;
-      let raw = currentLead.api_draft || currentLead.replies[currentTone] || currentLead.suggested_reply;
+      // The API returns one generic draft. Keep the three local tone variants
+      // authoritative so changing tone always changes the visible reply.
+      let raw = currentLead.replies?.[currentTone] || currentLead.api_draft || currentLead.suggested_reply;
       const linkText = profile.store_url
         ? `[${profile.brand_name || 'Brand'}](${profile.store_url})`
         : `[${profile.brand_name || 'Brand'}]`;
       const draft = raw.replace(/\[Your Brand \/ Link\]/g, linkText);
       document.getElementById('modal-draft-area').value = draft;
+      setCopyDraftAttention(Boolean(draft.trim()));
+      setRedditActionAttention(false);
     }
 
     async function generateRemoteDraft(lead) {
       if (lead.api_draft) return;
       const area = document.getElementById('modal-draft-area');
-      area.value = '正在使用 OpenAI 產生草稿…';
+      area.value = uiText('正在使用 OpenAI 產生草稿…');
       try {
         const accessToken = await window.amzAuth?.getAccessToken();
         const requestId = window.crypto?.randomUUID?.() || `review-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -1152,12 +1437,21 @@
       }
     }
 
-    function copyDraftText() {
+    async function copyDraftText() {
       const text = document.getElementById('modal-draft-area').value;
-      navigator.clipboard.writeText(text);
-      document.getElementById('copy-btn-text').textContent = '已複製！';
+      const buttonText = document.getElementById('copy-btn-text');
+      setCopyDraftAttention(false);
+      try {
+        await navigator.clipboard.writeText(text);
+        buttonText.textContent = uiText('已複製！');
+        currentLeadDraftCopied = true;
+        if (currentLead) setDraftCardAttention(currentLead.id, false);
+        setRedditActionAttention(true);
+      } catch {
+        buttonText.textContent = uiText('複製失敗，請手動複製。');
+      }
       setTimeout(() => {
-        document.getElementById('copy-btn-text').textContent = '複製草稿';
+        buttonText.textContent = uiText('複製草稿');
       }, 2000);
     }
 
@@ -1169,12 +1463,12 @@
       try {
         url = new URL(lead.reddit_url);
       } catch {
-        alert('此線索的 Reddit 連結無效，無法跳轉。');
+        alert(uiText('此線索的 Reddit 連結無效，無法跳轉。'));
         return false;
       }
       const hostname = url.hostname.toLowerCase();
       if (url.protocol !== 'https:' || (hostname !== 'reddit.com' && !hostname.endsWith('.reddit.com'))) {
-        alert('此線索不是受支援的 Reddit 連結，已阻止跳轉。');
+        alert(uiText('此線索不是受支援的 Reddit 連結，已阻止跳轉。'));
         return false;
       }
 
@@ -1193,7 +1487,7 @@
         const result = await window.amzAuth?.consumeQuota();
         if (!result?.success) {
           pendingWindow?.close();
-          alert(result?.message || '今日額度已用完，無法前往 Reddit。');
+          alert(result?.message || uiText('今日額度已用完，無法前往 Reddit。'));
           return false;
         }
       }
@@ -1217,7 +1511,10 @@
     async function jumpFromModal() {
       if (currentLead) {
         const didOpen = await jumpToReddit(currentLead.id);
-        if (didOpen) closeDetailModal();
+        if (didOpen) {
+          setRedditActionAttention(false);
+          closeDetailModal();
+        }
       }
     }
 
@@ -1231,28 +1528,88 @@
     }
 
     // Modals
+    let upgradeReturnFocus = null;
+
     function openUpgradeModal() {
-      document.getElementById('upgrade-modal').classList.remove('hidden');
+      upgradeReturnFocus = document.activeElement;
+      const modal = document.getElementById('upgrade-modal');
+      modal.classList.remove('hidden');
       lucide.createIcons();
+      window.setTimeout(() => modal.querySelector('button:not([disabled])')?.focus(), 0);
     }
     function closeUpgradeModal() {
       document.getElementById('upgrade-modal').classList.add('hidden');
+      if (upgradeReturnFocus && typeof upgradeReturnFocus.focus === 'function') upgradeReturnFocus.focus();
+      upgradeReturnFocus = null;
+    }
+    function handleUpgradeBackdrop(event) {
+      if (event.target.id === 'upgrade-modal') closeUpgradeModal();
+    }
+    function handleUpgradeKeydown(event) {
+      const modal = document.getElementById('upgrade-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeUpgradeModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
     function upgradeToProMock() {
       const checkoutUrl = window.__LEMON_SQUEEZY_CHECKOUT_URL__;
       if (!checkoutUrl) {
-        alert('尚未設定 Lemon Squeezy checkout URL。請先完成付款設定。');
+        alert(uiText('尚未設定 Lemon Squeezy checkout URL。請先完成付款設定。'));
         return;
       }
       window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
     }
 
+    let settingsReturnFocus = null;
+
     function openSettingsModal() {
-      document.getElementById('settings-modal').classList.remove('hidden');
+      settingsReturnFocus = document.activeElement;
+      const modal = document.getElementById('settings-modal');
+      modal.classList.remove('hidden');
       lucide.createIcons();
+      window.setTimeout(() => modal.querySelector('button:not([disabled]), input:not([disabled])')?.focus(), 0);
     }
     function closeSettingsModal() {
       document.getElementById('settings-modal').classList.add('hidden');
+      if (settingsReturnFocus && typeof settingsReturnFocus.focus === 'function') settingsReturnFocus.focus();
+      settingsReturnFocus = null;
+    }
+    function handleSettingsBackdrop(event) {
+      if (event.target.id === 'settings-modal') closeSettingsModal();
+    }
+    function handleSettingsKeydown(event) {
+      const modal = document.getElementById('settings-modal');
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeSettingsModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(modal.querySelectorAll('button:not([disabled]), input:not([disabled])'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
     async function saveSettings(e) {
       e.preventDefault();
@@ -1265,21 +1622,21 @@
       } else {
         const result = await window.amzAuth?.updateProfile({ brand_name: brandName, store_url: storeUrl });
         if (!result?.success) {
-          alert(result?.error || '品牌設定儲存失敗。');
+          alert(result?.error || uiText('品牌設定儲存失敗。'));
           return;
         }
         profile.brand_name = brandName;
         profile.store_url = storeUrl;
       }
-      document.getElementById('nav-brand-name').textContent = profile.brand_name || '店鋪設定';
+      document.getElementById('nav-brand-name').textContent = profile.brand_name || uiText('店鋪設定');
       closeSettingsModal();
-      alert('✅ 品牌與店鋪設定已儲存！');
+      alert(uiText('✅ 品牌與店鋪設定已儲存！'));
     }
 
     function updateQuotaUI() {
       const quotaText = isDemoMode
-        ? `Demo ${profile.daily_usage_left} / ${profile.max_daily_usage} 次`
-        : (profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} 次` : '無限次數');
+        ? `${uiText('Demo mode')} ${profile.daily_usage_left} / ${profile.max_daily_usage} ${uiText('次')}`
+        : (profile.plan === 'free' ? `${profile.daily_usage_left} / ${profile.max_daily_usage} ${uiText('次')}` : uiText('無限次數'));
       document.getElementById('quota-display').textContent = quotaText;
       if (!isDemoMode && profile.plan !== 'free') {
         document.getElementById('btn-upgrade-top').classList.add('hidden');
@@ -1305,6 +1662,39 @@
       localStorage.setItem('amz_radar_profile', JSON.stringify(profile));
     }
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const applyGlowEffects = (root = document) => {
+        root.querySelectorAll('[class*="rounded-"]:not(.amz-radar-visual):not(.locale-menu-panel):not(.locale-menu-option)').forEach((element) => {
+          if (element instanceof HTMLElement) element.classList.add('hover-glow-card');
+        });
+      };
+      applyGlowEffects();
+      new MutationObserver(() => applyGlowEffects()).observe(document.body, { childList: true, subtree: true });
+    });
+  </script>
+  <script>
+    // Mirror the deployed route behavior: the locale path and ?lang= value stay in sync.
+    (() => {
+      const locales = new Set(['en', 'zh-TW', 'zh-CN', 'ja', 'ko', 'ms', 'id', 'vi']);
+      const pathLocale = window.location.pathname.split('/').filter(Boolean)[0];
+      if (locales.has(pathLocale)) {
+        const url = new URL(window.location.href);
+        if (url.searchParams.get('lang') !== pathLocale) {
+          url.searchParams.set('lang', pathLocale);
+          window.history.replaceState({}, '', url.toString());
+        }
+      }
+      document.addEventListener('click', (event) => {
+        const option = event.target.closest?.('.locale-menu-option[data-locale]');
+        if (!option || !locales.has(option.dataset.locale)) return;
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', option.dataset.locale);
+        window.history.replaceState({}, '', url.toString());
+      }, true);
+    })();
+  </script>
+  <script type="module" src="/i18n/legacy-i18n.mjs"></script>
   <script type="module" src="/i18n/nav-locale.mjs"></script>
   <script type="module" src="/src/legacy-auth.ts"></script>
 </body>
